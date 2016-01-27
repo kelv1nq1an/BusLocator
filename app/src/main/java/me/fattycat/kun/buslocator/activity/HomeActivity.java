@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.quinny898.library.persistentsearch.SearchBox;
@@ -35,8 +38,6 @@ public class HomeActivity extends BaseActivity {
     @Bind(R.id.homeToolbar)
     Toolbar mHomeToolbar;
 
-    private int mClickCountDown = 0;
-
     private ArrayList<LinesResult> mLinesResultList = new ArrayList<>();
 
     @Override
@@ -47,6 +48,8 @@ public class HomeActivity extends BaseActivity {
 
         mHomeToolbar.setTitle("港城公交");
         mHomeToolbar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(mHomeToolbar);
+
         setupSearchBox();
     }
 
@@ -83,20 +86,23 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void onSearchTermChanged(String lineText) {
-                mClickCountDown--;
-                if (mClickCountDown <= 0) {
-                    search(lineText);
-                }
+                Log.d("search", "change");
+
+                search(lineText);
+
+                Log.d("search", "change & search");
             }
 
             @Override
             public void onSearch(String lineText) {
                 search(lineText);
+                Log.d("search", "search");
+
             }
 
             @Override
             public void onResultClick(SearchResult searchResult) {
-                mClickCountDown = 2;
+                Log.d("search", "click");
                 for (LinesResult linesResult : mLinesResultList) {
                     if (linesResult.runPathName.equals(searchResult.title)) {
                         searchLine(linesResult.runPathId);
@@ -165,6 +171,20 @@ public class HomeActivity extends BaseActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_home, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_item_search) {
+            mPersistentSearchBox.revealFromMenuItem(R.id.menu_item_search, HomeActivity.this);
+        }
+        return true;
     }
 
     @Override
