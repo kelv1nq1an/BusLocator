@@ -35,6 +35,8 @@ public class HomeActivity extends BaseActivity {
     @Bind(R.id.homeToolbar)
     Toolbar mHomeToolbar;
 
+    private int mClickCountDown = 0;
+
     private ArrayList<LinesResult> mLinesResultList = new ArrayList<>();
 
     @Override
@@ -81,7 +83,10 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void onSearchTermChanged(String lineText) {
-                search(lineText);
+                mClickCountDown--;
+                if (mClickCountDown <= 0) {
+                    search(lineText);
+                }
             }
 
             @Override
@@ -91,6 +96,7 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void onResultClick(SearchResult searchResult) {
+                mClickCountDown = 2;
                 for (LinesResult linesResult : mLinesResultList) {
                     if (linesResult.runPathName.equals(searchResult.title)) {
                         searchLine(linesResult.runPathId);
