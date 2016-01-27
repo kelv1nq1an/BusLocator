@@ -86,23 +86,16 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void onSearchTermChanged(String lineText) {
-                Log.d("search", "change");
-
                 search(lineText);
-
-                Log.d("search", "change & search");
             }
 
             @Override
             public void onSearch(String lineText) {
                 search(lineText);
-                Log.d("search", "search");
-
             }
 
             @Override
             public void onResultClick(SearchResult searchResult) {
-                Log.d("search", "click");
                 for (LinesResult linesResult : mLinesResultList) {
                     if (linesResult.runPathName.equals(searchResult.title)) {
                         searchLine(linesResult.runPathId);
