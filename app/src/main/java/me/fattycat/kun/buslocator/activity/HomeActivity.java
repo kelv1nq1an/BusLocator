@@ -1,11 +1,11 @@
 package me.fattycat.kun.buslocator.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import com.quinny898.library.persistentsearch.SearchBox;
@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.fattycat.kun.buslocator.R;
-import me.fattycat.kun.buslocator.adapter.LineListAdapter;
 import me.fattycat.kun.buslocator.api.BusApi;
 import me.fattycat.kun.buslocator.model.Line;
 import me.fattycat.kun.buslocator.model.LineList;
@@ -33,10 +32,9 @@ import retrofit2.Response;
 public class HomeActivity extends BaseActivity {
     @Bind(R.id.persistentSearchBox)
     SearchBox mPersistentSearchBox;
-    @Bind(R.id.lineList)
-    RecyclerView mLineList;
+    @Bind(R.id.homeToolbar)
+    Toolbar mHomeToolbar;
 
-    private LineListAdapter mLineListAdapter;
     private ArrayList<LinesResult> mLinesResultList = new ArrayList<>();
 
     @Override
@@ -45,8 +43,9 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
+        mHomeToolbar.setTitle("港城公交");
+        mHomeToolbar.setTitleTextColor(Color.WHITE);
         setupSearchBox();
-        setupLineList();
     }
 
     @Override
@@ -57,13 +56,6 @@ public class HomeActivity extends BaseActivity {
         }
 
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private void setupLineList() {
-        mLineListAdapter = new LineListAdapter(this);
-
-        mLineList.setLayoutManager(new LinearLayoutManager(this));
-        mLineList.setAdapter(mLineListAdapter);
     }
 
     private void setupSearchBox() {
@@ -112,7 +104,6 @@ public class HomeActivity extends BaseActivity {
         mPersistentSearchBox.showLoading(true);
 
         BusApi.BusLineList busLineList = mBusRetrofit.create(BusApi.BusLineList.class);
-
         final Call<LineList> lineListCall = busLineList.lineList(lineText.trim());
 
         lineListCall.enqueue(new Callback<LineList>() {
@@ -145,7 +136,6 @@ public class HomeActivity extends BaseActivity {
 
     public void searchLine(String runPathId) {
         BusApi.BusLine busLine = mBusRetrofit.create(BusApi.BusLine.class);
-
         Call<Line> lineCall = busLine.line(runPathId, "1");
 
         lineCall.enqueue(new Callback<Line>() {
