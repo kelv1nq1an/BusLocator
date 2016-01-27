@@ -57,7 +57,16 @@ public class LineListAdapter extends RecyclerView.Adapter<LineListAdapter.LineLi
     @Override
     public void onBindViewHolder(LineListViewHolder holder, int position) {
         final LineList.ResultEntity.LinesEntity linesEntity = mLinesEntities.get(position);
-        holder.tvLineName.setText(linesEntity.getRunPathName());
+        int index = linesEntity.getRunPathName().indexOf("路");
+        String lineName;
+
+        if (index + 1 < linesEntity.getRunPathName().length()) {
+            lineName = linesEntity.getRunPathName().replace("路", "路(") + ")";
+        } else {
+            lineName = linesEntity.getRunPathName();
+        }
+
+        holder.tvLineName.setText(lineName);
         holder.tvStartStation.setText(linesEntity.getStartName());
         holder.tvEndStation.setText(linesEntity.getEndName());
         holder.lineCard.setOnClickListener(new View.OnClickListener() {

@@ -9,17 +9,17 @@ import android.widget.Toast;
 import com.quinny898.library.persistentsearch.SearchBox;
 import com.quinny898.library.persistentsearch.SearchResult;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import de.greenrobot.event.EventBus;
-import de.greenrobot.event.Subscribe;
-import de.greenrobot.event.ThreadMode;
-import me.fattycat.kun.buslocator.Event;
 import me.fattycat.kun.buslocator.R;
 import me.fattycat.kun.buslocator.adapter.LineListAdapter;
 import me.fattycat.kun.buslocator.api.BusApi;
 import me.fattycat.kun.buslocator.model.Line;
 import me.fattycat.kun.buslocator.model.LineList;
+import me.fattycat.kun.buslocator.model.LinesResult;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,7 +35,10 @@ public class HomeActivity extends BaseActivity {
     @Bind(R.id.lineList)
     RecyclerView mLineList;
 
+    private boolean mIsClicked = false;
     private LineListAdapter mLineListAdapter;
+    private ArrayList<LinesResult> mLinesResultList = new ArrayList<>();
+    private List<LineList.ResultEntity.LinesEntity> mLinesEntityList = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,7 +49,14 @@ public class HomeActivity extends BaseActivity {
         setupSearchBox();
         setupLineList();
 
-        EventBus.getDefault().register(this);
+        //EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        //EventBus.getDefault().unregister(this);
     }
 
     private void setupLineList() {
@@ -54,13 +64,6 @@ public class HomeActivity extends BaseActivity {
 
         mLineList.setLayoutManager(new LinearLayoutManager(this));
         mLineList.setAdapter(mLineListAdapter);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        EventBus.getDefault().unregister(this);
     }
 
     private void setupSearchBox() {
@@ -85,34 +88,79 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void onSearchTermChanged(String s) {
-                search(s);
+
             }
 
             @Override
             public void onSearch(String s) {
-
+                search(s);
             }
 
             @Override
             public void onResultClick(SearchResult searchResult) {
-
+                for (LinesResult linesResult : mLinesResultList) {
+                    if (linesResult.runPathName.equals(searchResult.title)) {
+                        searchLine(linesResult.runPathId);
+                    }
+                    mIsClicked = true;
+                }
             }
         });
     }
 
     public void search(String busName) {
+        mPersistentSearchBox.showLoading(true);
         BusApi.BusLineList busLineList = mBusRetrofit.create(BusApi.BusLineList.class);
 
-        Call<LineList> lineListCall = busLineList.lineList(busName.trim());
+        final Call<LineList> lineListCall = busLineList.lineList(busName.trim());
 
         lineListCall.enqueue(new Callback<LineList>() {
 
             @Override
             public void onResponse(Response<LineList> response) {
-                if (response.body().getStatus().equals("SUCCESS")) {
-                    mLineListAdapter.refreshData(response.body().getResult().getLines());
-                } else {
-                    mLineListAdapter.clearData();
+                mPersistentSearchBox.clearSearchable();
+                mLinesResultList.clear();
+                mLinesEntityList.clear();
+
+                if (response.body() != null) {
+                    if (response.body().getResult() != null && response.body().getResult().getLines() != null) {
+                        for (LineList.ResultEntity.LinesEntity linesEntity : response.body().getResult().getLines()) {
+                            mLinesResultList.add(new LinesResult(linesEntity.getRunPathId(), linesEntity.getRunPathName()));
+                            mLinesEntityList.add(linesEntity);
+                        }
+
+                        mPersistentSearchBox.addAllSearchables(mLinesResultList);
+                        mPersistentSearchBox.updateResults();
+                    }
+                    mPersistentSearchBox.showLoading(false);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                mPersistentSearchBox.showLoading(false);
+            }
+        });
+
+    }
+
+    public void searchLine(String runPathId) {
+        BusApi.BusLine busLine = mBusRetrofit.create(BusApi.BusLine.class);
+
+        Call<Line> lineCall = busLine.line(runPathId, "1");
+
+        lineCall.enqueue(new Callback<Line>() {
+            @Override
+            public void onResponse(Response<Line> response) {
+                if (response.body() != null) {
+                    String content = response.body().getResult().getRunPathId() + "\n" +
+                            response.body().getResult().getRunPathName() + "\n" +
+                            response.body().getResult().getStartStation() + "\n" +
+                            response.body().getResult().getStartTime() + "\n" +
+                            response.body().getResult().getEndStation() + "\n" +
+                            response.body().getResult().getEndTime();
+
+                    Toast.makeText(HomeActivity.this, content, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -124,31 +172,8 @@ public class HomeActivity extends BaseActivity {
 
     }
 
-    @Subscribe(threadMode = ThreadMode.Async)
-    public void searchLine(Event.SearchLineEvent event) {
-        BusApi.BusLine busLine = mBusRetrofit.create(BusApi.BusLine.class);
-
-        Call<Line> lineCall = busLine.line(event.runPathId, "1");
-
-        lineCall.enqueue(new Callback<Line>() {
-            @Override
-            public void onResponse(Response<Line> response) {
-                String content = response.body().getResult().getRunPathId() + "\n" +
-                        response.body().getResult().getRunPathName() + "\n" +
-                        response.body().getResult().getStartStation() + "\n" +
-                        response.body().getResult().getStartTime() + "\n" +
-                        response.body().getResult().getEndStation() + "\n" +
-                        response.body().getResult().getEndTime();
-
-                Toast.makeText(HomeActivity.this, content, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-
-            }
-        });
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
-
 }
