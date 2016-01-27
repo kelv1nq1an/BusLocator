@@ -17,7 +17,80 @@
             android:layout_height="wrap_content"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+        <RelativeLayout
+            android:id="@+id/homeLineInfo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/margin16"
+            android:layout_marginEnd="@dimen/margin16"
+            android:layout_marginStart="@dimen/margin16"
+            android:gravity="bottom"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/homeLineName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin8"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_title"
+                tools:text="211路" />
+
+            <TextView
+                android:id="@+id/homeLineStartStation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/homeLineName"
+                android:layout_marginBottom="@dimen/margin8"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_subtitle"
+                tools:text="妙桥公交首末站" />
+
+            <TextView
+                android:id="@+id/homeLineEndStation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/homeLineName"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_subtitle"
+                tools:text="港城汽车站" />
+
+            <TextView
+                android:id="@+id/homeLineTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/homeLineStartStation"
+                android:layout_marginBottom="@dimen/margin8"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_subtitle"
+                tools:text="首末班:5:40-17:50" />
+
+            <TextView
+                android:id="@+id/homeLineInterval"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/homeLineStartStation"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_subtitle"
+                tools:text="间隔:12~16min" />
+
+            <TextView
+                android:id="@+id/homeLineBusNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/homeLineTime"
+                android:text="在线车辆:0"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_subtitle" />
+
+        </RelativeLayout>
     </android.support.design.widget.AppBarLayout>
+
 
     <com.quinny898.library.persistentsearch.SearchBox
         android:id="@+id/persistentSearchBox"

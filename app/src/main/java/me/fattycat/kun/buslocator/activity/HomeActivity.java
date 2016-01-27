@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.quinny898.library.persistentsearch.SearchBox;
@@ -37,8 +39,23 @@ public class HomeActivity extends BaseActivity {
     SearchBox mPersistentSearchBox;
     @Bind(R.id.homeToolbar)
     Toolbar mHomeToolbar;
+    @Bind(R.id.homeLineInfo)
+    RelativeLayout mHomeLineInfo;
+    @Bind(R.id.homeLineName)
+    TextView mHomeLineName;
+    @Bind(R.id.homeLineStartStation)
+    TextView mHomeLineStartStation;
+    @Bind(R.id.homeLineEndStation)
+    TextView mHomeLineEndStation;
+    @Bind(R.id.homeLineTime)
+    TextView mHomeLineTime;
+    @Bind(R.id.homeLineInterval)
+    TextView mHomeLineInterval;
+    @Bind(R.id.homeLineBusNum)
+    TextView mHomeLineBusNum;
 
     private ArrayList<LinesResult> mLinesResultList = new ArrayList<>();
+    private String mSearchText = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -106,6 +123,7 @@ public class HomeActivity extends BaseActivity {
     }
 
     public void search(String lineText) {
+        mSearchText = lineText;
         mPersistentSearchBox.showLoading(true);
 
         BusApi.BusLineList busLineList = mBusRetrofit.create(BusApi.BusLineList.class);
@@ -147,6 +165,21 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onResponse(Response<Line> response) {
                 if (response.body() != null) {
+                    mPersistentSearchBox.hideCircularly(HomeActivity.this);
+                    mHomeLineInfo.setVisibility(View.VISIBLE);
+
+                    Line.ResultEntity resultEntity = response.body().getResult();
+                    mHomeLineName.setText(resultEntity.getRunPathName());
+                    mHomeLineStartStation.setText(resultEntity.getStartStation());
+                    mHomeLineEndStation.setText(resultEntity.getEndStation());
+                    if (resultEntity.getRunFlag().equals("0")) {
+                        mHomeLineTime.setText(String.format("首末班:%s-%s", resultEntity.getStartTime(), resultEntity.getEndTime()));
+                        mHomeLineInterval.setText(String.format("间隔:%s min", resultEntity.getBusInterval()));
+                    } else {
+                        mHomeLineTime.setText(String.format("发班:%s", resultEntity.getStartTime()));
+                        mHomeLineInterval.setText("");
+                    }
+
                     String content = response.body().getResult().getRunPathId() + "\n" +
                             response.body().getResult().getRunPathName() + "\n" +
                             response.body().getResult().getStartStation() + "\n" +
@@ -175,7 +208,14 @@ public class HomeActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_item_search) {
-            mPersistentSearchBox.revealFromMenuItem(R.id.menu_item_search, HomeActivity.this);
+            if (mPersistentSearchBox.getSearchOpen()) {
+                mPersistentSearchBox.hideCircularly(HomeActivity.this);
+                mHomeLineInfo.setVisibility(View.VISIBLE);
+            } else {
+                mPersistentSearchBox.revealFromMenuItem(R.id.menu_item_search, HomeActivity.this);
+                mHomeLineInfo.setVisibility(View.INVISIBLE);
+                search(mSearchText);
+            }
         }
         return true;
     }
