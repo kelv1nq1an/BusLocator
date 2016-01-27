@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_line_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin8">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin8">
+
+        <TextView
+            android:id="@+id/item_line_Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin4"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="@dimen/text_headline"
+            tools:text="211路" />
+
+        <TextView
+            android:id="@+id/item_line_start_station"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/item_line_Name"
+            android:textSize="@dimen/text_title"
+            tools:text="妙桥公交首末站" />
+
+        <TextView
+            android:id="@+id/item_line_end_station"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/item_line_Name"
+            android:textSize="@dimen/text_title"
+            tools:text="港城汽车站" />
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
