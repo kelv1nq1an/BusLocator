@@ -15,7 +15,7 @@
         android:layout_margin="@dimen/margin8">
 
         <TextView
-            android:id="@+id/item_line_Name"
+            android:id="@+id/itemLineName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin8"
@@ -24,20 +24,20 @@
             tools:text="211路" />
 
         <TextView
-            android:id="@+id/item_line_start_station"
+            android:id="@+id/itemLineStartStation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/item_line_Name"
+            android:layout_below="@id/itemLineName"
             android:textSize="@dimen/text_title"
             tools:text="妙桥公交首末站" />
 
         <TextView
-            android:id="@+id/item_line_end_station"
+            android:id="@+id/itemLineEndStation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@id/item_line_Name"
+            android:layout_below="@id/itemLineName"
             android:textSize="@dimen/text_title"
             tools:text="港城汽车站" />
     </RelativeLayout>

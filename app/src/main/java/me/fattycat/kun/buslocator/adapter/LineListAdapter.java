@@ -85,11 +85,11 @@ public class LineListAdapter extends RecyclerView.Adapter<LineListAdapter.LineLi
     public class LineListViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.item_line_card)
         CardView lineCard;
-        @Bind(R.id.item_line_Name)
+        @Bind(R.id.itemLineName)
         TextView tvLineName;
-        @Bind(R.id.item_line_start_station)
+        @Bind(R.id.itemLineStartStation)
         TextView tvStartStation;
-        @Bind(R.id.item_line_end_station)
+        @Bind(R.id.itemLineEndStation)
         TextView tvEndStation;
 
         public LineListViewHolder(View itemView) {

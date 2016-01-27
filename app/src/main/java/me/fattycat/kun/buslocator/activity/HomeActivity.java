@@ -1,6 +1,8 @@
 package me.fattycat.kun.buslocator.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +12,6 @@ import com.quinny898.library.persistentsearch.SearchBox;
 import com.quinny898.library.persistentsearch.SearchResult;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,10 +36,8 @@ public class HomeActivity extends BaseActivity {
     @Bind(R.id.lineList)
     RecyclerView mLineList;
 
-    private boolean mIsClicked = false;
     private LineListAdapter mLineListAdapter;
     private ArrayList<LinesResult> mLinesResultList = new ArrayList<>();
-    private List<LineList.ResultEntity.LinesEntity> mLinesEntityList = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,15 +47,16 @@ public class HomeActivity extends BaseActivity {
 
         setupSearchBox();
         setupLineList();
-
-        //EventBus.getDefault().register(this);
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == SearchBox.VOICE_RECOGNITION_CODE && resultCode == RESULT_OK) {
+            ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            mPersistentSearchBox.populateEditText(matches.get(0));
+        }
 
-        //EventBus.getDefault().unregister(this);
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void setupLineList() {
@@ -67,6 +67,7 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void setupSearchBox() {
+        mPersistentSearchBox.enableVoiceRecognition(this);
         mPersistentSearchBox.setLogoText("请输入您要查询的线路");
         mPersistentSearchBox.setLogoTextColor(R.color.colorSecondaryText);
         mPersistentSearchBox.setHint("'227'、'211'");
@@ -87,13 +88,13 @@ public class HomeActivity extends BaseActivity {
             }
 
             @Override
-            public void onSearchTermChanged(String s) {
-
+            public void onSearchTermChanged(String lineText) {
+                search(lineText);
             }
 
             @Override
-            public void onSearch(String s) {
-                search(s);
+            public void onSearch(String lineText) {
+                search(lineText);
             }
 
             @Override
@@ -102,17 +103,17 @@ public class HomeActivity extends BaseActivity {
                     if (linesResult.runPathName.equals(searchResult.title)) {
                         searchLine(linesResult.runPathId);
                     }
-                    mIsClicked = true;
                 }
             }
         });
     }
 
-    public void search(String busName) {
+    public void search(String lineText) {
         mPersistentSearchBox.showLoading(true);
+
         BusApi.BusLineList busLineList = mBusRetrofit.create(BusApi.BusLineList.class);
 
-        final Call<LineList> lineListCall = busLineList.lineList(busName.trim());
+        final Call<LineList> lineListCall = busLineList.lineList(lineText.trim());
 
         lineListCall.enqueue(new Callback<LineList>() {
 
@@ -120,13 +121,11 @@ public class HomeActivity extends BaseActivity {
             public void onResponse(Response<LineList> response) {
                 mPersistentSearchBox.clearSearchable();
                 mLinesResultList.clear();
-                mLinesEntityList.clear();
 
                 if (response.body() != null) {
                     if (response.body().getResult() != null && response.body().getResult().getLines() != null) {
                         for (LineList.ResultEntity.LinesEntity linesEntity : response.body().getResult().getLines()) {
                             mLinesResultList.add(new LinesResult(linesEntity.getRunPathId(), linesEntity.getRunPathName()));
-                            mLinesEntityList.add(linesEntity);
                         }
 
                         mPersistentSearchBox.addAllSearchables(mLinesResultList);
