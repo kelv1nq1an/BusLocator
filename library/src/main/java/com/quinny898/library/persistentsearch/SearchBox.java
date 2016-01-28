@@ -368,6 +368,9 @@ public class SearchBox extends RelativeLayout {
         }
     }
 
+    public void setSearchType(int type) {
+        this.search.setInputType(type);
+    }
 
     public boolean getSearchVisibility() {
         return getVisibility() == VISIBLE;

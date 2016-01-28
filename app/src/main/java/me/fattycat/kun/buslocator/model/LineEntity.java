@@ -5,7 +5,7 @@ package me.fattycat.kun.buslocator.model;
  * Time: 16/1/27
  * Description:
  */
-public class Line extends BaseEntity {
+public class LineEntity extends BaseEntity {
 
     /**
      * endTime1 : 21:00

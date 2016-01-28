@@ -7,7 +7,7 @@ import java.util.List;
  * Time: 16/1/27
  * Descirption:
  */
-public class StationList extends BaseEntity {
+public class StationListEntity extends BaseEntity {
 
     /**
      * runPathName : 222路夜班

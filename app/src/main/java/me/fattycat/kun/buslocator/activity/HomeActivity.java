@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kennyc.view.MultiStateView;
 import com.quinny898.library.persistentsearch.SearchBox;
 import com.quinny898.library.persistentsearch.SearchResult;
 
@@ -23,8 +25,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.fattycat.kun.buslocator.R;
 import me.fattycat.kun.buslocator.api.BusApi;
-import me.fattycat.kun.buslocator.model.Line;
-import me.fattycat.kun.buslocator.model.LineList;
+import me.fattycat.kun.buslocator.model.BusGPSEntity;
+import me.fattycat.kun.buslocator.model.LineEntity;
+import me.fattycat.kun.buslocator.model.LineListEntity;
 import me.fattycat.kun.buslocator.model.LinesResult;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,6 +57,13 @@ public class HomeActivity extends BaseActivity {
     TextView mHomeLineInterval;
     @Bind(R.id.homeLineBusNum)
     TextView mHomeLineBusNum;
+    @Bind(R.id.multiStateView)
+    MultiStateView mMultiStateView;
+
+    private static final String LINE_FLAG_GO = "1";
+    private static final String LINE_FLAG_BACK = "2";
+    private static final String BUS_FLAG_GO = "1";
+    private static final String BUS_FLAG_BACK = "3";
 
     private long mClickTime = 0;
 
@@ -87,6 +97,7 @@ public class HomeActivity extends BaseActivity {
         mPersistentSearchBox.setLogoText("请输入您要查询的线路");
         mPersistentSearchBox.setLogoTextColor(R.color.colorSecondaryText);
         mPersistentSearchBox.setHint("'227'、'211'");
+        mPersistentSearchBox.setSearchType(InputType.TYPE_CLASS_NUMBER);
         mPersistentSearchBox.setSearchListener(new SearchBox.SearchListener() {
             @Override
             public void onSearchOpened() {
@@ -117,7 +128,8 @@ public class HomeActivity extends BaseActivity {
             public void onResultClick(SearchResult searchResult) {
                 for (LinesResult linesResult : mLinesResultList) {
                     if (linesResult.runPathName.equals(searchResult.title)) {
-                        searchLine(linesResult.runPathId);
+                        searchLine(linesResult.runPathId, LINE_FLAG_GO);
+                        searchBus(linesResult.runPathId, BUS_FLAG_GO);
                     }
                 }
             }
@@ -135,25 +147,21 @@ public class HomeActivity extends BaseActivity {
         mPersistentSearchBox.showLoading(true);
 
         BusApi.BusLineList busLineList = mBusRetrofit.create(BusApi.BusLineList.class);
-        final Call<LineList> lineListCall = busLineList.lineList(lineText.trim());
+        final Call<LineListEntity> lineListCall = busLineList.lineList(lineText.trim());
 
-        lineListCall.enqueue(new Callback<LineList>() {
+        lineListCall.enqueue(new Callback<LineListEntity>() {
 
             @Override
-            public void onResponse(Response<LineList> response) {
+            public void onResponse(Response<LineListEntity> response) {
                 mPersistentSearchBox.clearSearchable();
                 mLinesResultList.clear();
 
                 if (response.body() != null) {
                     if (response.body().getResult() != null && response.body().getResult().getLines() != null) {
                         for (int i = 0; i < Math.min(5, response.body().getResult().getLines().size()); i++) {
-                            LineList.ResultEntity.LinesEntity linesEntity = response.body().getResult().getLines().get(i);
+                            LineListEntity.ResultEntity.LinesEntity linesEntity = response.body().getResult().getLines().get(i);
                             mLinesResultList.add(new LinesResult(linesEntity.getRunPathId(), linesEntity.getRunPathName()));
                         }
-                       /*
-                        for (LineList.ResultEntity.LinesEntity linesEntity : response.body().getResult().getLines()) {
-                            mLinesResultList.add(new LinesResult(linesEntity.getRunPathId(), linesEntity.getRunPathName()));
-                        }*/
 
                         mPersistentSearchBox.addAllSearchables(mLinesResultList);
                         mPersistentSearchBox.updateResults();
@@ -164,23 +172,24 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void onFailure(Throwable t) {
+                // TODO
                 mPersistentSearchBox.showLoading(false);
             }
         });
 
     }
 
-    public void searchLine(String runPathId) {
+    public void searchLine(String runPathId, String flag) {
         BusApi.BusLine busLine = mBusRetrofit.create(BusApi.BusLine.class);
-        Call<Line> lineCall = busLine.line(runPathId, "1");
+        Call<LineEntity> lineCall = busLine.line(runPathId, flag);
 
-        lineCall.enqueue(new Callback<Line>() {
+        lineCall.enqueue(new Callback<LineEntity>() {
             @Override
-            public void onResponse(Response<Line> response) {
+            public void onResponse(Response<LineEntity> response) {
                 if (response.body() != null) {
                     hideSearchBox();
 
-                    Line.ResultEntity resultEntity = response.body().getResult();
+                    LineEntity.ResultEntity resultEntity = response.body().getResult();
                     mHomeLineName.setText(resultEntity.getRunPathName());
                     mHomeLineStartStation.setText(resultEntity.getStartStation());
                     mHomeLineEndStation.setText(resultEntity.getEndStation());
@@ -196,10 +205,30 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void onFailure(Throwable t) {
-
+                // TODO
             }
         });
 
+    }
+
+    public void searchBus(String runPathId, String flag) {
+        BusApi.BusGPS busGPS = mBusRetrofit.create(BusApi.BusGPS.class);
+        Call<BusGPSEntity> busGPSCall = busGPS.GPS(runPathId, flag);
+
+        busGPSCall.enqueue(new Callback<BusGPSEntity>() {
+
+            @Override
+            public void onResponse(Response<BusGPSEntity> response) {
+                if (response.body() != null) {
+                    mHomeLineBusNum.setText(String.format("在线车辆:%s", response.body().getResult().getLists().size()));
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
     }
 
     public void showSearchBox() {
@@ -212,6 +241,7 @@ public class HomeActivity extends BaseActivity {
     public void hideSearchBox() {
         mPersistentSearchBox.hideCircularly(HomeActivity.this);
         mHomeLineInfo.setVisibility(View.VISIBLE);
+
     }
 
     @Override

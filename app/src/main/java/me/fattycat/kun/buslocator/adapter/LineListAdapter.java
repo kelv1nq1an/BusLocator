@@ -13,10 +13,8 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import de.greenrobot.event.EventBus;
-import me.fattycat.kun.buslocator.Event;
 import me.fattycat.kun.buslocator.R;
-import me.fattycat.kun.buslocator.model.LineList;
+import me.fattycat.kun.buslocator.model.LineListEntity;
 
 /**
  * Author: Kelvinkun
@@ -26,7 +24,7 @@ import me.fattycat.kun.buslocator.model.LineList;
 public class LineListAdapter extends RecyclerView.Adapter<LineListAdapter.LineListViewHolder> {
     private LayoutInflater mLayoutInflater;
     private Context mContext;
-    private List<LineList.ResultEntity.LinesEntity> mLinesEntities;
+    private List<LineListEntity.ResultEntity.LinesEntity> mLinesEntities;
 
     public LineListAdapter(Context context) {
         this.mContext = context;
@@ -34,7 +32,7 @@ public class LineListAdapter extends RecyclerView.Adapter<LineListAdapter.LineLi
         mLinesEntities = new ArrayList<>();
     }
 
-    public void refreshData(List<LineList.ResultEntity.LinesEntity> data) {
+    public void refreshData(List<LineListEntity.ResultEntity.LinesEntity> data) {
         clearData();
 
         if (data != null) {
@@ -56,7 +54,7 @@ public class LineListAdapter extends RecyclerView.Adapter<LineListAdapter.LineLi
 
     @Override
     public void onBindViewHolder(LineListViewHolder holder, int position) {
-        final LineList.ResultEntity.LinesEntity linesEntity = mLinesEntities.get(position);
+        final LineListEntity.ResultEntity.LinesEntity linesEntity = mLinesEntities.get(position);
         int index = linesEntity.getRunPathName().indexOf("路");
         String lineName;
 
@@ -72,7 +70,7 @@ public class LineListAdapter extends RecyclerView.Adapter<LineListAdapter.LineLi
         holder.lineCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EventBus.getDefault().post(new Event.SearchLineEvent(linesEntity.getRunPathId()));
+
             }
         });
     }

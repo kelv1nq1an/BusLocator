@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 repositories {
     mavenCentral()
     maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots"
+        url "https://dl.bintray.com/kennyc1012/maven"
     }
 }
 
@@ -36,6 +36,6 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
     compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta3'
     compile 'com.jakewharton:butterknife:7.0.1'
-    compile 'de.greenrobot:eventbus:3.0.0-beta1'
+    compile 'com.kennyc:multistateview:1.1'
     compile project(':library')
 }

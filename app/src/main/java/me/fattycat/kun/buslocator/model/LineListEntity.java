@@ -7,7 +7,7 @@ import java.util.List;
  * Time: 16/1/26
  * Description:
  */
-public class LineList extends BaseEntity {
+public class LineListEntity extends BaseEntity {
 
     private ResultEntity result;
     /**

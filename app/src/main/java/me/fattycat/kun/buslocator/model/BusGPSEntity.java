@@ -7,7 +7,7 @@ import java.util.List;
  * Time: 16/1/27
  * Descirption:
  */
-public class BusGPS extends BaseEntity {
+public class BusGPSEntity extends BaseEntity {
 
     private ResultEntity result;
 
