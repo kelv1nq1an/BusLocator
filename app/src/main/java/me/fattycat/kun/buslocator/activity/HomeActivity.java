@@ -93,7 +93,7 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
-        mHomeToolbar.setTitle("港城公交");
+        mHomeToolbar.setTitle("公交在线");
         mHomeToolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(mHomeToolbar);
 
@@ -129,7 +129,7 @@ public class HomeActivity extends BaseActivity {
     private void setupSearchBox() {
         mPersistentSearchBox.enableVoiceRecognition(this);
         mPersistentSearchBox.setLogoText("请输入您要查询的线路");
-        mPersistentSearchBox.setLogoTextColor(R.color.colorSecondaryText);
+        mPersistentSearchBox.setLogoTextColor(R.color.color_secondary_text);
         mPersistentSearchBox.setHint("'227'、'211'");
         mPersistentSearchBox.setSearchType(InputType.TYPE_CLASS_NUMBER);
         mPersistentSearchBox.setSearchListener(new SearchBox.SearchListener() {

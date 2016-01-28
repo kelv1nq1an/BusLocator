@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activity.HomeActivity">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".activity.HomeActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/homeAppBar"
@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
         <RelativeLayout
             android:id="@+id/homeLineInfo"
@@ -29,13 +29,13 @@
                 android:id="@+id/homeLineName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin32"
-                android:layout_marginStart="@dimen/margin32"
-                android:layout_marginTop="@dimen/margin32"
+                android:layout_marginEnd="@dimen/dp_32"
+                android:layout_marginStart="@dimen/dp_32"
+                android:layout_marginTop="@dimen/dp_32"
                 android:gravity="center"
                 android:textColor="@android:color/white"
                 android:textSize="34sp"
-                tools:text="211路" />
+                tools:text="211路"/>
 
             <LinearLayout
                 android:id="@+id/homeLineTimeContainer"
@@ -48,10 +48,10 @@
                     android:id="@+id/homeLineTimeTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/margin4"
+                    android:layout_marginBottom="@dimen/dp_4"
                     android:text="@string/text_time"
-                    android:textColor="@color/colorLightBlue100"
-                    android:textSize="@dimen/text_subtitle" />
+                    android:textColor="@color/color_light_blue_100"
+                    android:textSize="@dimen/text_subtitle"/>
 
                 <TextView
                     android:id="@+id/homeLineTime"
@@ -60,7 +60,7 @@
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_subtitle"
                     android:textStyle="bold"
-                    tools:text="5:40 - 17:50" />
+                    tools:text="5:40 - 17:50"/>
 
             </LinearLayout>
 
@@ -68,7 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/homeLineTimeContainer"
-                android:layout_marginTop="@dimen/margin8"
+                android:layout_marginTop="@dimen/dp_8"
                 android:layout_toEndOf="@id/homeLineName"
                 android:orientation="vertical">
 
@@ -77,18 +77,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/text_interval"
-                    android:textColor="@color/colorLightBlue100"
-                    android:textSize="@dimen/text_subtitle" />
+                    android:textColor="@color/color_light_blue_100"
+                    android:textSize="@dimen/text_subtitle"/>
 
                 <TextView
                     android:id="@+id/homeLineInterval"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin4"
+                    android:layout_marginTop="@dimen/dp_4"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_subtitle"
                     android:textStyle="bold"
-                    tools:text="12~16min" />
+                    tools:text="12~16min"/>
 
             </LinearLayout>
 
@@ -96,7 +96,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:background="@color/colorLightBlue300"
+                android:background="@color/color_light_blue_300"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -109,15 +109,16 @@
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_subtitle"
                     android:textStyle="bold"
-                    tools:text="妙桥公交首末站" />
+                    tools:text="妙桥公交首末站"/>
 
                 <ImageView
                     android:id="@+id/homeLineSwap"
-                    android:layout_width="@dimen/width72"
+                    android:layout_width="@dimen/dp_72"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/margin8"
-                    android:paddingTop="@dimen/margin8"
-                    android:src="@drawable/ic_swap_horiz_white_24dp" />
+                    android:contentDescription="@string/text_swap_description"
+                    android:paddingBottom="@dimen/dp_8"
+                    android:paddingTop="@dimen/dp_8"
+                    android:src="@drawable/ic_swap_horiz_white_24dp"/>
 
                 <TextView
                     android:id="@+id/homeLineEndStation"
@@ -128,7 +129,7 @@
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_subtitle"
                     android:textStyle="bold"
-                    tools:text="港城汽车站" />
+                    tools:text="港城汽车站"/>
             </LinearLayout>
 
         </RelativeLayout>
@@ -138,8 +139,8 @@
         android:id="@+id/persistentSearchBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/heightToolBar"
-        android:elevation="5dp" />
+        android:layout_marginTop="@dimen/height_toolbar"
+        android:elevation="5dp"/>
 
     <com.kennyc.view.MultiStateView
         android:id="@+id/multiStateView"
@@ -156,8 +157,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:paddingBottom="@dimen/padding4"
-            android:paddingTop="@dimen/padding4" />
+            android:paddingBottom="@dimen/dp_4"
+            android:paddingTop="@dimen/dp_4"/>
 
     </com.kennyc.view.MultiStateView>
 
