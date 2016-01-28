@@ -6,4 +6,7 @@
     <string name="text_interval">间隔</string>
     <string name="text_start_time">发车时间</string>
     <string name="text_swap_description">首末站切换</string>
+    <string name="text_start_station">出发站</string>
+    <string name="text_end_station">终点站</string>
+    <string name="text_empty_card">使用须知</string>
 </resources>

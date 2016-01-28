@@ -29,67 +29,87 @@
                 android:id="@+id/homeLineName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/dp_32"
-                android:layout_marginStart="@dimen/dp_32"
-                android:layout_marginTop="@dimen/dp_32"
                 android:gravity="center"
+                android:padding="@dimen/dp_32"
                 android:textColor="@android:color/white"
                 android:textSize="34sp"
                 tools:text="211路"/>
 
             <LinearLayout
-                android:id="@+id/homeLineTimeContainer"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_32"
                 android:layout_toEndOf="@id/homeLineName"
-                android:orientation="vertical">
+                android:gravity="center">
 
-                <TextView
-                    android:id="@+id/homeLineTimeTitle"
+                <com.wang.avi.AVLoadingIndicatorView
+                    android:id="@+id/homeLineLoadingView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dp_4"
-                    android:text="@string/text_time"
-                    android:textColor="@color/color_light_blue_100"
-                    android:textSize="@dimen/text_subtitle"/>
-
-                <TextView
-                    android:id="@+id/homeLineTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_subtitle"
-                    android:textStyle="bold"
-                    tools:text="5:40 - 17:50"/>
-
+                    android:visibility="gone"
+                    app:indicator="LineSpinFadeLoader"
+                    app:indicator_color="@android:color/white"
+                    tools:visibility="visible" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/homeLineInfoRight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/homeLineTimeContainer"
-                android:layout_marginTop="@dimen/dp_8"
                 android:layout_toEndOf="@id/homeLineName"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/homeLineIntervalTitle"
+                <LinearLayout
+                    android:id="@+id/homeLineTimeContainer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/text_interval"
-                    android:textColor="@color/color_light_blue_100"
-                    android:textSize="@dimen/text_subtitle"/>
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/homeLineInterval"
+                    <TextView
+                        android:id="@+id/homeLineTimeTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dp_2"
+                        android:text="@string/text_time"
+                        android:textColor="@color/color_light_blue_100"
+                        android:textSize="@dimen/text_subtitle" />
+
+                    <TextView
+                        android:id="@+id/homeLineTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_subtitle"
+                        android:textStyle="bold"
+                        tools:text="5:40 - 17:50" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_4"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_subtitle"
-                    android:textStyle="bold"
-                    tools:text="12~16min"/>
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:orientation="vertical">
 
+                    <TextView
+                        android:id="@+id/homeLineIntervalTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dp_2"
+                        android:text="@string/text_interval"
+                        android:textColor="@color/color_light_blue_100"
+                        android:textSize="@dimen/text_subtitle" />
+
+                    <TextView
+                        android:id="@+id/homeLineInterval"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_subtitle"
+                        android:textStyle="bold"
+                        tools:text="12~16min" />
+
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -109,12 +129,13 @@
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_subtitle"
                     android:textStyle="bold"
-                    tools:text="妙桥公交首末站"/>
+                    android:text="@string/text_start_station" />
 
                 <ImageView
                     android:id="@+id/homeLineSwap"
                     android:layout_width="@dimen/dp_72"
                     android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
                     android:contentDescription="@string/text_swap_description"
                     android:paddingBottom="@dimen/dp_8"
                     android:paddingTop="@dimen/dp_8"
@@ -129,7 +150,7 @@
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_subtitle"
                     android:textStyle="bold"
-                    tools:text="港城汽车站"/>
+                    android:text="@string/text_end_station" />
             </LinearLayout>
 
         </RelativeLayout>

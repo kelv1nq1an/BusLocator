@@ -37,5 +37,6 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta3'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.kennyc:multistateview:1.1'
+    compile 'com.wang.avi:library:1.0.1'
     compile project(':library')
 }

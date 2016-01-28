@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 import com.kennyc.view.MultiStateView;
 import com.quinny898.library.persistentsearch.SearchBox;
 import com.quinny898.library.persistentsearch.SearchResult;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
 
@@ -56,6 +58,10 @@ public class HomeActivity extends BaseActivity {
     RelativeLayout mHomeLineInfo;
     @Bind(R.id.homeLineName)
     TextView mHomeLineName;
+    @Bind(R.id.homeLineInfoRight)
+    LinearLayout mHomeLineInfoRight;
+    @Bind(R.id.homeLineLoadingView)
+    AVLoadingIndicatorView mHomeLineLoadingView;
     @Bind(R.id.homeLineTimeTitle)
     TextView mHomeLineTimeTitle;
     @Bind(R.id.homeLineTime)
@@ -78,11 +84,11 @@ public class HomeActivity extends BaseActivity {
     private long mClickTime = 0;
     private String mLineFlag = LINE_FLAG_GO;
     private String mBusFlag = BUS_FLAG_GO;
+    private String mRunPathName;
+
     private LinesResult mLinesResult;
-
-    private ArrayList<LinesResult> mLinesResultList = new ArrayList<>();
-
     private BusListAdapter mBusListAdapter;
+    private ArrayList<LinesResult> mLinesResultList = new ArrayList<>();
     private Call<LineListEntity> mLineListCall;
     private Call<LineEntity> mLineCall;
     private Call<BusGPSEntity> mBusGPSCall;
@@ -163,11 +169,13 @@ public class HomeActivity extends BaseActivity {
                 for (LinesResult linesResult : mLinesResultList) {
                     if (linesResult.runPathName.equals(searchResult.title)) {
                         mLinesResult = linesResult;
+                        mRunPathName = linesResult.runPathName;
                         searchBusesInfo();
                     }
                 }
             }
         });
+
         mPersistentSearchBox.setMenuListener(new SearchBox.MenuListener() {
 
             @Override
@@ -227,6 +235,9 @@ public class HomeActivity extends BaseActivity {
             mLineCall.cancel();
         }
 
+        hideSearchBox();
+        showLineLoading();
+
         BusApi.BusLine busLine = mBusRetrofit.create(BusApi.BusLine.class);
         mLineCall = busLine.line(runPathId, flag);
 
@@ -234,8 +245,6 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onResponse(Response<LineEntity> response) {
                 if (response.body() != null) {
-                    hideSearchBox();
-
                     LineEntity.ResultEntity resultEntity = response.body().getResult();
                     mHomeLineName.setText(resultEntity.getRunPathName());
                     mHomeLineStartStation.setText(resultEntity.getStartStation());
@@ -251,12 +260,14 @@ public class HomeActivity extends BaseActivity {
                         mHomeLineIntervalTitle.setText("");
                         mHomeLineInterval.setText("");
                     }
+                    hideLineLoading();
                 }
             }
 
             @Override
             public void onFailure(Throwable t) {
-                // TODO
+                showSearchBox();
+                Toast.makeText(HomeActivity.this, "网络错误，请重试", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -289,12 +300,16 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void onFailure(Throwable t) {
+                // TODO: 16/1/29
 
             }
         });
     }
 
     private void searchBusesInfo() {
+        if (mRunPathName != null) {
+            mHomeLineName.setText(mRunPathName);
+        }
         searchLine(mLinesResult.runPathId, mLineFlag);
         searchBus(mLinesResult.runPathId, mBusFlag, mLinesResult.runPathName);
     }
@@ -309,7 +324,16 @@ public class HomeActivity extends BaseActivity {
     public void hideSearchBox() {
         mPersistentSearchBox.hideCircularly(HomeActivity.this);
         mHomeLineInfo.setVisibility(View.VISIBLE);
+    }
 
+    private void showLineLoading() {
+        mHomeLineLoadingView.setVisibility(View.VISIBLE);
+        mHomeLineInfoRight.setVisibility(View.GONE);
+    }
+
+    private void hideLineLoading() {
+        mHomeLineLoadingView.setVisibility(View.GONE);
+        mHomeLineInfoRight.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -321,10 +345,12 @@ public class HomeActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_item_search) {
-            if (mPersistentSearchBox.getSearchVisibility()) {
-                hideSearchBox();
-            } else {
-                showSearchBox();
+            if (mLinesResult != null) {
+                if (mPersistentSearchBox.getSearchVisibility()) {
+                    hideSearchBox();
+                } else {
+                    showSearchBox();
+                }
             }
         }
         return true;
