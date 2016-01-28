@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">BusLocator</string>
     <string name="text_about">About</string>
+    <string name="text_more">更多</string>
+    <string name="text_time">首末班</string>
+    <string name="text_interval">间隔</string>
+    <string name="text_start_time">发车时间</string>
 </resources>
