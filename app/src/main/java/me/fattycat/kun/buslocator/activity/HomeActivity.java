@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -54,8 +55,9 @@ public class HomeActivity extends BaseActivity {
     @Bind(R.id.homeLineBusNum)
     TextView mHomeLineBusNum;
 
+    private long mClickTime = 0;
+
     private ArrayList<LinesResult> mLinesResultList = new ArrayList<>();
-    private String mSearchText = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -120,10 +122,16 @@ public class HomeActivity extends BaseActivity {
                 }
             }
         });
+        mPersistentSearchBox.setMenuListener(new SearchBox.MenuListener() {
+
+            @Override
+            public void onMenuClick() {
+                mPersistentSearchBox.toggleSearch();
+            }
+        });
     }
 
     public void search(String lineText) {
-        mSearchText = lineText;
         mPersistentSearchBox.showLoading(true);
 
         BusApi.BusLineList busLineList = mBusRetrofit.create(BusApi.BusLineList.class);
@@ -138,9 +146,14 @@ public class HomeActivity extends BaseActivity {
 
                 if (response.body() != null) {
                     if (response.body().getResult() != null && response.body().getResult().getLines() != null) {
-                        for (LineList.ResultEntity.LinesEntity linesEntity : response.body().getResult().getLines()) {
+                        for (int i = 0; i < Math.min(5, response.body().getResult().getLines().size()); i++) {
+                            LineList.ResultEntity.LinesEntity linesEntity = response.body().getResult().getLines().get(i);
                             mLinesResultList.add(new LinesResult(linesEntity.getRunPathId(), linesEntity.getRunPathName()));
                         }
+                       /*
+                        for (LineList.ResultEntity.LinesEntity linesEntity : response.body().getResult().getLines()) {
+                            mLinesResultList.add(new LinesResult(linesEntity.getRunPathId(), linesEntity.getRunPathName()));
+                        }*/
 
                         mPersistentSearchBox.addAllSearchables(mLinesResultList);
                         mPersistentSearchBox.updateResults();
@@ -165,8 +178,7 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onResponse(Response<Line> response) {
                 if (response.body() != null) {
-                    mPersistentSearchBox.hideCircularly(HomeActivity.this);
-                    mHomeLineInfo.setVisibility(View.VISIBLE);
+                    hideSearchBox();
 
                     Line.ResultEntity resultEntity = response.body().getResult();
                     mHomeLineName.setText(resultEntity.getRunPathName());
@@ -179,15 +191,6 @@ public class HomeActivity extends BaseActivity {
                         mHomeLineTime.setText(String.format("发班:%s", resultEntity.getStartTime()));
                         mHomeLineInterval.setText("");
                     }
-
-                    String content = response.body().getResult().getRunPathId() + "\n" +
-                            response.body().getResult().getRunPathName() + "\n" +
-                            response.body().getResult().getStartStation() + "\n" +
-                            response.body().getResult().getStartTime() + "\n" +
-                            response.body().getResult().getEndStation() + "\n" +
-                            response.body().getResult().getEndTime();
-
-                    Toast.makeText(HomeActivity.this, content, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -199,6 +202,18 @@ public class HomeActivity extends BaseActivity {
 
     }
 
+    public void showSearchBox() {
+        mPersistentSearchBox.revealFromMenuItem(R.id.menu_item_search, HomeActivity.this);
+        mHomeLineInfo.setVisibility(View.INVISIBLE);
+        // really can't understand, this should hide search mode but the result is opposite.
+        mPersistentSearchBox.closeSearch();
+    }
+
+    public void hideSearchBox() {
+        mPersistentSearchBox.hideCircularly(HomeActivity.this);
+        mHomeLineInfo.setVisibility(View.VISIBLE);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_home, menu);
@@ -208,20 +223,30 @@ public class HomeActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_item_search) {
-            if (mPersistentSearchBox.getSearchOpen()) {
-                mPersistentSearchBox.hideCircularly(HomeActivity.this);
-                mHomeLineInfo.setVisibility(View.VISIBLE);
+            if (mPersistentSearchBox.getSearchVisibility()) {
+                hideSearchBox();
             } else {
-                mPersistentSearchBox.revealFromMenuItem(R.id.menu_item_search, HomeActivity.this);
-                mHomeLineInfo.setVisibility(View.INVISIBLE);
-                search(mSearchText);
+                showSearchBox();
             }
         }
         return true;
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exit();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    public void exit() {
+        if ((System.currentTimeMillis() - mClickTime) > 2000) {
+            Toast.makeText(getApplicationContext(), "再按一次后退键退出程序", Toast.LENGTH_SHORT).show();
+            mClickTime = System.currentTimeMillis();
+        } else {
+            this.finish();
+            System.exit(0);
+        }
     }
 }

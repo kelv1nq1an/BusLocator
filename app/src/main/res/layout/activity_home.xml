@@ -84,9 +84,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/homeLineTime"
-                android:text="在线车辆:0"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_subtitle" />
+                android:textSize="@dimen/text_subtitle"
+                tools:text="在线车辆:0" />
 
         </RelativeLayout>
     </android.support.design.widget.AppBarLayout>
