@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context=".activity.HomeActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.HomeActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/homeAppBar"
@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
         <RelativeLayout
             android:id="@+id/homeLineInfo"
@@ -33,7 +33,7 @@
                 android:padding="@dimen/dp_32"
                 android:textColor="@android:color/white"
                 android:textSize="34sp"
-                tools:text="211路"/>
+                tools:text="211路" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -126,10 +126,10 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:text="@string/text_start_station"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_subtitle"
-                    android:textStyle="bold"
-                    android:text="@string/text_start_station" />
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/homeLineSwap"
@@ -139,7 +139,7 @@
                     android:contentDescription="@string/text_swap_description"
                     android:paddingBottom="@dimen/dp_8"
                     android:paddingTop="@dimen/dp_8"
-                    android:src="@drawable/ic_swap_horiz_white_24dp"/>
+                    android:src="@drawable/ic_swap_horiz_white_24dp" />
 
                 <TextView
                     android:id="@+id/homeLineEndStation"
@@ -147,10 +147,10 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:text="@string/text_end_station"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_subtitle"
-                    android:textStyle="bold"
-                    android:text="@string/text_end_station" />
+                    android:textStyle="bold" />
             </LinearLayout>
 
         </RelativeLayout>
@@ -161,7 +161,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/height_toolbar"
-        android:elevation="5dp"/>
+        android:elevation="5dp" />
 
     <com.kennyc.view.MultiStateView
         android:id="@+id/multiStateView"
@@ -177,9 +177,10 @@
             android:id="@+id/homeBusList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/red_300"
             android:clipToPadding="false"
             android:paddingBottom="@dimen/dp_4"
-            android:paddingTop="@dimen/dp_4"/>
+            android:paddingTop="@dimen/dp_4" />
 
     </com.kennyc.view.MultiStateView>
 

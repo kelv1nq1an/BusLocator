@@ -1,7 +1,6 @@
 package me.fattycat.kun.buslocator.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,7 +67,8 @@ public class BusListAdapter extends RecyclerView.Adapter<BusListAdapter.LineList
         int end = time.lastIndexOf(":") + 3;
 
         holder.tvLineName.setText(busName);
-        holder.tvGPSStation.setText(String.format("当前到达：%s", bus.getBusStationName()));
+        holder.tvGPSStation.setText(String.format("%s", bus.getBusStationName()));
+
         holder.tvGPSTime.setText(bus.getGPSTime().substring(start, end));
     }
 
@@ -78,8 +78,6 @@ public class BusListAdapter extends RecyclerView.Adapter<BusListAdapter.LineList
     }
 
     public class LineListViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.item_line_card)
-        CardView lineCard;
         @Bind(R.id.itemBusName)
         TextView tvLineName;
         @Bind(R.id.itemBusGPSStation)

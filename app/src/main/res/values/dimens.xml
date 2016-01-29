@@ -3,10 +3,15 @@
     <!--regular dp-->
     <dimen name="dp_2">2dp</dimen>
     <dimen name="dp_4">4dp</dimen>
+    <dimen name="dp_6">6dp</dimen>
     <dimen name="dp_8">8dp</dimen>
     <dimen name="dp_16">16dp</dimen>
+    <dimen name="dp_30">30dp</dimen>
     <dimen name="dp_32">32dp</dimen>
+    <dimen name="dp_54">54dp</dimen>
+    <dimen name="dp_64">64dp</dimen>
     <dimen name="dp_72">72dp</dimen>
+    <dimen name="dp_144">144dp</dimen>
 
     <!--other dp-->
     <dimen name="height_toolbar">56dp</dimen>
@@ -16,4 +21,6 @@
     <dimen name="text_subtitle">16sp</dimen>
     <dimen name="text_body">14sp</dimen>
     <dimen name="text_headline">24sp</dimen>
+    <dimen name="dp_24">24dp</dimen>
+    <dimen name="dp_26">26dp</dimen>
 </resources>
