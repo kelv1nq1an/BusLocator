@@ -453,6 +453,8 @@ public class HomeActivity extends BaseActivity {
                     showSearchBox();
                 }
             }
+        } else if (item.getItemId() == R.id.menu_item_about) {
+            startActivity(new Intent(HomeActivity.this, AboutActivity.class));
         }
         return true;
     }
