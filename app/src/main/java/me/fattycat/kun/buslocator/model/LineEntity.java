@@ -21,6 +21,7 @@ public class LineEntity extends BaseEntity {
      */
 
     private ResultEntity result;
+
     /**
      * result : {"endTime1":"21:00","startTime":"18:30,19:10,20:00","startStation":"南丰客运站","runFlag":"1","runPathName":"222路夜班","busInterval":"0~0","endStation":"客运站","runPathId":"143","endTime":"20:00","startTime1":"18:30,19:45,21:00"}
      * error :

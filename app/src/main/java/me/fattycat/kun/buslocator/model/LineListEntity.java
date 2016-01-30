@@ -10,6 +10,7 @@ import java.util.List;
 public class LineListEntity extends BaseEntity {
 
     private ResultEntity result;
+
     /**
      * result : {"lineList":[{"endId":"2462","startName":"阳光e驾塘桥分校","startId":"3652","runPathName":"227路","runPathId":"16","endName":"人民西路停车场"},{"endId":"1559","startName":"妙桥公交首末站","startId":"3656","runPathName":"227路夜班","runPathId":"136","endName":"第一人民医院"}]}
      * error :
