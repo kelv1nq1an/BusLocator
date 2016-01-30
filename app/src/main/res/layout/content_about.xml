@@ -17,7 +17,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="App"
+            android:text="@string/text_about_app_title"
             android:textColor="@color/red_300"
             android:textSize="@dimen/text_title" />
 
@@ -31,14 +31,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="本软件仅为娱乐作品，目前提供张家港境内的公交信息，任何将本软件用作商业目的的行为都是违法的，请遵守当地法律法规。"
+            android:text="@string/text_about_app"
             android:textSize="@dimen/text_body" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_16"
-            android:text="Developer"
+            android:text="@string/text_about_developer_title"
             android:textColor="@color/red_300"
             android:textSize="@dimen/text_title" />
 
@@ -53,14 +53,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:lineSpacingMultiplier="1.3"
-            android:text="FattycatR\nLady_ra"
+            android:text="@string/text_about_developer"
             android:textSize="@dimen/text_body" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_16"
-            android:text="License"
+            android:text="@string/text_about_license_title"
             android:textColor="@color/red_300"
             android:textSize="@dimen/text_title" />
 
@@ -74,7 +74,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="本软件以GPL v3许可证发布\n\n"
+            android:text="@string/text_about_license"
             android:textSize="@dimen/text_body" />
 
     </LinearLayout>
