@@ -334,20 +334,29 @@ public class HomeActivity extends BaseActivity {
             public void onResponse(Response<BusGPSEntity> response) {
                 if (response.body() != null) {
                     // FIXME: 16/1/30 test code
-                   /* BusGPSEntity.ResultEntity.ListsEntity a = new BusGPSEntity.ResultEntity.ListsEntity();
-                    a.setBusStationId("111");
+                    BusGPSEntity.ResultEntity.ListsEntity a = new BusGPSEntity.ResultEntity.ListsEntity();
+                    a.setBusStationId("3512");
                     a.setBusStationName("港城汽车站");
-                    a.setGPSTime("2016.01.20 00:01:33.3");
+                    a.setGPSTime("2016.01.30 19:29:33.3");
                     a.setNumberPlate("eeeeee");
+                    a.setOutstate("0");
 
                     response.body().getResult().getLists().add(a);
                     response.body().getResult().getLists().add(a);
+                    a = new BusGPSEntity.ResultEntity.ListsEntity();
+                    a.setBusStationId("3512");
+                    a.setBusStationName("港城汽车站");
+                    a.setGPSTime("2016.01.30 19:29:33.3");
+                    a.setNumberPlate("eeeeee");
+                    a.setOutstate("1");
                     response.body().getResult().getLists().add(a);
+                    a = new BusGPSEntity.ResultEntity.ListsEntity();
+                    a.setBusStationId("1740");
+                    a.setBusStationName("勤丰苑");
+                    a.setGPSTime("2016.01.30 19:29:33.3");
+                    a.setNumberPlate("eeeeee");
+                    a.setOutstate("1");
                     response.body().getResult().getLists().add(a);
-                    response.body().getResult().getLists().add(a);
-                    response.body().getResult().getLists().add(a);
-                    response.body().getResult().getLists().add(a);
-                    response.body().getResult().getLists().add(a);*/
 
                     mLineAdapter.setRunPathName(runPathName);
 
@@ -368,10 +377,8 @@ public class HomeActivity extends BaseActivity {
                     mLineAdapter.refreshData(mStationAndBusList);
                     if (response.body().getResult().getLists().size() == 0) {
                         Toast.makeText(HomeActivity.this, "当前没有公交在线", Toast.LENGTH_SHORT).show();
-                        mMultiStateView.setViewState(MultiStateView.VIEW_STATE_EMPTY);
-                    } else {
-                        mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
                     }
+                    mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
                 }
             }
 
