@@ -31,8 +31,6 @@ public class LineAdapter extends RecyclerView.Adapter<LineAdapter.LineBusViewHol
     private String mRunPathName;
     private List<StationAndBus> mLineList;
 
-    private boolean mIfHasBus = false;
-
     public LineAdapter(Context context) {
         mLayoutInflater = LayoutInflater.from(context);
         mLineList = new ArrayList<>();
@@ -69,14 +67,20 @@ public class LineAdapter extends RecyclerView.Adapter<LineAdapter.LineBusViewHol
         if (data.type == StationAndBus.DAO_TYPE_STATION) {
             holder.stationContainer.setVisibility(View.VISIBLE);
             holder.busContainer.setVisibility(View.GONE);
+            holder.busBg.setVisibility(View.GONE);
             holder.tvStationName.setText(data.station.getBusStationName());
-            if (position == 0 || mIfHasBus) {
-                holder.upPath.setVisibility(View.GONE);
+
+            if (data.busState != 0 || position == getItemCount() - 1) {
+                holder.stationLine.setVisibility(View.GONE);
             } else {
-                holder.upPath.setVisibility(View.VISIBLE);
+                holder.stationLine.setVisibility(View.VISIBLE);
             }
 
-            mIfHasBus = false;
+            if (data.busState == StationAndBus.DAO_STATE_ARRIVE) {
+                holder.stationContainer.setBackgroundResource(R.color.green_300);
+            } else {
+                holder.stationContainer.setBackgroundResource(R.color.red_300);
+            }
         } else if (data.type == StationAndBus.DAO_TYPE_BUS) {
             String busName = String.format("%s（%s）", mRunPathName, data.bus.getNumberPlate());
 
@@ -111,15 +115,16 @@ public class LineAdapter extends RecyclerView.Adapter<LineAdapter.LineBusViewHol
             holder.tvBusName.setText(busName);
             holder.tvBusTime.setText(time);
 
+            holder.busBg.setVisibility(View.VISIBLE);
             if (data.bus.getOutstate().equals("0")) {
+                holder.busContainer.setBackgroundResource(R.color.green_300);
                 holder.busBg.setBackgroundResource(R.color.green_300);
                 holder.tvBusState.setText("到站");
             } else {
+                holder.busContainer.setBackgroundResource(R.color.red_300);
                 holder.busBg.setBackgroundResource(R.color.light_blue_300);
                 holder.tvBusState.setText("途中");
             }
-
-            mIfHasBus = true;
         }
     }
 
@@ -128,17 +133,13 @@ public class LineAdapter extends RecyclerView.Adapter<LineAdapter.LineBusViewHol
         return mLineList.size();
     }
 
-
     public class LineBusViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.itemLineStation)
         RelativeLayout stationContainer;
-        @Bind(R.id.itemLineStationBg)
-        View stationBg;
+        @Bind(R.id.itemStationLine)
+        View stationLine;
         @Bind(R.id.itemStationName)
         TextView tvStationName;
-        @Bind(R.id.itemLineStationUP)
-        View upPath;
-
         @Bind(R.id.itemLineBus)
         RelativeLayout busContainer;
         @Bind(R.id.itemBusBg)

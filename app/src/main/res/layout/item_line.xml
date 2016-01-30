@@ -11,27 +11,27 @@
         android:layout_height="wrap_content"
         android:background="@color/red_300">
 
-        <View
-            android:id="@+id/itemLineStationUP"
-            android:layout_width="@dimen/dp_4"
-            android:layout_height="@dimen/dp_30"
-            android:layout_marginStart="@dimen/dp_16"
-            android:background="@android:color/white" />
-
         <ImageView
             android:id="@+id/itemStationLogo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/itemLineStationUP"
             android:layout_marginEnd="@dimen/dp_16"
             android:layout_marginStart="@dimen/dp_6"
             android:src="@drawable/ic_directions_bus_white_24dp" />
+
+        <View
+            android:id="@+id/itemStationLine"
+            android:layout_width="@dimen/dp_4"
+            android:layout_height="@dimen/dp_30"
+            android:layout_below="@id/itemStationLogo"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:layout_marginStart="@dimen/dp_16"
+            android:background="@android:color/white" />
 
         <TextView
             android:id="@+id/itemStationName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/itemLineStationUP"
             android:layout_toEndOf="@id/itemStationLogo"
             android:gravity="center"
             android:textColor="@android:color/white"
@@ -51,12 +51,12 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_32"
             android:layout_centerInParent="true"
-            android:background="@color/light_blue_300" />
+            android:background="@color/green_300" />
 
         <View
             android:id="@+id/itemLineLeft"
             android:layout_width="@dimen/dp_4"
-            android:layout_height="60dp"
+            android:layout_height="@dimen/dp_54"
             android:layout_marginEnd="@dimen/dp_16"
             android:layout_marginStart="@dimen/dp_16"
             android:background="@android:color/white" />

@@ -11,9 +11,12 @@ import me.fattycat.kun.buslocator.model.StationListEntity;
 public class StationAndBus {
     public final static int DAO_TYPE_STATION = 1;
     public final static int DAO_TYPE_BUS = 2;
+    public final static int DAO_STATE_ARRIVE = 1;
+    public final static int DAO_STATE_LEAVE = 2;
 
     public int type = 0;
-    public StationListEntity.ResultEntity.StationEntity station;
+    public int busState = 0;
     public BusGPSEntity.ResultEntity.ListsEntity bus;
+    public StationListEntity.ResultEntity.StationEntity station;
 
 }

@@ -354,15 +354,14 @@ public class HomeActivity extends BaseActivity {
                     for (StationListEntity.ResultEntity.StationEntity stationEntity : mStationList) {
                         addStation(stationEntity);
                         for (BusGPSEntity.ResultEntity.ListsEntity listsEntity : response.body().getResult().getLists()) {
-
-                            if (mDirection == DIRECTION_SHANGXING) {
-                                if (listsEntity.getBusStationId().equals(stationEntity.getBusStationId())) {
-                                    addBus(listsEntity);
+                            if (listsEntity.getBusStationId().equals(stationEntity.getBusStationId())) {
+                                StationAndBus stationAndBus = mStationAndBusList.get(mStationAndBusList.size() - 1);
+                                if (listsEntity.getOutstate().equals("0")) {
+                                    stationAndBus.busState = StationAndBus.DAO_STATE_ARRIVE;
+                                } else if (listsEntity.getOutstate().equals("1")) {
+                                    stationAndBus.busState = StationAndBus.DAO_STATE_LEAVE;
                                 }
-                            } else {
-                                if (listsEntity.getBusStationId().equals(stationEntity.getBusStationId())) {
-                                    addBus(listsEntity);
-                                }
+                                addBus(listsEntity);
                             }
                         }
                     }
