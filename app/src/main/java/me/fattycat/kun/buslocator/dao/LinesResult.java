@@ -14,32 +14,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package me.fattycat.kun.buslocator.activity;
+package me.fattycat.kun.buslocator.dao;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.drawable.Drawable;
 
-import me.fattycat.kun.buslocator.api.BusApi;
-import retrofit2.GsonConverterFactory;
-import retrofit2.Retrofit;
+import com.quinny898.library.persistentsearch.SearchResult;
 
 /**
  * Author: Kelvinkun
  * Time: 16/1/27
- * Description:
+ * Descirption:
  */
-public class BaseActivity extends AppCompatActivity {
-    public Retrofit mBusRetrofit;
+public class LinesResult extends SearchResult {
+    public String runPathId;
+    public String runPathName;
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        mBusRetrofit = new Retrofit.Builder()
-                .baseUrl(BusApi.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+    public LinesResult(String runPathId, String title) {
+        super(title);
+        this.runPathId = runPathId;
+        this.runPathName = title;
     }
 
+    public LinesResult(String title, Drawable icon) {
+        super(title, icon);
+    }
+
+    public LinesResult(int viewType, String title) {
+        super(viewType, title);
+    }
 }

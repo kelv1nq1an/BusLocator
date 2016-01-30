@@ -45,7 +45,7 @@ public class StationListEntity extends BaseEntity {
          * busStationId : 55
          */
 
-        private List<XiaxingEntity> xiaxing;
+        private List<StationEntity> xiaxing;
         /**
          * sn : 1
          * busStationName : 南丰客运站
@@ -53,7 +53,7 @@ public class StationListEntity extends BaseEntity {
          * busStationId : 2869
          */
 
-        private List<ShangxingEntity> shangxing;
+        private List<StationEntity> shangxing;
 
         public void setRunPathName(String runPathName) {
             this.runPathName = runPathName;
@@ -67,11 +67,11 @@ public class StationListEntity extends BaseEntity {
             this.roundRunPath = roundRunPath;
         }
 
-        public void setXiaxing(List<XiaxingEntity> xiaxing) {
+        public void setXiaxing(List<StationEntity> xiaxing) {
             this.xiaxing = xiaxing;
         }
 
-        public void setShangxing(List<ShangxingEntity> shangxing) {
+        public void setShangxing(List<StationEntity> shangxing) {
             this.shangxing = shangxing;
         }
 
@@ -87,54 +87,15 @@ public class StationListEntity extends BaseEntity {
             return roundRunPath;
         }
 
-        public List<XiaxingEntity> getXiaxing() {
+        public List<StationEntity> getXiaxing() {
             return xiaxing;
         }
 
-        public List<ShangxingEntity> getShangxing() {
+        public List<StationEntity> getShangxing() {
             return shangxing;
         }
 
-        public static class XiaxingEntity {
-            private String sn;
-            private String busStationName;
-            private String flag;
-            private String busStationId;
-
-            public void setSn(String sn) {
-                this.sn = sn;
-            }
-
-            public void setBusStationName(String busStationName) {
-                this.busStationName = busStationName;
-            }
-
-            public void setFlag(String flag) {
-                this.flag = flag;
-            }
-
-            public void setBusStationId(String busStationId) {
-                this.busStationId = busStationId;
-            }
-
-            public String getSn() {
-                return sn;
-            }
-
-            public String getBusStationName() {
-                return busStationName;
-            }
-
-            public String getFlag() {
-                return flag;
-            }
-
-            public String getBusStationId() {
-                return busStationId;
-            }
-        }
-
-        public static class ShangxingEntity {
+        public static class StationEntity {
             private String sn;
             private String busStationName;
             private String flag;

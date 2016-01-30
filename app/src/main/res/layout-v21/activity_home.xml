@@ -71,7 +71,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/dp_2"
                         android:text="@string/text_time"
-                        android:textColor="@color/color_light_blue_100"
+                        android:textColor="@color/light_blue_100"
                         android:textSize="@dimen/text_subtitle" />
 
                     <TextView
@@ -97,7 +97,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/dp_2"
                         android:text="@string/text_interval"
-                        android:textColor="@color/color_light_blue_100"
+                        android:textColor="@color/light_blue_100"
                         android:textSize="@dimen/text_subtitle" />
 
                     <TextView
@@ -116,7 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:background="@color/color_light_blue_300"
+                android:background="@color/light_blue_300"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -176,11 +176,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/homeBusList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/red_300"
-            android:clipToPadding="false"
-            android:paddingBottom="@dimen/dp_4"
-            android:paddingTop="@dimen/dp_4" />
+            android:layout_height="match_parent" />
 
     </com.kennyc.view.MultiStateView>
 

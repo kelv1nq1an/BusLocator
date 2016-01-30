@@ -14,32 +14,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package me.fattycat.kun.buslocator.activity;
+package me.fattycat.kun.buslocator.dao;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-
-import me.fattycat.kun.buslocator.api.BusApi;
-import retrofit2.GsonConverterFactory;
-import retrofit2.Retrofit;
+import me.fattycat.kun.buslocator.model.BusGPSEntity;
+import me.fattycat.kun.buslocator.model.StationListEntity;
 
 /**
  * Author: Kelvinkun
- * Time: 16/1/27
- * Description:
+ * Time: 16/1/30
+ * Descirption:
  */
-public class BaseActivity extends AppCompatActivity {
-    public Retrofit mBusRetrofit;
+public class StationAndBus {
+    public final static int DAO_TYPE_STATION = 1;
+    public final static int DAO_TYPE_BUS = 2;
+    public final static int DAO_STATE_ARRIVE = 1;
+    public final static int DAO_STATE_LEAVE = 2;
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        mBusRetrofit = new Retrofit.Builder()
-                .baseUrl(BusApi.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-    }
+    public int type = 0;
+    public int busState = 0;
+    public BusGPSEntity.ResultEntity.ListsEntity bus;
+    public StationListEntity.ResultEntity.StationEntity station;
 
 }

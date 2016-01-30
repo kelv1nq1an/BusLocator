@@ -17,29 +17,31 @@
 package me.fattycat.kun.buslocator.activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 
-import me.fattycat.kun.buslocator.api.BusApi;
-import retrofit2.GsonConverterFactory;
-import retrofit2.Retrofit;
+import me.fattycat.kun.buslocator.R;
 
-/**
- * Author: Kelvinkun
- * Time: 16/1/27
- * Description:
- */
-public class BaseActivity extends AppCompatActivity {
-    public Retrofit mBusRetrofit;
+public class AboutActivity extends AppCompatActivity {
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_about);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        mBusRetrofit = new Retrofit.Builder()
-                .baseUrl(BusApi.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
-
 }
