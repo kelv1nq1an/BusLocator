@@ -7,8 +7,8 @@
     <color name="color_primary_text">#212121</color>
     <color name="color_secondary_text">#727272</color>
 
-    <color name="color_light_blue_100">#b3e5fc</color>
-    <color name="color_light_blue_300">#4fc3f7</color>
-
+    <color name="light_blue_100">#b3e5fc</color>
+    <color name="light_blue_300">#4fc3f7</color>
     <color name="red_300">#f36c60</color>
+    <color name="green_300">#42bd41</color>
 </resources>

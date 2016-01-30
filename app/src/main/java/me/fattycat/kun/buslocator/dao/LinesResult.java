@@ -1,4 +1,4 @@
-package me.fattycat.kun.buslocator.model;
+package me.fattycat.kun.buslocator.dao;
 
 import android.graphics.drawable.Drawable;
 

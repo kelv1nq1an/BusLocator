@@ -25,16 +25,19 @@ import com.quinny898.library.persistentsearch.SearchResult;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.fattycat.kun.buslocator.R;
-import me.fattycat.kun.buslocator.adapter.BusListAdapter;
+import me.fattycat.kun.buslocator.adapter.LineAdapter;
 import me.fattycat.kun.buslocator.api.BusApi;
+import me.fattycat.kun.buslocator.dao.LinesResult;
+import me.fattycat.kun.buslocator.dao.StationAndBus;
 import me.fattycat.kun.buslocator.model.BusGPSEntity;
 import me.fattycat.kun.buslocator.model.LineEntity;
 import me.fattycat.kun.buslocator.model.LineListEntity;
-import me.fattycat.kun.buslocator.model.LinesResult;
+import me.fattycat.kun.buslocator.model.StationListEntity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -49,6 +52,9 @@ public class HomeActivity extends BaseActivity {
     private static final String LINE_FLAG_BACK = "2";
     private static final String BUS_FLAG_GO = "1";
     private static final String BUS_FLAG_BACK = "3";
+
+    private static final int DIRECTION_SHANGXING = 1;
+    private static final int DIRECTION_XIAXING = 2;
 
     @Bind(R.id.homeToolbar)
     Toolbar mHomeToolbar;
@@ -82,16 +88,21 @@ public class HomeActivity extends BaseActivity {
     RecyclerView mHomeBusList;
 
     private long mClickTime = 0;
+    private int mDirection = DIRECTION_SHANGXING;
     private String mLineFlag = LINE_FLAG_GO;
     private String mBusFlag = BUS_FLAG_GO;
     private String mRunPathName;
 
     private LinesResult mLinesResult;
-    private BusListAdapter mBusListAdapter;
+    private LineAdapter mLineAdapter;
     private ArrayList<LinesResult> mLinesResultList = new ArrayList<>();
+    private List<StationListEntity.ResultEntity.StationEntity> mStationList = new ArrayList<>();
+    private List<StationAndBus> mStationAndBusList = new ArrayList<>();
     private Call<LineListEntity> mLineListCall;
     private Call<LineEntity> mLineCall;
     private Call<BusGPSEntity> mBusGPSCall;
+    private Call<StationListEntity> mAllStationCall;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -107,14 +118,19 @@ public class HomeActivity extends BaseActivity {
         setupBusList();
 
         mHomeLineSwap.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 if (mLineFlag.equals(BUS_FLAG_GO)) {
                     mLineFlag = LINE_FLAG_BACK;
                     mBusFlag = BUS_FLAG_BACK;
+
+                    mDirection = DIRECTION_XIAXING;
                 } else {
                     mLineFlag = LINE_FLAG_GO;
                     mBusFlag = BUS_FLAG_GO;
+
+                    mDirection = DIRECTION_SHANGXING;
                 }
 
                 searchBusesInfo();
@@ -186,12 +202,12 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void setupBusList() {
-        mBusListAdapter = new BusListAdapter(HomeActivity.this);
+        mLineAdapter = new LineAdapter(HomeActivity.this);
         mHomeBusList.setLayoutManager(new LinearLayoutManager(HomeActivity.this));
-        mHomeBusList.setAdapter(mBusListAdapter);
+        mHomeBusList.setAdapter(mLineAdapter);
     }
 
-    public void search(String lineText) {
+    private void search(String lineText) {
         if (mLineListCall != null) {
             mLineListCall.cancel();
         }
@@ -230,7 +246,7 @@ public class HomeActivity extends BaseActivity {
 
     }
 
-    public void searchLine(String runPathId, String flag) {
+    private void searchLine(String runPathId, String flag) {
         if (mLineCall != null) {
             mLineCall.cancel();
         }
@@ -273,22 +289,50 @@ public class HomeActivity extends BaseActivity {
 
     }
 
-    public void searchBus(String runPathId, String flag, final String runPathName) {
-        if (mBusGPSCall != null) {
-            mBusGPSCall.cancel();
+    private void searchStations(String runPathId) {
+        if (mAllStationCall != null) {
+            mAllStationCall.cancel();
         }
 
         mMultiStateView.setViewState(MultiStateView.VIEW_STATE_LOADING);
+
+        BusApi.AllStation allStation = mBusRetrofit.create(BusApi.AllStation.class);
+        mAllStationCall = allStation.stationList(runPathId);
+
+        mAllStationCall.enqueue(new Callback<StationListEntity>() {
+            @Override
+            public void onResponse(Response<StationListEntity> response) {
+                if (response.body() != null) {
+
+                    if (mDirection == DIRECTION_SHANGXING) {
+                        mStationList.addAll(response.body().getResult().getShangxing());
+                    } else {
+                        mStationList.addAll(response.body().getResult().getXiaxing());
+                    }
+
+                    searchBus(mLinesResult.runPathId, mBusFlag, mLinesResult.runPathName);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                mMultiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
+            }
+        });
+    }
+
+    private void searchBus(String runPathId, String flag, final String runPathName) {
+        if (mBusGPSCall != null) {
+            mBusGPSCall.cancel();
+        }
 
         BusApi.BusGPS busGPS = mBusRetrofit.create(BusApi.BusGPS.class);
         mBusGPSCall = busGPS.GPS(runPathId, flag);
 
         mBusGPSCall.enqueue(new Callback<BusGPSEntity>() {
-
             @Override
             public void onResponse(Response<BusGPSEntity> response) {
                 if (response.body() != null) {
-                    mBusListAdapter.setRunPathName(runPathName);
                     // FIXME: 16/1/30 test code
                    /* BusGPSEntity.ResultEntity.ListsEntity a = new BusGPSEntity.ResultEntity.ListsEntity();
                     a.setBusStationId("111");
@@ -305,7 +349,24 @@ public class HomeActivity extends BaseActivity {
                     response.body().getResult().getLists().add(a);
                     response.body().getResult().getLists().add(a);*/
 
-                    mBusListAdapter.refreshData(response.body().getResult().getLists());
+                    mLineAdapter.setRunPathName(runPathName);
+
+                    for (StationListEntity.ResultEntity.StationEntity stationEntity : mStationList) {
+                        addStation(stationEntity);
+                        for (BusGPSEntity.ResultEntity.ListsEntity listsEntity : response.body().getResult().getLists()) {
+
+                            if (mDirection == DIRECTION_SHANGXING) {
+                                if (listsEntity.getBusStationId().equals(stationEntity.getBusStationId())) {
+                                    addBus(listsEntity);
+                                }
+                            } else {
+                                if (listsEntity.getBusStationId().equals(stationEntity.getBusStationId())) {
+                                    addBus(listsEntity);
+                                }
+                            }
+                        }
+                    }
+                    mLineAdapter.refreshData(mStationAndBusList);
                     if (response.body().getResult().getLists().size() == 0) {
                         Toast.makeText(HomeActivity.this, "当前没有公交在线", Toast.LENGTH_SHORT).show();
                         mMultiStateView.setViewState(MultiStateView.VIEW_STATE_EMPTY);
@@ -317,18 +378,35 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void onFailure(Throwable t) {
-                // TODO: 16/1/29
-
+                mMultiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
             }
         });
+    }
+
+    private void addBus(BusGPSEntity.ResultEntity.ListsEntity listsEntity) {
+        StationAndBus dao = new StationAndBus();
+        dao.type = StationAndBus.DAO_TYPE_BUS;
+        dao.bus = listsEntity;
+        mStationAndBusList.add(dao);
+    }
+
+    private void addStation(StationListEntity.ResultEntity.StationEntity stationEntity) {
+        StationAndBus dao = new StationAndBus();
+        dao.type = StationAndBus.DAO_TYPE_STATION;
+        dao.station = stationEntity;
+        mStationAndBusList.add(dao);
     }
 
     private void searchBusesInfo() {
         if (mRunPathName != null) {
             mHomeLineName.setText(mRunPathName);
         }
+
+        mStationList.clear();
+        mStationAndBusList.clear();
+
         searchLine(mLinesResult.runPathId, mLineFlag);
-        searchBus(mLinesResult.runPathId, mBusFlag, mLinesResult.runPathName);
+        searchStations(mLinesResult.runPathId);
     }
 
     public void showSearchBox() {
