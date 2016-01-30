@@ -9,9 +9,9 @@
 
     <color name="light_blue_100">#b3e5fc</color>
     <color name="light_blue_300">#4fc3f7</color>
+    <color name="red_100">#f9bdbb</color>
     <color name="red_300">#f36c60</color>
     <color name="green_200">#72d572</color>
     <color name="grey_200">#eeeeee</color>
-
     <color name="cyan_300">#4dd0e1</color>
 </resources>

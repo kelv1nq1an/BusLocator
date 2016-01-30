@@ -9,7 +9,7 @@
     <string name="text_start_station">出发站</string>
     <string name="text_end_station">终点站</string>
     <string name="text_empty_card">使用须知</string>
-    <string name="title_activity_about">关于本App</string>
+    <string name="title_activity_about">关于</string>
     <string name="large_text">about</string>
     <string name="action_settings">Settings</string>
 </resources>
