@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -123,7 +124,6 @@ public class HomeActivity extends BaseActivity {
 
     private Handler mRefreshHandler = new Handler();
     private Runnable mRefreshRunnable;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -285,8 +285,8 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void onFailure(Throwable t) {
-                // TODO
                 mPersistentSearchBox.showLoading(false);
+                Snackbar.make(mHomeBusList, "网络错误，请重试。", Snackbar.LENGTH_SHORT).show();
             }
         });
 
@@ -306,7 +306,7 @@ public class HomeActivity extends BaseActivity {
         mLineCall.enqueue(new Callback<LineEntity>() {
             @Override
             public void onResponse(Response<LineEntity> response) {
-                if (response.body() != null) {
+                if (response.body() != null && response.body().getResult() != null) {
                     LineEntity.ResultEntity resultEntity = response.body().getResult();
                     mHomeLineName.setText(resultEntity.getRunPathName());
                     mHomeLineStartStation.setText(resultEntity.getStartStation());
@@ -348,7 +348,7 @@ public class HomeActivity extends BaseActivity {
         mAllStationCall.enqueue(new Callback<StationListEntity>() {
             @Override
             public void onResponse(Response<StationListEntity> response) {
-                if (response.body() != null) {
+                if (response.body() != null && response.body().getResult() != null) {
 
                     mStationList.clear();
                     if (mDirection == DIRECTION_SHANGXING) {
@@ -363,7 +363,8 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void onFailure(Throwable t) {
-                mMultiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
+                mMultiStateView.setViewState(MultiStateView.VIEW_STATE_EMPTY);
+                Snackbar.make(mHomeBusList, "网络错误，请重试。", Snackbar.LENGTH_SHORT).show();
             }
         });
     }
@@ -385,21 +386,23 @@ public class HomeActivity extends BaseActivity {
                     mStationAndBusList.clear();
                     for (StationListEntity.ResultEntity.StationEntity stationEntity : mStationList) {
                         addStation(stationEntity);
-                        for (BusGPSEntity.ResultEntity.ListsEntity listsEntity : response.body().getResult().getLists()) {
-                            if (listsEntity.getBusStationId().equals(stationEntity.getBusStationId())) {
-                                StationAndBus stationAndBus = mStationAndBusList.get(mStationAndBusList.size() - 1);
-                                if (listsEntity.getOutstate().equals("0")) {
-                                    stationAndBus.busState = StationAndBus.DAO_STATE_ARRIVE;
-                                } else if (listsEntity.getOutstate().equals("1")) {
-                                    stationAndBus.busState = StationAndBus.DAO_STATE_LEAVE;
+                        if (response.body().getResult() != null) {
+                            for (BusGPSEntity.ResultEntity.ListsEntity listsEntity : response.body().getResult().getLists()) {
+                                if (listsEntity.getBusStationId().equals(stationEntity.getBusStationId())) {
+                                    StationAndBus stationAndBus = mStationAndBusList.get(mStationAndBusList.size() - 1);
+                                    if (listsEntity.getOutstate().equals("0")) {
+                                        stationAndBus.busState = StationAndBus.DAO_STATE_ARRIVE;
+                                    } else if (listsEntity.getOutstate().equals("1")) {
+                                        stationAndBus.busState = StationAndBus.DAO_STATE_LEAVE;
+                                    }
+                                    addBus(listsEntity);
                                 }
-                                addBus(listsEntity);
                             }
                         }
                     }
                     mLineAdapter.refreshData(mStationAndBusList);
-                    if (response.body().getResult().getLists().size() == 0) {
-                        Toast.makeText(HomeActivity.this, "当前没有公交在线", Toast.LENGTH_SHORT).show();
+                    if (response.body().getResult() == null || response.body().getResult().getLists().size() == 0) {
+                        Snackbar.make(mHomeBusList, "当前没有公交在线", Snackbar.LENGTH_SHORT).show();
                     }
                     mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
                 }
@@ -408,6 +411,7 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onFailure(Throwable t) {
                 mMultiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
+                Snackbar.make(mHomeBusList, "网络错误，请重试。", Snackbar.LENGTH_SHORT).show();
             }
         });
     }
