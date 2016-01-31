@@ -107,6 +107,7 @@ public class HomeActivity extends BaseActivity {
     RecyclerView mHomeBusList;
 
     private long mClickTime = 0;
+    private boolean mSearchOpen = true;
     private int mDirection = DIRECTION_SHANGXING;
     private String mLineFlag = LINE_FLAG_GO;
     private String mBusFlag = BUS_FLAG_GO;
@@ -137,7 +138,7 @@ public class HomeActivity extends BaseActivity {
 
         setupSearchBox();
         setupBusList();
-        addSwapListener();
+        setupSwapButton();
         autoRefresh();
     }
 
@@ -220,7 +221,7 @@ public class HomeActivity extends BaseActivity {
         mHomeBusList.setAdapter(mLineAdapter);
     }
 
-    private void addSwapListener() {
+    private void setupSwapButton() {
         mHomeLineSwap.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -371,7 +372,7 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void onFailure(Throwable t) {
-                    mMultiStateView.setViewState(MultiStateView.VIEW_STATE_EMPTY);
+                mMultiStateView.setViewState(MultiStateView.VIEW_STATE_EMPTY);
                 if (!t.toString().contains("Canceled")) {
                     Snackbar.make(mHomeBusList, "网络错误，请重试。", Snackbar.LENGTH_SHORT).show();
                 }
@@ -483,10 +484,12 @@ public class HomeActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_item_search) {
             if (mLinesResult != null) {
-                if (mPersistentSearchBox.getSearchVisibility()) {
+                if (mSearchOpen) {
                     hideSearchBox();
+                    mSearchOpen = false;
                 } else {
                     showSearchBox();
+                    mSearchOpen = true;
                 }
             }
         } else if (item.getItemId() == R.id.menu_item_about) {

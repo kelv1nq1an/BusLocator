@@ -40,4 +40,5 @@ dependencies {
     compile 'com.wang.avi:library:1.0.1'
     compile 'im.fir:fir-sdk:latest.integration@aar'
     compile project(':library')
+    compile files('libs/TalkingData_Analytics_Android_SDK.jar')
 }

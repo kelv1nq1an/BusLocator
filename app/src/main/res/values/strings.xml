@@ -20,5 +20,5 @@
     <string name="text_donate">如果您喜欢我的App，并乐意赞助我这个独立开发者的话，请点击下方的按钮，这将会复制我的支付宝账号并自动跳转到支付宝中，您可以给予转账，您的每一块钱都是对我的鼓励和认可，谢谢。</string>
     <string name="text_donate_cn">打赏</string>
     <string name="text_thanks_title">Thanks</string>
-    <string name="text_thanks">Kennyc1012/MultiStateView\nApache Software License 2.0\n\nQuinny898/PersistentSearch\nApache Software License 2.0</string>
+    <string name="text_thanks">Kennyc1012/MultiStateView\nApache Software License 2.0\n\nQuinny898/PersistentSearch\nApache Software License 2.0\n\n81813780/AVLoadingIndicatorView\nApache Software License 2.0</string>
 </resources>

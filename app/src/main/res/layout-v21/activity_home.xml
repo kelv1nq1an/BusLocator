@@ -121,6 +121,14 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:text="始"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_subtitle" />
+
+                <TextView
                     android:id="@+id/homeLineStartStation"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -151,6 +159,14 @@
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_subtitle"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp_4"
+                    android:text="终"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_subtitle" />
             </LinearLayout>
 
         </RelativeLayout>

@@ -19,6 +19,8 @@ package me.fattycat.kun.buslocator;
 
 import android.app.Application;
 
+import com.tendcloud.tenddata.TCAgent;
+
 import im.fir.sdk.FIR;
 
 public class BusApplication extends Application {
@@ -27,5 +29,6 @@ public class BusApplication extends Application {
     public void onCreate() {
         super.onCreate();
         FIR.init(this);
+        TCAgent.init(this);
     }
 }

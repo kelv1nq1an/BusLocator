@@ -18,6 +18,13 @@
             android:name="BUG_HD_SDK_GENERAL_KEY"
             android:value="5871d5a8db6de432a556096cf38ba705" />
 
+        <meta-data
+            android:name="TD_APP_ID"
+            android:value="CC9FAE5977BA84F6546FEFBF050D1833" />
+        <meta-data
+            android:name="TD_CHANNEL_ID"
+            android:value="fir" />
+
         <activity android:name=".activity.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
