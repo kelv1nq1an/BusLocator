@@ -19,6 +19,7 @@ package me.fattycat.kun.buslocator.activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -71,6 +72,7 @@ public class HomeActivity extends BaseActivity {
 
     private static final int DIRECTION_SHANGXING = 1;
     private static final int DIRECTION_XIAXING = 2;
+    private static final int REFRESH_TIME = 30 * 1000;
 
     @Bind(R.id.homeToolbar)
     Toolbar mHomeToolbar;
@@ -119,6 +121,9 @@ public class HomeActivity extends BaseActivity {
     private Call<BusGPSEntity> mBusGPSCall;
     private Call<StationListEntity> mAllStationCall;
 
+    private Handler mRefreshHandler = new Handler();
+    private Runnable mRefreshRunnable;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -132,26 +137,14 @@ public class HomeActivity extends BaseActivity {
 
         setupSearchBox();
         setupBusList();
+        addSwapListener();
+        autoRefresh();
+    }
 
-        mHomeLineSwap.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (mLineFlag.equals(BUS_FLAG_GO)) {
-                    mLineFlag = LINE_FLAG_BACK;
-                    mBusFlag = BUS_FLAG_BACK;
-
-                    mDirection = DIRECTION_XIAXING;
-                } else {
-                    mLineFlag = LINE_FLAG_GO;
-                    mBusFlag = BUS_FLAG_GO;
-
-                    mDirection = DIRECTION_SHANGXING;
-                }
-
-                searchBusesInfo();
-            }
-        });
+    @Override
+    protected void onDestroy() {
+        mRefreshHandler.removeCallbacks(mRefreshRunnable);
+        super.onDestroy();
     }
 
     @Override
@@ -221,6 +214,44 @@ public class HomeActivity extends BaseActivity {
         mLineAdapter = new LineAdapter(HomeActivity.this);
         mHomeBusList.setLayoutManager(new LinearLayoutManager(HomeActivity.this));
         mHomeBusList.setAdapter(mLineAdapter);
+    }
+
+    private void addSwapListener() {
+        mHomeLineSwap.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (mLineFlag.equals(BUS_FLAG_GO)) {
+                    mLineFlag = LINE_FLAG_BACK;
+                    mBusFlag = BUS_FLAG_BACK;
+
+                    mDirection = DIRECTION_XIAXING;
+                } else {
+                    mLineFlag = LINE_FLAG_GO;
+                    mBusFlag = BUS_FLAG_GO;
+
+                    mDirection = DIRECTION_SHANGXING;
+                }
+
+                searchBusesInfo();
+            }
+        });
+    }
+
+    private void autoRefresh() {
+        mRefreshRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if (mLinesResult != null) {
+                    searchBus(mLinesResult.runPathId, mBusFlag, mLinesResult.runPathName);
+                    Toast.makeText(HomeActivity.this, "refresh", Toast.LENGTH_SHORT).show();
+                }
+
+                mRefreshHandler.postDelayed(this, REFRESH_TIME);
+            }
+        };
+
+        mRefreshHandler.postDelayed(mRefreshRunnable, REFRESH_TIME);
     }
 
     private void search(String lineText) {
@@ -320,6 +351,7 @@ public class HomeActivity extends BaseActivity {
             public void onResponse(Response<StationListEntity> response) {
                 if (response.body() != null) {
 
+                    mStationList.clear();
                     if (mDirection == DIRECTION_SHANGXING) {
                         mStationList.addAll(response.body().getResult().getShangxing());
                     } else {
@@ -351,6 +383,7 @@ public class HomeActivity extends BaseActivity {
                 if (response.body() != null) {
                     mLineAdapter.setRunPathName(runPathName);
 
+                    mStationAndBusList.clear();
                     for (StationListEntity.ResultEntity.StationEntity stationEntity : mStationList) {
                         addStation(stationEntity);
                         for (BusGPSEntity.ResultEntity.ListsEntity listsEntity : response.body().getResult().getLists()) {
@@ -398,9 +431,6 @@ public class HomeActivity extends BaseActivity {
         if (mRunPathName != null) {
             mHomeLineName.setText(mRunPathName);
         }
-
-        mStationList.clear();
-        mStationAndBusList.clear();
 
         searchLine(mLinesResult.runPathId, mLineFlag);
         searchStations(mLinesResult.runPathId);

@@ -143,10 +143,12 @@ public class LineAdapter extends RecyclerView.Adapter<LineAdapter.LineBusViewHol
             if (data.bus.getOutstate().equals("0")) {
                 holder.busContainer.setBackgroundResource(R.color.green_200);
                 holder.busBg.setBackgroundResource(R.color.green_200);
+                holder.lineLeft.setBackgroundColor(Color.WHITE);
                 holder.tvBusState.setText("到站");
             } else {
                 holder.busContainer.setBackgroundResource(R.color.grey_200);
                 holder.busBg.setBackgroundResource(R.color.light_blue_300);
+                holder.lineLeft.setBackgroundResource(R.color.cyan_300);
                 holder.tvBusState.setText("途中");
             }
         }
@@ -166,10 +168,13 @@ public class LineAdapter extends RecyclerView.Adapter<LineAdapter.LineBusViewHol
         View stationLine;
         @Bind(R.id.itemStationName)
         TextView tvStationName;
+
         @Bind(R.id.itemLineBus)
         RelativeLayout busContainer;
         @Bind(R.id.itemBusBg)
         View busBg;
+        @Bind(R.id.itemLineLeft)
+        View lineLeft;
         @Bind(R.id.itemBusState)
         TextView tvBusState;
         @Bind(R.id.itemBusName)
