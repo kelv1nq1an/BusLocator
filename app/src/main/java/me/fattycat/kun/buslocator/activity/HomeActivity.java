@@ -337,7 +337,7 @@ public class HomeActivity extends BaseActivity {
             public void onFailure(Throwable t) {
                 showSearchBox();
                 if (!t.toString().contains("Canceled")) {
-                    Toast.makeText(HomeActivity.this, "网络错误，请重试", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HomeActivity.this, "网络繁忙，请重试", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -374,7 +374,7 @@ public class HomeActivity extends BaseActivity {
             public void onFailure(Throwable t) {
                 mMultiStateView.setViewState(MultiStateView.VIEW_STATE_EMPTY);
                 if (!t.toString().contains("Canceled")) {
-                    Snackbar.make(mHomeBusList, "网络错误，请重试。", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(mHomeBusList, "网络繁忙，请重试。", Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
@@ -423,7 +423,7 @@ public class HomeActivity extends BaseActivity {
             public void onFailure(Throwable t) {
                 mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
                 if (!t.toString().contains("Canceled")) {
-                    Snackbar.make(mHomeBusList, "网络错误，请重试。", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(mHomeBusList, "网络繁忙，请重试。", Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
