@@ -139,6 +139,7 @@ public class HomeActivity extends BaseActivity {
         setupBusList();
         addSwapListener();
         autoRefresh();
+        //CrashReport.testJavaCrash();
     }
 
     @Override
@@ -244,7 +245,6 @@ public class HomeActivity extends BaseActivity {
             public void run() {
                 if (mLinesResult != null) {
                     searchBus(mLinesResult.runPathId, mBusFlag, mLinesResult.runPathName);
-                    Toast.makeText(HomeActivity.this, "refresh", Toast.LENGTH_SHORT).show();
                 }
 
                 mRefreshHandler.postDelayed(this, REFRESH_TIME);

@@ -29,8 +29,7 @@
                 android:id="@+id/homeLineName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="@dimen/dp_32"
+                android:padding="@dimen/dp_16"
                 android:textColor="@android:color/white"
                 android:textSize="34sp"
                 tools:text="211路" />
@@ -56,6 +55,7 @@
                 android:id="@+id/homeLineInfoRight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_32"
                 android:layout_toEndOf="@id/homeLineName"
                 android:orientation="vertical">
 
