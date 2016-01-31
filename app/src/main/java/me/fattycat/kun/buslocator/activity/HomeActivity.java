@@ -139,7 +139,6 @@ public class HomeActivity extends BaseActivity {
         setupBusList();
         addSwapListener();
         autoRefresh();
-        //CrashReport.testJavaCrash();
     }
 
     @Override
