@@ -181,12 +181,16 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void onSearchTermChanged(String lineText) {
-                search(lineText);
+                if (!lineText.contains("路")) {
+                    search(lineText);
+                }
             }
 
             @Override
             public void onSearch(String lineText) {
-                search(lineText);
+                if (!lineText.contains("路")) {
+                    search(lineText);
+                }
             }
 
             @Override
@@ -285,8 +289,10 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void onFailure(Throwable t) {
-                mPersistentSearchBox.showLoading(false);
-                Snackbar.make(mHomeBusList, "网络错误，请重试。", Snackbar.LENGTH_SHORT).show();
+                if (!t.toString().contains("Canceled")) {
+                    mPersistentSearchBox.showLoading(false);
+                    Snackbar.make(mHomeBusList, "网络错误，请重试。", Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -329,7 +335,9 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onFailure(Throwable t) {
                 showSearchBox();
-                Toast.makeText(HomeActivity.this, "网络错误，请重试", Toast.LENGTH_SHORT).show();
+                if (!t.toString().contains("Canceled")) {
+                    Toast.makeText(HomeActivity.this, "网络错误，请重试", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -363,8 +371,10 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void onFailure(Throwable t) {
-                mMultiStateView.setViewState(MultiStateView.VIEW_STATE_EMPTY);
-                Snackbar.make(mHomeBusList, "网络错误，请重试。", Snackbar.LENGTH_SHORT).show();
+                    mMultiStateView.setViewState(MultiStateView.VIEW_STATE_EMPTY);
+                if (!t.toString().contains("Canceled")) {
+                    Snackbar.make(mHomeBusList, "网络错误，请重试。", Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -410,8 +420,10 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void onFailure(Throwable t) {
-                mMultiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
-                Snackbar.make(mHomeBusList, "网络错误，请重试。", Snackbar.LENGTH_SHORT).show();
+                mMultiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
+                if (!t.toString().contains("Canceled")) {
+                    Snackbar.make(mHomeBusList, "网络错误，请重试。", Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
     }

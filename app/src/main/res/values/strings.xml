@@ -5,9 +5,8 @@
     <string name="text_interval">间隔</string>
     <string name="text_start_time">发车时间</string>
     <string name="text_swap_description">首末站切换</string>
-    <string name="text_start_station">出发站</string>
+    <string name="text_start_station">始发站</string>
     <string name="text_end_station">终点站</string>
-    <string name="text_empty_card">使用须知</string>
     <string name="title_activity_about">关于</string>
     <string name="text_about_license"><![CDATA[本软件以GPL v3许可证发布\n\nCopyright © 2016 FattycatR\n\nThis program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.]]></string>
     <string name="text_about_license_title">License</string>
@@ -15,4 +14,11 @@
     <string name="text_about_developer_title">Developer</string>
     <string name="text_about_app">本软件仅为娱乐作品，目前提供张家港境内的公交信息，任何将本软件用作商业目的的行为都是违法的，请遵守当地法律法规。</string>
     <string name="text_about_app_title">App</string>
+    <string name="text_welcome_title">Welcome</string>
+    <string name="text_welcome">本App提供张家港境内的公交信息，欢迎使用！</string>
+    <string name="text_donate_title">Donate</string>
+    <string name="text_donate">如果您喜欢我的App，并乐意赞助我这个独立开发者的话，请点击下方的按钮，这将会复制我的支付宝账号并自动跳转到支付宝中，您可以给予转账，您的每一块钱都是对我的鼓励和认可，谢谢。</string>
+    <string name="text_donate_cn">打赏</string>
+    <string name="text_thanks_title">Thanks</string>
+    <string name="text_thanks">Kennyc1012/MultiStateView\nApache Software License 2.0\n\nQuinny898/PersistentSearch\nApache Software License 2.0</string>
 </resources>

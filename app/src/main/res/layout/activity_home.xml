@@ -9,7 +9,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/homeAppBar"
         android:layout_width="match_parent"
-        android:layout_height="192dp">
+        android:layout_height="@dimen/home_top_bar">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/homeToolbar"
