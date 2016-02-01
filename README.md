@@ -4,7 +4,7 @@
 一款符合 Material Design 风格的公交查询应用。（目前只支持江苏省张家港市内的公交）
 
 ### Develop State
-开发中。。。。。。
+V1 版本已发布 地址：http://fir.im/buslocator
 
 ### License
 
