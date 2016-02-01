@@ -23,4 +23,6 @@
     <string name="text_thanks">Kennyc1012/MultiStateView\nApache Software License 2.0\n\nQuinny898/PersistentSearch\nApache Software License 2.0\n\n81813780/AVLoadingIndicatorView\nApache Software License 2.0</string>
     <string name="text_start">始</string>
     <string name="text_end">终</string>
+    <string name="text_tip">小提醒：</string>
+    <string name="text_tip_detail">可以切换始发站和终点站哦~</string>
 </resources>
