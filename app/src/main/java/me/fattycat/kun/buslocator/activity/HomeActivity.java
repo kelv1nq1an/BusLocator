@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -105,6 +106,8 @@ public class HomeActivity extends BaseActivity {
     MultiStateView mMultiStateView;
     @Bind(R.id.homeBusList)
     RecyclerView mHomeBusList;
+    @Bind(R.id.swapFab)
+    FloatingActionButton mSwapFab;
 
     private long mClickTime = 0;
     private boolean mSearchOpen = true;
@@ -226,21 +229,34 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void onClick(View v) {
-                if (mLineFlag.equals(BUS_FLAG_GO)) {
-                    mLineFlag = LINE_FLAG_BACK;
-                    mBusFlag = BUS_FLAG_BACK;
+                swapAction();
+            }
 
-                    mDirection = DIRECTION_XIAXING;
-                } else {
-                    mLineFlag = LINE_FLAG_GO;
-                    mBusFlag = BUS_FLAG_GO;
 
-                    mDirection = DIRECTION_SHANGXING;
-                }
+        });
 
-                searchBusesInfo();
+        mSwapFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                swapAction();
             }
         });
+    }
+
+    private void swapAction() {
+        if (mLineFlag.equals(BUS_FLAG_GO)) {
+            mLineFlag = LINE_FLAG_BACK;
+            mBusFlag = BUS_FLAG_BACK;
+
+            mDirection = DIRECTION_XIAXING;
+        } else {
+            mLineFlag = LINE_FLAG_GO;
+            mBusFlag = BUS_FLAG_GO;
+
+            mDirection = DIRECTION_SHANGXING;
+        }
+
+        searchBusesInfo();
     }
 
     private void autoRefresh() {
@@ -292,7 +308,7 @@ public class HomeActivity extends BaseActivity {
             public void onFailure(Throwable t) {
                 if (!t.toString().contains("Canceled")) {
                     mPersistentSearchBox.showLoading(false);
-                    Snackbar.make(mHomeBusList, "网络错误，请重试。", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(mHomeBusList, "网络繁忙，请重试。", Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
@@ -457,11 +473,13 @@ public class HomeActivity extends BaseActivity {
         mHomeLineInfo.setVisibility(View.INVISIBLE);
         // really can't understand, this should hide search mode but the result is opposite.
         mPersistentSearchBox.closeSearch();
+        mSwapFab.setVisibility(View.GONE);
     }
 
     public void hideSearchBox() {
         mPersistentSearchBox.hideCircularly(HomeActivity.this);
         mHomeLineInfo.setVisibility(View.VISIBLE);
+        mSwapFab.setVisibility(View.VISIBLE);
     }
 
     private void showLineLoading() {

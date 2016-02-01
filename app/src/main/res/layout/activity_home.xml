@@ -126,7 +126,8 @@
                     android:layout_marginStart="@dimen/dp_4"
                     android:text="@string/text_start"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_subtitle" />
+                    android:textSize="@dimen/text_subtitle"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/homeLineStartStation"
@@ -166,7 +167,8 @@
                     android:layout_marginEnd="@dimen/dp_4"
                     android:text="@string/text_end"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_subtitle" />
+                    android:textSize="@dimen/text_subtitle"
+                    android:visibility="gone" />
             </LinearLayout>
 
         </RelativeLayout>
@@ -176,7 +178,7 @@
         android:id="@+id/persistentSearchBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/height_toolbar" />
+        android:layout_marginTop="@dimen/height_toolbar"/>
 
     <com.kennyc.view.MultiStateView
         android:id="@+id/multiStateView"
@@ -197,5 +199,16 @@
             android:paddingTop="@dimen/dp_8" />
 
     </com.kennyc.view.MultiStateView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/swapFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="@dimen/dp_16"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:src="@drawable/ic_swap_horiz_white_24dp"
+        android:visibility="gone" />
 
 </RelativeLayout>
