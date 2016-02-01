@@ -123,10 +123,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@string/text_start"
+                    android:textSize="@dimen/text_subtitle"
                     android:layout_marginStart="@dimen/dp_4"
-                    android:text="始"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_subtitle" />
+                    android:textColor="@android:color/white" />
 
                 <TextView
                     android:id="@+id/homeLineStartStation"
@@ -164,7 +164,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/dp_4"
-                    android:text="终"
+                    android:text="@string/text_end"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_subtitle" />
             </LinearLayout>
