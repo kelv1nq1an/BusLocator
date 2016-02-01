@@ -72,16 +72,6 @@
             tools:text="途中" />
 
         <TextView
-            android:id="@+id/itemBusName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_title"
-            tools:text="福前小区东门" />
-
-        <TextView
             android:id="@+id/itemBusGPSTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -92,6 +82,20 @@
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_subtitle"
             tools:text="14:37:30" />
+
+        <TextView
+            android:id="@+id/itemBusName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/dp_16"
+            android:layout_toEndOf="@id/itemBusState"
+            android:layout_toStartOf="@id/itemBusGPSTime"
+            android:gravity="center"
+            android:lines="1"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_title"
+            tools:text="福前小区东门" />
 
     </RelativeLayout>
 

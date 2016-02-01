@@ -1,27 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/dp_16">
 
-    <android.support.v7.widget.CardView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/dp_8">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <ImageView
+            android:id="@+id/welcome_bg"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:padding="@dimen/dp_8">
+            android:layout_height="@dimen/dp_welcome"
+            android:layout_alignParentTop="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/welcome" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/text_empty_card"
-                android:textSize="@dimen/text_title" />
-        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_welcome"
+            android:gravity="center"
+            android:text="@string/text_welcome_title"
+            android:textColor="@android:color/white"
+            android:textSize="50sp" />
 
-    </android.support.v7.widget.CardView>
-
-</RelativeLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/welcome_bg"
+            android:layout_margin="@dimen/dp_16"
+            android:text="@string/text_welcome"
+            android:textSize="@dimen/text_subtitle" />
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

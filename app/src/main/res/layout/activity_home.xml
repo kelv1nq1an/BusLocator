@@ -9,7 +9,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/homeAppBar"
         android:layout_width="match_parent"
-        android:layout_height="192dp">
+        android:layout_height="@dimen/home_top_bar">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/homeToolbar"
@@ -29,8 +29,7 @@
                 android:id="@+id/homeLineName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="@dimen/dp_32"
+                android:padding="@dimen/dp_16"
                 android:textColor="@android:color/white"
                 android:textSize="34sp"
                 tools:text="211路" />
@@ -56,6 +55,7 @@
                 android:id="@+id/homeLineInfoRight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_32"
                 android:layout_toEndOf="@id/homeLineName"
                 android:orientation="vertical">
 
@@ -121,6 +121,14 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:text="@string/text_start"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_subtitle" />
+
+                <TextView
                     android:id="@+id/homeLineStartStation"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -151,6 +159,14 @@
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_subtitle"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp_4"
+                    android:text="@string/text_end"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_subtitle" />
             </LinearLayout>
 
         </RelativeLayout>
@@ -175,7 +191,10 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/homeBusList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/dp_8"
+            android:paddingTop="@dimen/dp_8" />
 
     </com.kennyc.view.MultiStateView>
 

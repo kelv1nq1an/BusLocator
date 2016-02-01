@@ -20,6 +20,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.tendcloud.tenddata.TCAgent;
+
 import me.fattycat.kun.buslocator.api.BusApi;
 import retrofit2.GsonConverterFactory;
 import retrofit2.Retrofit;
@@ -40,6 +42,18 @@ public class BaseActivity extends AppCompatActivity {
                 .baseUrl(BusApi.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TCAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        TCAgent.onPause(this);
     }
 
 }
