@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">BusTimer</string>
+    <string name="string_start_end">首末班:</string>
+    <string name="string_bus_interval">间隔时间:</string>
 </resources>

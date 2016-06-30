@@ -4,22 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainConstraintLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".main.MainActivity">
+
+    <com.gigamole.navigationtabbar.ntb.NavigationTabBar
+        android:id="@+id/mainNavigationTabBar"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        app:layout_constraintBottom_toBottomOf="@+id/mainConstraintLayout"
+        app:layout_constraintLeft_toLeftOf="@+id/mainConstraintLayout"
+        app:layout_constraintRight_toRightOf="@+id/mainConstraintLayout"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1" />
+
+    <View
+        android:id="@+id/main_line"
+        android:layout_width="0dp"
+        android:layout_height="0.5dp"
+        android:background="@color/tabIndicatorSelectedColor"
+        app:layout_constraintBottom_toTopOf="@+id/mainNavigationTabBar"
+        app:layout_constraintLeft_toLeftOf="@+id/mainConstraintLayout"
+        app:layout_constraintRight_toRightOf="@+id/mainConstraintLayout"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/mainViewPager"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/main_line"
         app:layout_constraintLeft_toLeftOf="@+id/mainConstraintLayout"
-        app:layout_constraintBottom_toTopOf="@+id/mainNavigationTabBar" />
-
-    <com.gigamole.navigationtabbar.ntb.NavigationTabBar
-        android:id="@+id/mainNavigationTabBar"
-        android:layout_width="wrap_content"
-        android:layout_height="52dp"
-        app:layout_constraintLeft_toLeftOf="@+id/mainConstraintLayout"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintBottom_toBottomOf="@+id/mainConstraintLayout"
-        tools:layout_constraintBottom_creator="1" />
+        app:layout_constraintTop_toTopOf="@+id/mainConstraintLayout"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintTop_creator="1" />
 
 </android.support.constraint.ConstraintLayout>

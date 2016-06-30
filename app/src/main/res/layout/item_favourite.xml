@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dp_8"
+    android:layout_marginEnd="@dimen/dp_8"
+    android:layout_marginStart="@dimen/dp_8"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/cyan_A700"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/dp_8"
+            android:paddingEnd="@dimen/dp_16"
+            android:paddingStart="@dimen/dp_16"
+            android:paddingTop="@dimen/dp_8">
+
+            <TextView
+                android:id="@+id/itemBusStationStartTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16"
+                tools:text="阳光e驾塘桥分校" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_back_forth_black_24dp"
+                android:tint="@color/white" />
+
+            <TextView
+                android:id="@+id/itemBusStationEndTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16"
+                tools:text="人民西路停车场" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_16">
+
+            <TextView
+                android:id="@+id/itemBusNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textSize="@dimen/sp_45"
+                tools:text="227路" />
+
+            <TextView
+                android:id="@+id/itemBusBackForthTimeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_toEndOf="@+id/itemBusNameTextView"
+                android:text="@string/string_start_end"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:id="@+id/itemBusBackForthTimeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/itemBusBackForthTimeTitle"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_toEndOf="@+id/itemBusTimeIntervalTitle"
+                android:textSize="@dimen/sp_18"
+                tools:text="05:00-17:00" />
+
+            <TextView
+                android:id="@+id/itemBusTimeIntervalTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                android:layout_below="@+id/itemBusBackForthTimeTextView"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_toEndOf="@+id/itemBusNameTextView"
+                android:text="@string/string_bus_interval"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:id="@+id/itemBusTimeIntervalTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/itemBusTimeIntervalTitle"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_toEndOf="@+id/itemBusTimeIntervalTitle"
+                android:textSize="@dimen/sp_18"
+                tools:text="05:00-17:00" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>
