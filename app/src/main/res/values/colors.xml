@@ -4,6 +4,9 @@
     <color name="colorPrimaryDark">#eeeeee</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="tabIndicatorColor">#423752</color>
+    <color name="tabIndicatorSelectedColor">#76afcf</color>
+
     <!-- Material Colors-->
     <color name="red_50">#fde0dc</color>
     <color name="red_100">#f9bdbb</color>
