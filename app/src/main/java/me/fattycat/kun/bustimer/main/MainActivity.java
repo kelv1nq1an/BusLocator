@@ -18,8 +18,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.fattycat.kun.bustimer.R;
+import me.fattycat.kun.bustimer.about.AboutFragment;
 import me.fattycat.kun.bustimer.common.TabFragmentPagerAdapter;
 import me.fattycat.kun.bustimer.favourite.FavouriteFragment;
+import me.fattycat.kun.bustimer.search.SearchFragment;
 
 /**
  * Author: Kelvinkun
@@ -44,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_main);
+        setContentView(R.layout.layout_activity_main);
         ButterKnife.bind(this);
 
         initViewPager();
@@ -54,8 +56,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     private void initViewPager() {
         fragmentList = new ArrayList<>();
         fragmentList.add(new FavouriteFragment());
-        fragmentList.add(new FavouriteFragment());
-        fragmentList.add(new FavouriteFragment());
+        fragmentList.add(new SearchFragment());
+        fragmentList.add(new AboutFragment());
         mainTabFragmentPagerAdapter = new TabFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
 
         mainViewPager.setAdapter(mainTabFragmentPagerAdapter);

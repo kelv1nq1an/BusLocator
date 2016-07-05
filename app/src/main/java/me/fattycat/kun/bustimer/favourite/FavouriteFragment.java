@@ -35,7 +35,7 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Fav
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.layout_favourite, container, false);
+        View root = inflater.inflate(R.layout.layout_fragment_favourite, container, false);
         unbinder = ButterKnife.bind(this, root);
 
         favouriteRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
