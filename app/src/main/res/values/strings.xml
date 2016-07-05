@@ -2,4 +2,8 @@
     <string name="app_name">BusTimer</string>
     <string name="string_start_end">首末班:</string>
     <string name="string_bus_interval">间隔时间:</string>
+    <string name="string_bus_zjg">港城公交</string>
+    <string name="string_developer">开发者</string>
+    <string name="string_developer_name">Fattycat</string>
+    <string name="string_developer_bio">If I have a dream.</string>
 </resources>
