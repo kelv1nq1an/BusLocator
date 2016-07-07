@@ -1,8 +1,8 @@
 package me.fattycat.kun.bustimer.search;
 
-import me.fattycat.kun.bustimer.model.LineListEntity;
 import me.fattycat.kun.bustimer.BusTimerApi;
 import me.fattycat.kun.bustimer.BusTimerRetrofit;
+import me.fattycat.kun.bustimer.model.LineListEntity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,7 +33,15 @@ public class SearchPresenter implements SearchContract.Presenter {
         searchLinesCall.enqueue(new Callback<LineListEntity>() {
             @Override
             public void onResponse(Call<LineListEntity> call, Response<LineListEntity> response) {
-                if (response.body().getResult() != null & response.body().getResult().getLines() != null) {
+                if (response.body() == null) {
+                    searchView.onLinesSearchFailed();
+                    return;
+                }
+                if (response.body().getResult() == null) {
+                    searchView.onLinesSearchFailed();
+                    return;
+                }
+                if (response.body().getResult().getLines() != null) {
                     searchView.onLinesSearchSuccess(response.body().getResult().getLines());
                 }
             }

@@ -18,8 +18,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.fattycat.kun.bustimer.model.LineListEntity;
 import me.fattycat.kun.bustimer.R;
+import me.fattycat.kun.bustimer.model.LineListEntity;
 
 /**
  * Author: Kelvinkun
@@ -40,8 +40,10 @@ public class SearchFragment extends Fragment implements SearchContract.View {
         fragmentSearchFloatingSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
             @Override
             public void onSearchTextChanged(String oldQuery, String newQuery) {
-                fragmentSearchFloatingSearchView.showProgress();
-                searchContractPresenter.searchBusLine(oldQuery, newQuery);
+                if (!newQuery.isEmpty()) {
+                    fragmentSearchFloatingSearchView.showProgress();
+                    searchContractPresenter.searchBusLine(oldQuery, newQuery);
+                }
             }
         });
 
@@ -85,6 +87,12 @@ public class SearchFragment extends Fragment implements SearchContract.View {
 
         fragmentSearchFloatingSearchView.hideProgress();
         fragmentSearchFloatingSearchView.swapSuggestions(linesSearchSuggestions);
+    }
+
+    @Override
+    public void onLinesSearchFailed() {
+        fragmentSearchFloatingSearchView.hideProgress();
+        fragmentSearchFloatingSearchView.swapSuggestions(new ArrayList<SearchSuggestion>());
     }
 
     public boolean isSearchBarFocused() {
