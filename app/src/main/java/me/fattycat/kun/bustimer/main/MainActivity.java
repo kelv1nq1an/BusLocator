@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     private MainContract.MainPresenter mainPresenter;
     private TabFragmentPagerAdapter mainTabFragmentPagerAdapter;
     private List<Fragment> fragmentList;
+    private SearchFragment searchFragment;
 
     private int[] tabSelectedColor = new int[]{R.color.pink_200, R.color.tabIndicatorSelectedColor, R.color.teal_200};
 
@@ -55,8 +56,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
 
     private void initViewPager() {
         fragmentList = new ArrayList<>();
+        searchFragment = new SearchFragment();
         fragmentList.add(new FavouriteFragment());
-        fragmentList.add(new SearchFragment());
+        fragmentList.add(searchFragment);
         fragmentList.add(new AboutFragment());
         mainTabFragmentPagerAdapter = new TabFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
 
@@ -113,5 +115,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     @Override
     public void setPresenter(@NonNull MainContract.MainPresenter presenter) {
         this.mainPresenter = presenter;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (searchFragment != null && searchFragment.isSearchBarFocused()) {
+            searchFragment.clearSearchBarFocus();
+            return;
+        }
+        super.onBackPressed();
     }
 }
