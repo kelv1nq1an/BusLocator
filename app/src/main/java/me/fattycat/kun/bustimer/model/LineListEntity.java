@@ -2,8 +2,6 @@ package me.fattycat.kun.bustimer.model;
 
 import java.util.List;
 
-import me.fattycat.kun.buslocator.model.BaseEntity;
-
 /**
  * Author: Kelvinkun
  * Time: 16/1/26

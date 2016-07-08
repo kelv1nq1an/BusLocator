@@ -30,7 +30,7 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Fav
 
     private Unbinder unbinder;
     private FavouriteContract.FavouritePresenter favouritePresenter;
-    private FavouriteListAdapter favouriteListAdapter;
+    private LineListAdapter lineListAdapter;
 
     @Nullable
     @Override
@@ -45,8 +45,8 @@ public class FavouriteFragment extends Fragment implements FavouriteContract.Fav
             testList.add("aaa");
         }
 
-        favouriteListAdapter = new FavouriteListAdapter(getActivity(), testList);
-        favouriteRecyclerView.setAdapter(favouriteListAdapter);
+        lineListAdapter = new LineListAdapter(getActivity(), null);
+        favouriteRecyclerView.setAdapter(lineListAdapter);
 
         return root;
     }

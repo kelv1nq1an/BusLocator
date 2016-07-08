@@ -4,6 +4,7 @@ import java.util.List;
 
 import me.fattycat.kun.bustimer.BasePresenter;
 import me.fattycat.kun.bustimer.BaseView;
+import me.fattycat.kun.bustimer.model.LineEntity;
 import me.fattycat.kun.bustimer.model.LineListEntity;
 
 /**
@@ -16,9 +17,15 @@ public interface SearchContract {
         void onLinesSearchSuccess(List<LineListEntity.ResultEntity.LinesEntity> lines);
 
         void onLinesSearchFailed();
+
+        void onLineInfoSearchSuccess(LineEntity line);
+
+        void onLineInfoSearchFailed();
     }
 
     interface Presenter extends BasePresenter {
-        void searchBusLine(String oldString, String newString);
+        void searchBusLine(String lineName);
+
+        void searchLineInfo(String rpid, String flag);
     }
 }
