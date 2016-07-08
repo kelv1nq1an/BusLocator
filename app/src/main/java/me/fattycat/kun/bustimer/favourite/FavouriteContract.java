@@ -9,11 +9,13 @@ import me.fattycat.kun.bustimer.BaseView;
  */
 
 public interface FavouriteContract {
-    interface FavouriteView extends BaseView<FavouritePresenter> {
+    interface View extends BaseView<Presenter> {
 
+        void onDataLoaded();
     }
 
-    interface FavouritePresenter extends BasePresenter {
+    interface Presenter extends BasePresenter {
 
+        void loadLocalData();
     }
 }

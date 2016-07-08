@@ -1,6 +1,7 @@
 package me.fattycat.kun.bustimer.favourite;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,6 +62,13 @@ public class LineListAdapter extends RecyclerView.Adapter<LineListAdapter.LineVi
         holder.itemLineStationEndTextView.setText(line.getEndStation());
         holder.itemLineBackForthTimeTextView.setText(String.format("%s ~ %s", line.getStartTime(), line.getEndTime()));
         holder.itemLineTimeIntervalTextView.setText(String.format("%s 分钟", line.getBusInterval()));
+
+        holder.itemlineCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     @Override
@@ -74,6 +82,8 @@ public class LineListAdapter extends RecyclerView.Adapter<LineListAdapter.LineVi
     }
 
     class LineViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.itemlineCardView)
+        CardView itemlineCardView;
         @BindView(R.id.itemLineStationStartTextView)
         TextView itemLineStationStartTextView;
         @BindView(R.id.itemLineStationEndTextView)

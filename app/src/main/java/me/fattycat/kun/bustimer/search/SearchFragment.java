@@ -42,7 +42,6 @@ public class SearchFragment extends Fragment implements SearchContract.View {
     private SearchContract.Presenter searchContractPresenter;
     private List<LineListEntity.ResultEntity.LinesEntity> linesResultList;
     private LineListAdapter lineListAdapter;
-    private long lastTime = 0;
 
     @Nullable
     @Override
@@ -55,12 +54,7 @@ public class SearchFragment extends Fragment implements SearchContract.View {
         fragmentSearchFloatingSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
             @Override
             public void onSearchTextChanged(String oldQuery, String newQuery) {
-                long nowTime = System.currentTimeMillis();
                 doSearchBusLine(newQuery);
-                if (nowTime - lastTime > 1000) {
-                    doSearchBusLine(newQuery);
-                }
-                lastTime = nowTime;
             }
         });
 
