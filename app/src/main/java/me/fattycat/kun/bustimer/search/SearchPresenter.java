@@ -3,7 +3,6 @@ package me.fattycat.kun.bustimer.search;
 import me.fattycat.kun.bustimer.Http.BusTimerRetrofit;
 import me.fattycat.kun.bustimer.model.LineEntity;
 import me.fattycat.kun.bustimer.model.LineListEntity;
-import retrofit2.Call;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
@@ -15,12 +14,12 @@ import rx.subscriptions.CompositeSubscription;
 public class SearchPresenter implements SearchContract.Presenter {
 
     private final SearchContract.View searchView;
-    private Call<LineListEntity> searchBusLinesCall;
-    private Call<LineEntity> searchLineInfoCall;
 
     private LinesSearchSubscriber.LinesSearchOnNextListener linesSearchOnNextListener;
     private LineInfoSubscriber.LinesInfoOnNextListener linesInfoOnNextListener;
     private CompositeSubscription subscription;
+
+    private Subscription busLineSubscription;
 
     public SearchPresenter(SearchContract.View searchView) {
         this.searchView = searchView;
@@ -69,7 +68,11 @@ public class SearchPresenter implements SearchContract.Presenter {
 
     @Override
     public void searchBusLine(String lineName) {
-        Subscription busLineSubscription = BusTimerRetrofit.getInstance().searchBusLine(new LinesSearchSubscriber(linesSearchOnNextListener), lineName);
+        if (busLineSubscription != null) {
+            subscription.remove(busLineSubscription);
+            busLineSubscription.unsubscribe();
+        }
+        busLineSubscription = BusTimerRetrofit.getInstance().searchBusLine(new LinesSearchSubscriber(linesSearchOnNextListener), lineName);
         subscription.add(busLineSubscription);
     }
 
