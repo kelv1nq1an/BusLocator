@@ -24,7 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.fattycat.kun.bustimer.Http.BusTimerApi;
 import me.fattycat.kun.bustimer.R;
-import me.fattycat.kun.bustimer.favourite.LineListAdapter;
+import me.fattycat.kun.bustimer.common.LineListAdapter;
 import me.fattycat.kun.bustimer.model.LineEntity;
 import me.fattycat.kun.bustimer.model.LineListEntity;
 

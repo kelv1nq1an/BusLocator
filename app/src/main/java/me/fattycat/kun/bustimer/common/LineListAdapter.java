@@ -1,4 +1,4 @@
-package me.fattycat.kun.bustimer.favourite;
+package me.fattycat.kun.bustimer.common;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;
@@ -14,6 +14,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.fattycat.kun.bustimer.R;
+import me.fattycat.kun.bustimer.detail.DetailActivity;
 import me.fattycat.kun.bustimer.model.LineEntity;
 
 /**
@@ -36,7 +37,11 @@ public class LineListAdapter extends RecyclerView.Adapter<LineListAdapter.LineVi
     }
 
     public void setData(List<LineEntity> data) {
-        this.lineList = data;
+        if (data == null) {
+            lineList.clear();
+        } else {
+            this.lineList = data;
+        }
         notifyDataSetChanged();
     }
 
@@ -56,7 +61,7 @@ public class LineListAdapter extends RecyclerView.Adapter<LineListAdapter.LineVi
         if (position > lineList.size()) {
             return;
         }
-        LineEntity.ResultEntity line = lineList.get(position).getResult();
+        final LineEntity.ResultEntity line = lineList.get(position).getResult();
         holder.itemLineNameTextView.setText(line.getRunPathName());
         holder.itemLineStationStartTextView.setText(line.getStartStation());
         holder.itemLineStationEndTextView.setText(line.getEndStation());
@@ -66,7 +71,7 @@ public class LineListAdapter extends RecyclerView.Adapter<LineListAdapter.LineVi
         holder.itemlineCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                context.startActivity(DetailActivity.getCallingIntent(context, line.getRunPathName(), line.getStartStation(), line.getEndStation()));
             }
         });
     }
