@@ -72,7 +72,6 @@ public class DetailStationListAdapter extends RecyclerView.Adapter<DetailStation
         @BindView(R.id.item_station_name)
         TextView itemStationNameLeft;
 
-
         public DetailStationViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

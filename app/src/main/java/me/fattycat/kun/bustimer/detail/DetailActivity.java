@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +50,9 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View favoriteButtonView = inflater.inflate(R.layout.layout_favorite, detailToolbar, false);
+        detailToolbar.addView(favoriteButtonView);
 
         detailStationListAdapter = new DetailStationListAdapter(this);
 

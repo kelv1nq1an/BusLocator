@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dp_48"
-    android:gravity="center_vertical">
+    android:layout_height="@dimen/dp_48">
 
     <View
         android:id="@+id/item_station_top"
@@ -40,4 +40,14 @@
         android:text="大润发"
         android:textSize="@dimen/sp_18"
         tools:text="大润发" />
+
+    <com.sackcentury.shinebuttonlib.ShineButton
+        android:layout_width="@dimen/dp_20"
+        android:layout_height="@dimen/dp_20"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        app:allow_random_color="true"
+        app:btn_color="@color/grey_400"
+        app:btn_fill_color="@color/red_200"
+        app:siShape="@drawable/ic_alarm_black_24dp" />
 </RelativeLayout>
