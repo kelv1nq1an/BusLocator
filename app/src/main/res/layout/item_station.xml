@@ -37,7 +37,6 @@
         android:layout_marginEnd="@dimen/dp_16"
         android:layout_marginStart="@dimen/dp_16"
         android:layout_toEndOf="@+id/item_station_center"
-        android:text="大润发"
         android:textSize="@dimen/sp_18"
         tools:text="大润发" />
 

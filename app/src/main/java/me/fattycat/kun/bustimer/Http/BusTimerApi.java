@@ -2,7 +2,7 @@ package me.fattycat.kun.bustimer.Http;
 
 import me.fattycat.kun.buslocator.model.BusGPSEntity;
 import me.fattycat.kun.bustimer.model.LineEntity;
-import me.fattycat.kun.buslocator.model.StationListEntity;
+import me.fattycat.kun.bustimer.model.StationListEntity;
 import me.fattycat.kun.bustimer.model.LineListEntity;
 import retrofit2.http.POST;
 import retrofit2.http.Query;

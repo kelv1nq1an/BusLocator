@@ -13,6 +13,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.fattycat.kun.bustimer.R;
+import me.fattycat.kun.bustimer.model.StationListEntity;
 
 /**
  * Author: Kelvinkun
@@ -22,20 +23,22 @@ import me.fattycat.kun.bustimer.R;
 public class DetailStationListAdapter extends RecyclerView.Adapter<DetailStationListAdapter.DetailStationViewHolder> {
 
     private Context context;
-    private List<String> testData;
+    private List<StationListEntity.ResultEntity.StationEntity> stationEntityList;
 
     public DetailStationListAdapter(Context context) {
         this.context = context;
-        this.testData = new ArrayList<>();
+        this.stationEntityList = new ArrayList<>();
     }
 
-    public void setData(List<String> data) {
-        this.testData = data;
+    public void setData(List<StationListEntity.ResultEntity.StationEntity> data) {
+        if (data != null) {
+            this.stationEntityList = data;
+        }
         notifyDataSetChanged();
     }
 
     public void clearData() {
-        this.testData.clear();
+        this.stationEntityList.clear();
         notifyDataSetChanged();
     }
 
@@ -52,16 +55,18 @@ public class DetailStationListAdapter extends RecyclerView.Adapter<DetailStation
         } else {
             holder.itemStationTop.setVisibility(View.VISIBLE);
         }
-        if (position + 1 == testData.size()) {
+        if (position + 1 == stationEntityList.size()) {
             holder.itemStationBottom.setVisibility(View.INVISIBLE);
         } else {
             holder.itemStationBottom.setVisibility(View.VISIBLE);
         }
+
+        holder.itemStationName.setText(stationEntityList.get(position).getBusStationName());
     }
 
     @Override
     public int getItemCount() {
-        return testData.size();
+        return stationEntityList.size();
     }
 
     public class DetailStationViewHolder extends RecyclerView.ViewHolder {
@@ -70,7 +75,7 @@ public class DetailStationListAdapter extends RecyclerView.Adapter<DetailStation
         @BindView(R.id.item_station_bottom)
         View itemStationBottom;
         @BindView(R.id.item_station_name)
-        TextView itemStationNameLeft;
+        TextView itemStationName;
 
         public DetailStationViewHolder(View itemView) {
             super(itemView);

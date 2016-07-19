@@ -18,7 +18,9 @@ public interface SearchContract {
 
         void onLinesSearchFailed();
 
-        void onLineInfoSearchSuccess(LineEntity line);
+        void onLineInfoGoSearchSuccess(LineEntity line);
+
+        void onLineInfoBackSearchSuccess(LineEntity line);
 
         void onLineInfoSearchFailed();
     }

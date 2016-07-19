@@ -1,5 +1,8 @@
 package me.fattycat.kun.bustimer.search;
 
+import android.text.TextUtils;
+
+import me.fattycat.kun.bustimer.Http.BusTimerApi;
 import me.fattycat.kun.bustimer.Http.BusTimerRetrofit;
 import me.fattycat.kun.bustimer.model.LineEntity;
 import me.fattycat.kun.bustimer.model.LineListEntity;
@@ -50,8 +53,12 @@ public class SearchPresenter implements SearchContract.Presenter {
 
         linesInfoOnNextListener = new LineInfoSubscriber.LinesInfoOnNextListener() {
             @Override
-            public void onNext(LineEntity lineEntity) {
-                SearchPresenter.this.searchView.onLineInfoSearchSuccess(lineEntity);
+            public void onNext(LineEntity lineEntity, String flag) {
+                if (TextUtils.equals(flag, BusTimerApi.FLAG_LINE_GO)) {
+                    SearchPresenter.this.searchView.onLineInfoGoSearchSuccess(lineEntity);
+                } else {
+                    SearchPresenter.this.searchView.onLineInfoBackSearchSuccess(lineEntity);
+                }
             }
 
             @Override
@@ -78,7 +85,7 @@ public class SearchPresenter implements SearchContract.Presenter {
 
     @Override
     public void searchLineInfo(String rpid, String flag) {
-        Subscription lineInfoSubscription = BusTimerRetrofit.getInstance().searchLineInfo(new LineInfoSubscriber(linesInfoOnNextListener), rpid, flag);
+        Subscription lineInfoSubscription = BusTimerRetrofit.getInstance().searchLineInfo(new LineInfoSubscriber(linesInfoOnNextListener, flag), rpid, flag);
         subscription.add(lineInfoSubscription);
     }
 

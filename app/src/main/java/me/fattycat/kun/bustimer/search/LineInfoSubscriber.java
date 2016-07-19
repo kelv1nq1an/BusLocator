@@ -11,9 +11,11 @@ import rx.Subscriber;
 public class LineInfoSubscriber extends Subscriber<LineEntity> {
 
     private LinesInfoOnNextListener listener;
+    private String flag;
 
-    LineInfoSubscriber(LinesInfoOnNextListener listener) {
+    LineInfoSubscriber(LinesInfoOnNextListener listener, String flag) {
         this.listener = listener;
+        this.flag = flag;
     }
 
     @Override
@@ -33,12 +35,12 @@ public class LineInfoSubscriber extends Subscriber<LineEntity> {
     @Override
     public void onNext(LineEntity lineEntity) {
         if (listener != null) {
-            listener.onNext(lineEntity);
+            listener.onNext(lineEntity, flag);
         }
     }
 
     interface LinesInfoOnNextListener {
-        void onNext(LineEntity lineEntity);
+        void onNext(LineEntity lineEntity, String flag);
 
         void onComplete();
 

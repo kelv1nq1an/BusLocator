@@ -16,6 +16,7 @@ import butterknife.ButterKnife;
 import me.fattycat.kun.bustimer.R;
 import me.fattycat.kun.bustimer.detail.DetailActivity;
 import me.fattycat.kun.bustimer.model.LineEntity;
+import me.fattycat.kun.bustimer.model.LineEntityWrapper;
 
 /**
  * Author: Kelvinkun
@@ -25,9 +26,9 @@ import me.fattycat.kun.bustimer.model.LineEntity;
 public class LineListAdapter extends RecyclerView.Adapter<LineListAdapter.LineViewHolder> {
 
     private Context context;
-    private List<LineEntity> lineList;
+    private List<LineEntityWrapper> lineList;
 
-    public LineListAdapter(Context context, List<LineEntity> data) {
+    public LineListAdapter(Context context, List<LineEntityWrapper> data) {
         this.context = context;
         if (data == null) {
             this.lineList = new ArrayList<>();
@@ -36,7 +37,7 @@ public class LineListAdapter extends RecyclerView.Adapter<LineListAdapter.LineVi
         }
     }
 
-    public void setData(List<LineEntity> data) {
+    public void setData(List<LineEntityWrapper> data) {
         if (data == null) {
             lineList.clear();
         } else {
@@ -45,7 +46,7 @@ public class LineListAdapter extends RecyclerView.Adapter<LineListAdapter.LineVi
         notifyDataSetChanged();
     }
 
-    public void addData(LineEntity line) {
+    public void addData(LineEntityWrapper line) {
         this.lineList.add(line);
         notifyDataSetChanged();
     }
@@ -61,7 +62,8 @@ public class LineListAdapter extends RecyclerView.Adapter<LineListAdapter.LineVi
         if (position > lineList.size()) {
             return;
         }
-        final LineEntity.ResultEntity line = lineList.get(position).getResult();
+        final LineEntity.ResultEntity line = lineList.get(position).getEntity().getResult();
+        final String flag = lineList.get(position).getFlag();
         holder.itemLineNameTextView.setText(line.getRunPathName());
         holder.itemLineStationStartTextView.setText(line.getStartStation());
         holder.itemLineStationEndTextView.setText(line.getEndStation());
@@ -71,7 +73,7 @@ public class LineListAdapter extends RecyclerView.Adapter<LineListAdapter.LineVi
         holder.itemlineCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(DetailActivity.getCallingIntent(context, line.getRunPathName(), line.getStartStation(), line.getEndStation()));
+                context.startActivity(DetailActivity.getCallingIntent(context, line.getRunPathId(), flag, line.getRunPathName(), line.getStartStation(), line.getEndStation()));
             }
         });
     }

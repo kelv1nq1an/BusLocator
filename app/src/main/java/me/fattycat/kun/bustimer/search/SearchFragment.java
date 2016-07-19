@@ -26,6 +26,7 @@ import me.fattycat.kun.bustimer.Http.BusTimerApi;
 import me.fattycat.kun.bustimer.R;
 import me.fattycat.kun.bustimer.common.LineListAdapter;
 import me.fattycat.kun.bustimer.model.LineEntity;
+import me.fattycat.kun.bustimer.model.LineEntityWrapper;
 import me.fattycat.kun.bustimer.model.LineListEntity;
 
 /**
@@ -39,6 +40,7 @@ public class SearchFragment extends Fragment implements SearchContract.View {
     FloatingSearchView fragmentSearchFloatingSearchView;
     @BindView(R.id.fragment_search_floating_line_list)
     RecyclerView fragmentSearchFloatingLineList;
+
     private SearchContract.Presenter searchContractPresenter;
     private List<LineListEntity.ResultEntity.LinesEntity> linesResultList;
     private LineListAdapter lineListAdapter;
@@ -140,8 +142,13 @@ public class SearchFragment extends Fragment implements SearchContract.View {
     }
 
     @Override
-    public void onLineInfoSearchSuccess(LineEntity line) {
-        lineListAdapter.addData(line);
+    public void onLineInfoGoSearchSuccess(LineEntity line) {
+        lineListAdapter.addData(new LineEntityWrapper(line, BusTimerApi.FLAG_LINE_GO));
+    }
+
+    @Override
+    public void onLineInfoBackSearchSuccess(LineEntity line) {
+        lineListAdapter.addData(new LineEntityWrapper(line, BusTimerApi.FLAG_LINE_BACK));
     }
 
     @Override

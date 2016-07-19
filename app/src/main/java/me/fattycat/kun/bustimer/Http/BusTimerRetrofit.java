@@ -2,6 +2,7 @@ package me.fattycat.kun.bustimer.Http;
 
 import me.fattycat.kun.bustimer.model.LineEntity;
 import me.fattycat.kun.bustimer.model.LineListEntity;
+import me.fattycat.kun.bustimer.model.StationListEntity;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -46,6 +47,11 @@ public class BusTimerRetrofit {
 
     public Subscription searchLineInfo(Subscriber<LineEntity> subscriber, String rpid, String flag) {
         Observable observable = lineService.info(rpid, flag);
+        return toSubscribe(observable, subscriber);
+    }
+
+    public Subscription getLineStations(Subscriber<StationListEntity> subscriber, String rpid) {
+        Observable observable = lineService.station(rpid);
         return toSubscribe(observable, subscriber);
     }
 
