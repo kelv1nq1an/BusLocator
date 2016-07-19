@@ -48,21 +48,14 @@ public class DetailStationListAdapter extends RecyclerView.Adapter<DetailStation
     @Override
     public void onBindViewHolder(DetailStationViewHolder holder, int position) {
         if (position == 0) {
-            holder.itemStationTop.setVisibility(View.GONE);
+            holder.itemStationTop.setVisibility(View.INVISIBLE);
         } else {
             holder.itemStationTop.setVisibility(View.VISIBLE);
         }
         if (position + 1 == testData.size()) {
-            holder.itemStationBottom.setVisibility(View.GONE);
+            holder.itemStationBottom.setVisibility(View.INVISIBLE);
         } else {
             holder.itemStationBottom.setVisibility(View.VISIBLE);
-        }
-        if (position % 2 == 0) {
-            holder.itemStationNameLeft.setVisibility(View.VISIBLE);
-            holder.itemStationNameRight.setVisibility(View.GONE);
-        } else if (position % 2 == 1) {
-            holder.itemStationNameLeft.setVisibility(View.GONE);
-            holder.itemStationNameRight.setVisibility(View.VISIBLE);
         }
     }
 
@@ -76,10 +69,9 @@ public class DetailStationListAdapter extends RecyclerView.Adapter<DetailStation
         View itemStationTop;
         @BindView(R.id.item_station_bottom)
         View itemStationBottom;
-        @BindView(R.id.item_station_name_left)
+        @BindView(R.id.item_station_name)
         TextView itemStationNameLeft;
-        @BindView(R.id.item_station_name_right)
-        TextView itemStationNameRight;
+
 
         public DetailStationViewHolder(View itemView) {
             super(itemView);
