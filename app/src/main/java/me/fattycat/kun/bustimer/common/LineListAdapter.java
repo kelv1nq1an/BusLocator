@@ -3,6 +3,7 @@ package me.fattycat.kun.bustimer.common;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import me.fattycat.kun.bustimer.Http.BusTimerApi;
 import me.fattycat.kun.bustimer.R;
 import me.fattycat.kun.bustimer.detail.DetailActivity;
 import me.fattycat.kun.bustimer.model.LineEntity;
@@ -67,7 +69,16 @@ public class LineListAdapter extends RecyclerView.Adapter<LineListAdapter.LineVi
         holder.itemLineNameTextView.setText(line.getRunPathName());
         holder.itemLineStationStartTextView.setText(line.getStartStation());
         holder.itemLineStationEndTextView.setText(line.getEndStation());
-        holder.itemLineBackForthTimeTextView.setText(String.format("%s ~ %s", line.getStartTime(), line.getEndTime()));
+        String startTime;
+        String endTime;
+        if (TextUtils.equals(flag, BusTimerApi.FLAG_LINE_GO)) {
+            startTime = line.getStartTime();
+            endTime = line.getEndTime();
+        } else {
+            startTime = line.getStartTime1();
+            endTime = line.getEndTime1();
+        }
+        holder.itemLineBackForthTimeTextView.setText(String.format("%s ~ %s", startTime, endTime));
         holder.itemLineTimeIntervalTextView.setText(String.format("%s 分钟", line.getBusInterval()));
 
         holder.itemlineCardView.setOnClickListener(new View.OnClickListener() {
