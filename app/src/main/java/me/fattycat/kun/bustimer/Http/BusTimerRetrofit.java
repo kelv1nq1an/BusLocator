@@ -1,5 +1,6 @@
 package me.fattycat.kun.bustimer.Http;
 
+import me.fattycat.kun.bustimer.model.BusGPSEntity;
 import me.fattycat.kun.bustimer.model.LineEntity;
 import me.fattycat.kun.bustimer.model.LineListEntity;
 import me.fattycat.kun.bustimer.model.StationListEntity;
@@ -52,6 +53,11 @@ public class BusTimerRetrofit {
 
     public Subscription getLineStations(Subscriber<StationListEntity> subscriber, String rpid) {
         Observable observable = lineService.station(rpid);
+        return toSubscribe(observable, subscriber);
+    }
+
+    public Subscription getBusGps(Subscriber<BusGPSEntity> subscriber, String rpid, String flag) {
+        Observable observable = busService.gps(rpid, flag);
         return toSubscribe(observable, subscriber);
     }
 

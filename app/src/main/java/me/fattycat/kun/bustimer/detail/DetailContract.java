@@ -2,6 +2,7 @@ package me.fattycat.kun.bustimer.detail;
 
 import me.fattycat.kun.bustimer.BasePresenter;
 import me.fattycat.kun.bustimer.BaseView;
+import me.fattycat.kun.bustimer.model.BusGPSEntity;
 import me.fattycat.kun.bustimer.model.StationListEntity;
 
 /**
@@ -15,9 +16,14 @@ public interface DetailContract {
 
         void onStationLoadFailed();
 
+        void onBusGpsLoaded(BusGPSEntity busGPSEntity);
+
+        void onBusGpdLoadFailed();
     }
 
     interface Presenter extends BasePresenter {
         void getLineStations(String rpid, String flag);
+
+        void getBusGps(String rpid, String flag);
     }
 }

@@ -115,18 +115,4 @@
         android:paddingTop="@dimen/dp_8"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/detail_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:clickable="true"
-        android:src="@drawable/ic_favorite_black_24dp"
-        android:tint="@color/red_200"
-        android:visibility="gone"
-        app:backgroundTint="#FFFFFF"
-        app:layout_anchor="@id/detail_app_bar_layout"
-        app:layout_anchorGravity="end|bottom"
-        app:rippleColor="@color/grey_300" />
-
 </android.support.design.widget.CoordinatorLayout>

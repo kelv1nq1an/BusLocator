@@ -2,18 +2,26 @@ package me.fattycat.kun.bustimer.detail;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.fattycat.kun.bustimer.R;
-import me.fattycat.kun.bustimer.model.StationListEntity;
+import me.fattycat.kun.bustimer.StationWrapper;
+import me.fattycat.kun.bustimer.model.BusGPSEntity;
 
 /**
  * Author: Kelvinkun
@@ -23,22 +31,22 @@ import me.fattycat.kun.bustimer.model.StationListEntity;
 public class DetailStationListAdapter extends RecyclerView.Adapter<DetailStationListAdapter.DetailStationViewHolder> {
 
     private Context context;
-    private List<StationListEntity.ResultEntity.StationEntity> stationEntityList;
+    private List<StationWrapper> stationListWrapper;
 
     public DetailStationListAdapter(Context context) {
         this.context = context;
-        this.stationEntityList = new ArrayList<>();
+        this.stationListWrapper = new ArrayList<>();
     }
 
-    public void setData(List<StationListEntity.ResultEntity.StationEntity> data) {
+    public void setData(List<StationWrapper> data) {
         if (data != null) {
-            this.stationEntityList = data;
+            this.stationListWrapper = data;
         }
         notifyDataSetChanged();
     }
 
     public void clearData() {
-        this.stationEntityList.clear();
+        this.stationListWrapper.clear();
         notifyDataSetChanged();
     }
 
@@ -55,27 +63,88 @@ public class DetailStationListAdapter extends RecyclerView.Adapter<DetailStation
         } else {
             holder.itemStationTop.setVisibility(View.VISIBLE);
         }
-        if (position + 1 == stationEntityList.size()) {
+        if (position + 1 == stationListWrapper.size()) {
             holder.itemStationBottom.setVisibility(View.INVISIBLE);
         } else {
             holder.itemStationBottom.setVisibility(View.VISIBLE);
         }
 
-        holder.itemStationName.setText(stationEntityList.get(position).getBusStationName());
+        holder.itemStationName.setText(stationListWrapper.get(position).getStation().getBusStationName());
+
+        if (stationListWrapper.get(position).getBusList() != null && stationListWrapper.get(position).getBusList().size() != 0) {
+            for (BusGPSEntity.ResultEntity.ListsEntity bus : stationListWrapper.get(position).getBusList()) {
+                View busInStationView = LayoutInflater.from(context).inflate(R.layout.layout_bus_in_station, holder.itemStationBusInStationContainer, false);
+                LinearLayout busInStationContainer = (LinearLayout) busInStationView.findViewById(R.id.bus_in_station_root);
+                TextView busNumber = (TextView) busInStationView.findViewById(R.id.bus_in_station_name);
+                TextView busTime = (TextView) busInStationView.findViewById(R.id.bus_in_station_time);
+
+                int dotBgRes;
+                int containerBg;
+                if (TextUtils.equals(bus.getOutstate(), "0")) {
+                    dotBgRes = R.drawable.bg_dot_arrive;
+                    containerBg = R.drawable.bg_bus_in_station_arrive;
+                } else {
+                    dotBgRes = R.drawable.bg_dot;
+                    containerBg = R.drawable.bg_bus_in_station_leave;
+                }
+                holder.itemStationCenterDot.setBackgroundResource(dotBgRes);
+                busInStationContainer.setBackgroundResource(containerBg);
+                busNumber.setText(bus.getNumberPlate());
+                busTime.setText(calculateTime(bus.getGPSTime()));
+                holder.itemStationBusInStationContainer.removeAllViews();
+                holder.itemStationBusInStationContainer.addView(busInStationView);
+            }
+        } else {
+            holder.itemStationCenterDot.setBackgroundResource(R.drawable.bg_dot);
+            holder.itemStationBusInStationContainer.removeAllViews();
+        }
+    }
+
+    private String calculateTime(String originalTime) {
+        String gapTime = originalTime.substring(0, originalTime.lastIndexOf(":") + 3);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+        Date gpsDate = new Date();
+        Date nowDate = Calendar.getInstance().getTime();
+
+        try {
+            gpsDate = sdf.parse(gapTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if (gpsDate != null && nowDate != null) {
+            long timeLong = nowDate.getTime() - gpsDate.getTime();
+            if (timeLong < 60 * 1000)
+                gapTime = timeLong / 1000 + "秒前";
+            else if (timeLong < 60 * 60 * 1000) {
+                timeLong = timeLong / 1000 / 60;
+                gapTime = timeLong + "分钟前";
+            } else if (timeLong < 60 * 60 * 24 * 1000) {
+                timeLong = timeLong / 60 / 60 / 1000;
+                gapTime = timeLong + "小时前";
+            } else {
+                gapTime = "超时";
+            }
+        }
+        return gapTime;
     }
 
     @Override
     public int getItemCount() {
-        return stationEntityList.size();
+        return stationListWrapper.size();
     }
 
     public class DetailStationViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.item_station_center)
+        View itemStationCenterDot;
         @BindView(R.id.item_station_top)
         View itemStationTop;
         @BindView(R.id.item_station_bottom)
         View itemStationBottom;
         @BindView(R.id.item_station_name)
         TextView itemStationName;
+        @BindView(R.id.item_station_bus_in_station_container)
+        LinearLayout itemStationBusInStationContainer;
 
         public DetailStationViewHolder(View itemView) {
             super(itemView);
