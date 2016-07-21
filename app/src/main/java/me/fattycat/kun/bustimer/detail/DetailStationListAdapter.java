@@ -20,7 +20,7 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.fattycat.kun.bustimer.R;
-import me.fattycat.kun.bustimer.StationWrapper;
+import me.fattycat.kun.bustimer.model.StationWrapper;
 import me.fattycat.kun.bustimer.model.BusGPSEntity;
 
 /**

@@ -1,9 +1,6 @@
-package me.fattycat.kun.bustimer;
+package me.fattycat.kun.bustimer.model;
 
 import java.util.List;
-
-import me.fattycat.kun.bustimer.model.BusGPSEntity;
-import me.fattycat.kun.bustimer.model.StationListEntity;
 
 /**
  * Author: Kelvinkun
