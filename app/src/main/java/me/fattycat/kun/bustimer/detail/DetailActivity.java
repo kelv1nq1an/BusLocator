@@ -15,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.sackcentury.shinebuttonlib.ShineButton;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,9 +24,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.fattycat.kun.bustimer.Http.BusTimerApi;
 import me.fattycat.kun.bustimer.R;
-import me.fattycat.kun.bustimer.model.StationWrapper;
 import me.fattycat.kun.bustimer.model.BusGPSEntity;
+import me.fattycat.kun.bustimer.model.LineInfoSerializable;
 import me.fattycat.kun.bustimer.model.StationListEntity;
+import me.fattycat.kun.bustimer.model.StationWrapper;
+import me.fattycat.kun.bustimer.util.FavoriteDataUtil;
 
 /**
  * Author: Kelvinkun
@@ -32,11 +36,7 @@ import me.fattycat.kun.bustimer.model.StationListEntity;
  */
 
 public class DetailActivity extends AppCompatActivity implements DetailContract.View {
-    private static final String RPID = "rpid";
-    private static final String DIRECTION = "direction";
-    private static final String LINE_NAME = "lineName";
-    private static final String START_STATION = "startStation";
-    private static final String END_STATION = "endStation";
+    private static final String EXTRA_DATA = "lineInfo";
     private static final int REFRESH_TIME = 5 * 1000;
 
     @BindView(R.id.detail_station_list)
@@ -51,7 +51,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     TextView detailHeadLineEnd;
 
     private String rpid;
-    private String direcation;
+    private String direction;
     private String lineName;
     private String startStation;
     private String endStation;
@@ -63,6 +63,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     private List<StationWrapper> stationWrapperList;
     private Handler mRefreshHandler = new Handler();
     private Runnable mRefreshRunnable;
+    private LineInfoSerializable lineInfo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,25 +72,22 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         ButterKnife.bind(this);
         new DetailPresenter(this);
 
-        rpid = getIntent().getStringExtra(RPID);
-        direcation = getIntent().getStringExtra(DIRECTION);
-        lineName = getIntent().getStringExtra(LINE_NAME);
-        startStation = getIntent().getStringExtra(START_STATION);
-        endStation = getIntent().getStringExtra(END_STATION);
+        lineInfo = (LineInfoSerializable) getIntent().getSerializableExtra(EXTRA_DATA);
+        rpid = lineInfo.getRunPathId();
+        direction = lineInfo.getFlag();
+        lineName = lineInfo.getRunPathName();
+        startStation = lineInfo.getStartStation();
+        endStation = lineInfo.getEndStation();
 
         setupViews();
 
         stationWrapperList = new ArrayList<>();
-        detailContractPresenter.getLineStations(rpid, direcation);
+        detailContractPresenter.getLineStations(rpid, direction);
     }
 
-    public static Intent getCallingIntent(Context context, String rpid, String direction, String lineName, String startStation, String endStation) {
+    public static Intent getCallingIntent(Context context, LineInfoSerializable lineInfo) {
         Intent intent = new Intent(context, DetailActivity.class);
-        intent.putExtra(RPID, rpid);
-        intent.putExtra(DIRECTION, direction);
-        intent.putExtra(LINE_NAME, lineName);
-        intent.putExtra(START_STATION, startStation);
-        intent.putExtra(END_STATION, endStation);
+        intent.putExtra(EXTRA_DATA, lineInfo);
         return intent;
     }
 
@@ -98,9 +96,36 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         setSupportActionBar(detailToolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+        detailToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         LayoutInflater inflater = LayoutInflater.from(this);
         View favoriteButtonView = inflater.inflate(R.layout.layout_favorite, detailToolbar, false);
+        ShineButton favoriteButton = (ShineButton) favoriteButtonView.findViewById(R.id.detail_head_favourite);
+        favoriteButton.setOnCheckStateChangeListener(new ShineButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(View view, boolean checked) {
+                if (checked) {
+                    FavoriteDataUtil.saveFavoriteLine(DetailActivity.this, lineInfo);
+                } else {
+                    FavoriteDataUtil.deleteFavoriteLine(DetailActivity.this, lineInfo);
+                }
+            }
+        });
+        List<LineInfoSerializable> savedFavoriteLines = FavoriteDataUtil.loadAllFavoriteLine(DetailActivity.this);
+        for (LineInfoSerializable savedLineInfoItem : savedFavoriteLines) {
+            if (TextUtils.equals(savedLineInfoItem.getRunPathId(), lineInfo.getRunPathId())
+                    && TextUtils.equals(savedLineInfoItem.getFlag(), lineInfo.getFlag())) {
+                favoriteButton.setChecked(true);
+                break;
+            }
+        }
         detailToolbar.addView(favoriteButtonView);
 
         detailHeadLineName.setText(lineName);
@@ -108,8 +133,8 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         detailHeadLineEnd.setText(endStation);
 
         detailStationListAdapter = new DetailStationListAdapter(this);
-
         detailStationListAdapter.setData(null);
+
         detailStationList.setLayoutManager(new LinearLayoutManager(this));
         detailStationList.setAdapter(detailStationListAdapter);
 
@@ -141,7 +166,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     public void onStationLoaded(StationListEntity stationListEntity) {
         stationWrapperList.clear();
 
-        if (TextUtils.equals(direcation, BusTimerApi.FLAG_LINE_GO)) {
+        if (TextUtils.equals(direction, BusTimerApi.FLAG_LINE_GO)) {
             for (StationListEntity.ResultEntity.StationEntity station : stationListEntity.getResult().getShangxing()) {
                 stationWrapperList.add(new StationWrapper(station, null));
             }
@@ -162,7 +187,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         Snackbar.make(detailStationList, "获取站台数据失败", Snackbar.LENGTH_LONG).setAction("重试", new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                detailContractPresenter.getLineStations(rpid, direcation);
+                detailContractPresenter.getLineStations(rpid, direction);
             }
         }).show();
     }

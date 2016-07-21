@@ -19,6 +19,7 @@ import me.fattycat.kun.bustimer.R;
 import me.fattycat.kun.bustimer.detail.DetailActivity;
 import me.fattycat.kun.bustimer.model.LineEntity;
 import me.fattycat.kun.bustimer.model.LineEntityWrapper;
+import me.fattycat.kun.bustimer.model.LineInfoSerializable;
 
 /**
  * Author: Kelvinkun
@@ -84,7 +85,19 @@ public class LineListAdapter extends RecyclerView.Adapter<LineListAdapter.LineVi
         holder.itemlineCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(DetailActivity.getCallingIntent(context, line.getRunPathId(), flag, line.getRunPathName(), line.getStartStation(), line.getEndStation()));
+                LineInfoSerializable lineInfo = new LineInfoSerializable();
+                lineInfo.setEndTime1(line.getEndTime1());
+                lineInfo.setStartTime(line.getStartTime());
+                lineInfo.setStartStation(line.getStartStation());
+                lineInfo.setRunFlag(line.getRunFlag());
+                lineInfo.setRunPathName(line.getRunPathName());
+                lineInfo.setBusInterval(line.getBusInterval());
+                lineInfo.setEndStation(line.getEndStation());
+                lineInfo.setRunPathId(line.getRunPathId());
+                lineInfo.setEndTime(line.getEndTime());
+                lineInfo.setStartTime1(line.getStartTime1());
+                lineInfo.setFlag(flag);
+                context.startActivity(DetailActivity.getCallingIntent(context, lineInfo));
             }
         });
     }

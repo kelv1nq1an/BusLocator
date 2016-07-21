@@ -9,7 +9,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/detail_app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_230"
+        android:layout_height="@dimen/dp_detail_toolbar"
         android:fitsSystemWindows="true">
 
         <android.support.design.widget.CollapsingToolbarLayout
