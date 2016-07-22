@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">BusTimer</string>
+    <string name="app_name">港城公交</string>
     <string name="string_start_end">首末班:</string>
     <string name="string_bus_interval">间隔时间:</string>
     <string name="string_bus_zjg">港城公交</string>
     <string name="string_developer">开发者</string>
     <string name="string_developer_name">Fattycat</string>
-    <string name="string_developer_bio">If I have a dream.</string>
+    <string name="string_developer_bio">Android developer, half-way designer.</string>
     <string name="string_search_hint">请输入您要查询的线路</string>
     <string name="string_favourite">收藏</string>
     <string name="string_line_search_failed">未找到指定的公交线路</string>

@@ -16,7 +16,7 @@
             <android.support.v7.widget.Toolbar
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:background="@drawable/about_head_bg" />
+                android:background="@drawable/bg_about_head" />
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v7.widget.CardView
@@ -35,7 +35,7 @@
                     android:id="@+id/about_developer"
                     android:layout_width="@dimen/dp_60"
                     android:layout_height="@dimen/dp_60"
-                    android:src="@drawable/develop_avatar" />
+                    android:src="@drawable/avatar" />
 
                 <TextView
                     android:id="@+id/about_developer_name"
