@@ -28,7 +28,7 @@ import me.fattycat.kun.bustimer.search.SearchFragment;
  * Date: 16/6/28
  */
 
-public class MainActivity extends AppCompatActivity implements MainContract.MainView {
+public class MainActivity extends AppCompatActivity implements MainContract.View {
 
     @BindView(R.id.mainViewPager)
     ViewPager mainViewPager;
@@ -37,9 +37,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     @BindView(R.id.main_line)
     View mainLine;
 
-    private MainContract.MainPresenter mainPresenter;
-    private TabFragmentPagerAdapter mainTabFragmentPagerAdapter;
-    private List<Fragment> fragmentList;
+    private MainContract.Presenter mainContractPresenter;
     private SearchFragment searchFragment;
 
     private int[] tabSelectedColor = new int[]{R.color.pink_200, R.color.tabIndicatorSelectedColor, R.color.teal_200};
@@ -55,12 +53,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     }
 
     private void initViewPager() {
-        fragmentList = new ArrayList<>();
+        List<Fragment> fragmentList = new ArrayList<>();
         searchFragment = new SearchFragment();
         fragmentList.add(new FavouriteFragment());
         fragmentList.add(searchFragment);
         fragmentList.add(new AboutFragment());
-        mainTabFragmentPagerAdapter = new TabFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
+        TabFragmentPagerAdapter mainTabFragmentPagerAdapter = new TabFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
 
         mainViewPager.setAdapter(mainTabFragmentPagerAdapter);
     }
@@ -113,8 +111,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     }
 
     @Override
-    public void setPresenter(@NonNull MainContract.MainPresenter presenter) {
-        this.mainPresenter = presenter;
+    public void setPresenter(@NonNull MainContract.Presenter presenter) {
+        this.mainContractPresenter = presenter;
     }
 
     @Override

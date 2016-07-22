@@ -9,10 +9,10 @@ import me.fattycat.kun.bustimer.BaseView;
  */
 
 public interface MainContract {
-    interface MainView extends BaseView<MainPresenter> {
+    interface View extends BaseView<Presenter> {
 
     }
 
-    interface MainPresenter extends BasePresenter {
+    interface Presenter extends BasePresenter {
     }
 }

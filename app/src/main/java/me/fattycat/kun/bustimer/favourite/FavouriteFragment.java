@@ -70,6 +70,9 @@ public class FavouriteFragment extends android.support.v4.app.Fragment implement
     @Override
     public void onDataLoaded() {
         List<LineInfoSerializable> allFavoriteLines = FavoriteDataUtil.loadAllFavoriteLine(getActivity());
+        if (allFavoriteLines == null || allFavoriteLines.size() == 0) {
+            return;
+        }
         List<LineEntityWrapper> allFavoriteLineWrappers = new ArrayList<>();
         for (LineInfoSerializable line : allFavoriteLines) {
             LineEntity.ResultEntity resultEntity = new LineEntity.ResultEntity();
