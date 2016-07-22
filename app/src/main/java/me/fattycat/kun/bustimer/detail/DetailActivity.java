@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.avos.avoscloud.AVAnalytics;
 import com.sackcentury.shinebuttonlib.ShineButton;
 
 import java.util.ArrayList;
@@ -85,6 +86,22 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         detailContractPresenter.getLineStations(rpid, direction);
     }
 
+    protected void onResume() {
+        super.onResume();
+        AVAnalytics.onResume(this);
+    }
+
+    protected void onPause() {
+        super.onPause();
+        AVAnalytics.onPause(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mRefreshHandler.removeCallbacks(mRefreshRunnable);
+    }
+
     public static Intent getCallingIntent(Context context, LineInfoSerializable lineInfo) {
         Intent intent = new Intent(context, DetailActivity.class);
         intent.putExtra(EXTRA_DATA, lineInfo);
@@ -141,12 +158,6 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         detailStationList.setAdapter(detailStationListAdapter);
 
         autoRefresh();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mRefreshHandler.removeCallbacks(mRefreshRunnable);
     }
 
     private void autoRefresh() {

@@ -3,6 +3,7 @@ package me.fattycat.kun.bustimer.search;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
+import com.avos.avoscloud.AVAnalytics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +53,7 @@ public class SearchFragment extends Fragment implements SearchContract.View {
         View rootView = inflater.inflate(R.layout.layout_fragment_search, container, false);
         ButterKnife.bind(this, rootView);
 
-        fragmentSearchFloatingSearchView.setShowSearchKey(false);
+        fragmentSearchFloatingSearchView.setShowSearchKey(true);
         fragmentSearchFloatingSearchView.setLeftActionMode(FloatingSearchView.LEFT_ACTION_MODE_SHOW_SEARCH);
         fragmentSearchFloatingSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
             @Override
@@ -68,7 +70,7 @@ public class SearchFragment extends Fragment implements SearchContract.View {
 
             @Override
             public void onSearchAction(String currentQuery) {
-                //doOnSearch(currentQuery);
+                doSearchBusLine(currentQuery);
             }
         });
 
@@ -85,9 +87,20 @@ public class SearchFragment extends Fragment implements SearchContract.View {
         fragmentSearchFloatingLineList.setAdapter(lineListAdapter);
 
         // TODO: 16/7/7 设定默认键盘为数字键盘
-        SearchPresenter searchPresenter = new SearchPresenter(this);
+        new SearchPresenter(this);
         return rootView;
     }
+
+    public void onResume() {
+        super.onResume();
+        AVAnalytics.onFragmentStart("SearchFragment");
+    }
+
+    public void onPause() {
+        super.onPause();
+        AVAnalytics.onFragmentEnd("SearchFragment");
+    }
+
 
     private void doOnSearch(String searchString) {
         if (linesResultList == null || TextUtils.isEmpty(searchString)) {
@@ -138,6 +151,7 @@ public class SearchFragment extends Fragment implements SearchContract.View {
 
     @Override
     public void onLinesSearchFailed() {
+        Snackbar.make(fragmentSearchFloatingLineList, R.string.string_line_search_failed, Snackbar.LENGTH_LONG).show();
         clearSuggestions();
     }
 
