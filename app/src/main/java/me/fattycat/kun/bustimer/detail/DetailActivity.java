@@ -23,7 +23,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.fattycat.kun.bustimer.Http.BusTimerApi;
+import me.fattycat.kun.bustimer.net.BusTimerApi;
 import me.fattycat.kun.bustimer.R;
 import me.fattycat.kun.bustimer.model.BusGPSEntity;
 import me.fattycat.kun.bustimer.model.LineInfoSerializable;

@@ -2,8 +2,8 @@ package me.fattycat.kun.bustimer.search;
 
 import android.text.TextUtils;
 
-import me.fattycat.kun.bustimer.Http.BusTimerApi;
-import me.fattycat.kun.bustimer.Http.BusTimerRetrofit;
+import me.fattycat.kun.bustimer.net.BusTimerApi;
+import me.fattycat.kun.bustimer.net.BusTimerRetrofit;
 import me.fattycat.kun.bustimer.model.LineEntity;
 import me.fattycat.kun.bustimer.model.LineListEntity;
 import rx.Subscription;

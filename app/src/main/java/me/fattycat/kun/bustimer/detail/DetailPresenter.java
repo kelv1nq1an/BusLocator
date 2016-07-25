@@ -1,6 +1,6 @@
 package me.fattycat.kun.bustimer.detail;
 
-import me.fattycat.kun.bustimer.Http.BusTimerRetrofit;
+import me.fattycat.kun.bustimer.net.BusTimerRetrofit;
 import me.fattycat.kun.bustimer.model.BusGPSEntity;
 import me.fattycat.kun.bustimer.model.StationListEntity;
 import rx.Subscription;

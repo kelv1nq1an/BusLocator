@@ -1,4 +1,4 @@
-package me.fattycat.kun.bustimer.Http;
+package me.fattycat.kun.bustimer.net;
 
 import me.fattycat.kun.bustimer.model.BusGPSEntity;
 import me.fattycat.kun.bustimer.model.LineEntity;
