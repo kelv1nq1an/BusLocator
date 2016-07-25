@@ -35,9 +35,19 @@
         android:textSize="@dimen/sp_18"
         tools:text="xxx" />
 
+    <TextView
+        android:id="@+id/bus_in_station_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/dp_16"
+        android:gravity="center"
+        android:textColor="@color/white"
+        tools:text="xxx" />
+
     <Space
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1" />
 
     <TextView

@@ -20,20 +20,20 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.fattycat.kun.bustimer.R;
-import me.fattycat.kun.bustimer.model.StationWrapper;
 import me.fattycat.kun.bustimer.model.BusGPSEntity;
+import me.fattycat.kun.bustimer.model.StationWrapper;
 
 /**
  * Author: Kelvinkun
  * Date: 16/7/11
  */
 
-public class DetailStationListAdapter extends RecyclerView.Adapter<DetailStationListAdapter.DetailStationViewHolder> {
+class DetailStationListAdapter extends RecyclerView.Adapter<DetailStationListAdapter.DetailStationViewHolder> {
 
     private Context context;
     private List<StationWrapper> stationListWrapper;
 
-    public DetailStationListAdapter(Context context) {
+    DetailStationListAdapter(Context context) {
         this.context = context;
         this.stationListWrapper = new ArrayList<>();
     }
@@ -76,20 +76,25 @@ public class DetailStationListAdapter extends RecyclerView.Adapter<DetailStation
                 View busInStationView = LayoutInflater.from(context).inflate(R.layout.layout_bus_in_station, holder.itemStationBusInStationContainer, false);
                 LinearLayout busInStationContainer = (LinearLayout) busInStationView.findViewById(R.id.bus_in_station_root);
                 TextView busNumber = (TextView) busInStationView.findViewById(R.id.bus_in_station_name);
+                TextView busStatus = (TextView) busInStationView.findViewById(R.id.bus_in_station_status);
                 TextView busTime = (TextView) busInStationView.findViewById(R.id.bus_in_station_time);
 
                 int dotBgRes;
                 int containerBg;
+                String busStatusString;
                 if (TextUtils.equals(bus.getOutstate(), "0")) {
                     dotBgRes = R.drawable.bg_dot_arrive;
                     containerBg = R.drawable.bg_bus_in_station_arrive;
+                    busStatusString = "到达 " + bus.getBusStationName();
                 } else {
                     dotBgRes = R.drawable.bg_dot;
                     containerBg = R.drawable.bg_bus_in_station_leave;
+                    busStatusString = "前往 " + stationListWrapper.get(position + 1).getStation().getBusStationName();
                 }
                 holder.itemStationCenterDot.setBackgroundResource(dotBgRes);
                 busInStationContainer.setBackgroundResource(containerBg);
                 busNumber.setText(bus.getNumberPlate());
+                busStatus.setText(busStatusString);
                 busTime.setText(calculateTime(bus.getGPSTime()));
                 holder.itemStationBusInStationContainer.removeAllViews();
                 holder.itemStationBusInStationContainer.addView(busInStationView);
@@ -134,7 +139,7 @@ public class DetailStationListAdapter extends RecyclerView.Adapter<DetailStation
         return stationListWrapper.size();
     }
 
-    public class DetailStationViewHolder extends RecyclerView.ViewHolder {
+    class DetailStationViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.item_station_center)
         View itemStationCenterDot;
         @BindView(R.id.item_station_top)
@@ -146,7 +151,7 @@ public class DetailStationListAdapter extends RecyclerView.Adapter<DetailStation
         @BindView(R.id.item_station_bus_in_station_container)
         LinearLayout itemStationBusInStationContainer;
 
-        public DetailStationViewHolder(View itemView) {
+        DetailStationViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
