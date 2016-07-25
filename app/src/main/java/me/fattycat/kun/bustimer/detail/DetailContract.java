@@ -18,7 +18,7 @@ public interface DetailContract {
 
         void onBusGpsLoaded(BusGPSEntity busGPSEntity);
 
-        void onBusGpdLoadFailed();
+        void onBusGpsLoadFailed();
     }
 
     interface Presenter extends BasePresenter {

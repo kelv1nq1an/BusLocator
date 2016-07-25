@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.avos.avoscloud.AVAnalytics;
 import com.sackcentury.shinebuttonlib.ShineButton;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +56,8 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     TextView detailHeadBusCount;
     @BindView(R.id.detail_head_bus_interval)
     TextView detailHeadBusInterval;
+    @BindView(R.id.detail_loading_view)
+    AVLoadingIndicatorView detailLoadingView;
 
     private String rpid;
     private String direction;
@@ -186,6 +189,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     @Override
     public void onStationLoaded(StationListEntity stationListEntity) {
         detailHeadBusCount.setText("正在获取公交信息");
+        detailLoadingView.setVisibility(View.GONE);
         stationWrapperList.clear();
 
         if (TextUtils.equals(direction, BusTimerApi.FLAG_LINE_GO)) {
@@ -260,7 +264,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     }
 
     @Override
-    public void onBusGpdLoadFailed() {
+    public void onBusGpsLoadFailed() {
 
     }
 }

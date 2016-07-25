@@ -53,7 +53,7 @@ public class DetailPresenter implements DetailContract.Presenter {
 
             @Override
             public void onError() {
-                DetailPresenter.this.detailView.onBusGpdLoadFailed();
+                DetailPresenter.this.detailView.onBusGpsLoadFailed();
             }
         };
     }

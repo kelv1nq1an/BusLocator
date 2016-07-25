@@ -125,4 +125,12 @@
         android:paddingTop="@dimen/dp_8"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/detail_loading_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/dp_detail_toolbar"
+        app:indicator="LineSpinFadeLoader"
+        app:indicator_color="@color/red_200" />
 </android.support.design.widget.CoordinatorLayout>

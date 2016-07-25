@@ -18,18 +18,19 @@ import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.avos.avoscloud.AVAnalytics;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.fattycat.kun.bustimer.net.BusTimerApi;
 import me.fattycat.kun.bustimer.R;
 import me.fattycat.kun.bustimer.common.LineListAdapter;
 import me.fattycat.kun.bustimer.model.LineEntity;
 import me.fattycat.kun.bustimer.model.LineEntityWrapper;
 import me.fattycat.kun.bustimer.model.LineListEntity;
+import me.fattycat.kun.bustimer.net.BusTimerApi;
 
 /**
  * Author: Kelvinkun
@@ -42,10 +43,14 @@ public class SearchFragment extends Fragment implements SearchContract.View {
     FloatingSearchView fragmentSearchFloatingSearchView;
     @BindView(R.id.fragment_search_floating_line_list)
     RecyclerView fragmentSearchFloatingLineList;
+    @BindView(R.id.fragment_search_loading)
+    AVLoadingIndicatorView fragmentSearchLoadingView;
 
     private SearchContract.Presenter searchContractPresenter;
     private List<LineListEntity.ResultEntity.LinesEntity> linesResultList;
     private LineListAdapter lineListAdapter;
+    private boolean goSuccess = false;
+    private boolean backSuccess = false;
 
     @Nullable
     @Override
@@ -110,6 +115,9 @@ public class SearchFragment extends Fragment implements SearchContract.View {
         for (LineListEntity.ResultEntity.LinesEntity line : linesResultList) {
             if (TextUtils.equals(line.getRunPathName(), searchString)) {
                 // TODO: 16/7/8 合并请求
+                fragmentSearchLoadingView.setVisibility(View.VISIBLE);
+                goSuccess = false;
+                backSuccess = false;
                 searchContractPresenter.searchLineInfo(line.getRunPathId(), BusTimerApi.FLAG_LINE_GO);
                 searchContractPresenter.searchLineInfo(line.getRunPathId(), BusTimerApi.FLAG_LINE_BACK);
                 return;
@@ -158,16 +166,26 @@ public class SearchFragment extends Fragment implements SearchContract.View {
     @Override
     public void onLineInfoGoSearchSuccess(LineEntity line) {
         lineListAdapter.addData(new LineEntityWrapper(line, BusTimerApi.FLAG_LINE_GO));
+        goSuccess = true;
+        dismissLoadingView();
     }
 
     @Override
     public void onLineInfoBackSearchSuccess(LineEntity line) {
         lineListAdapter.addData(new LineEntityWrapper(line, BusTimerApi.FLAG_LINE_BACK));
+        backSuccess = true;
+        dismissLoadingView();
+    }
+
+    private void dismissLoadingView() {
+        if (goSuccess && backSuccess) {
+            fragmentSearchLoadingView.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void onLineInfoSearchFailed() {
-        lineListAdapter.clearData();
+
     }
 
     public boolean isSearchBarFocused() {

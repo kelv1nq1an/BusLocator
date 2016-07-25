@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/margin_search_bar_height"
         android:src="@drawable/bg_search" />
 
     <android.support.v7.widget.RecyclerView
@@ -18,6 +17,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/margin_search_bar_height" />
+
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/fragment_search_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        app:indicator="LineSpinFadeLoader"
+        app:indicator_color="@color/red_200" />
 
     <com.arlib.floatingsearchview.FloatingSearchView
         android:id="@+id/fragment_search_floating_search_view"
