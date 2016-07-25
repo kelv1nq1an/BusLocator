@@ -12,7 +12,7 @@
         android:layout_width="@dimen/dp_24"
         android:layout_height="@dimen/dp_24"
         app:allow_random_color="true"
-        app:btn_color="@color/grey_500"
+        app:btn_color="@color/grey_400"
         app:btn_fill_color="@color/red_200"
         app:siShape="@drawable/ic_favorite_black_24dp" />
 </LinearLayout>
