@@ -7,3 +7,6 @@
 *.iml
 *.apk
 /Backup
+google-services.json
+LCInfo.java
+BusTimerApi.java
