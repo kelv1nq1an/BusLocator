@@ -16,12 +16,10 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:layout_scrollFlags="exitUntilCollapsed|scroll">
-            
-            <LinearLayout
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="bottom"
-                android:orientation="vertical"
                 android:paddingBottom="@dimen/dp_16"
                 android:paddingLeft="@dimen/dp_16"
                 android:paddingRight="@dimen/dp_16"
@@ -30,6 +28,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_above="@+id/detail_head_line_end_container"
                     android:background="@color/green_200"
                     android:orientation="horizontal">
 
@@ -51,8 +50,10 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/detail_head_line_end_container"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
                     android:layout_marginTop="@dimen/dp_8"
                     android:background="@color/red_200"
                     android:orientation="horizontal">
@@ -74,7 +75,24 @@
                         android:textSize="@dimen/sp_18"
                         tools:text="妙桥公交首末站" />
                 </LinearLayout>
-            </LinearLayout>
+
+                <TextView
+                    android:id="@+id/detail_head_bus_interval"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/detail_head_bus_count"
+                    android:layout_alignParentEnd="true"
+                    tools:text="间隔时间: 12-16分钟" />
+
+                <TextView
+                    android:id="@+id/detail_head_bus_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:text="@string/string_fetching_line_info" />
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/detail_head_line_name"

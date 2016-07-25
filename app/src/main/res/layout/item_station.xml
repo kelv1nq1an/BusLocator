@@ -50,6 +50,7 @@
             android:layout_height="@dimen/dp_20"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:visibility="gone"
             app:allow_random_color="true"
             app:btn_color="@color/grey_400"
             app:btn_fill_color="@color/red_200"

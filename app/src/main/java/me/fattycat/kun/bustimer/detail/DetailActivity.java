@@ -23,12 +23,12 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.fattycat.kun.bustimer.net.BusTimerApi;
 import me.fattycat.kun.bustimer.R;
 import me.fattycat.kun.bustimer.model.BusGPSEntity;
 import me.fattycat.kun.bustimer.model.LineInfoSerializable;
 import me.fattycat.kun.bustimer.model.StationListEntity;
 import me.fattycat.kun.bustimer.model.StationWrapper;
+import me.fattycat.kun.bustimer.net.BusTimerApi;
 import me.fattycat.kun.bustimer.util.FavoriteDataUtil;
 
 /**
@@ -50,10 +50,15 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     TextView detailHeadLineStart;
     @BindView(R.id.detail_head_line_end)
     TextView detailHeadLineEnd;
+    @BindView(R.id.detail_head_bus_count)
+    TextView detailHeadBusCount;
+    @BindView(R.id.detail_head_bus_interval)
+    TextView detailHeadBusInterval;
 
     private String rpid;
     private String direction;
     private String lineName;
+    private String busInterval;
     private String startStation;
     private String endStation;
     private String flag;
@@ -77,6 +82,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         rpid = lineInfo.getRunPathId();
         direction = lineInfo.getFlag();
         lineName = lineInfo.getRunPathName();
+        busInterval = String.format("间隔时间：%s分钟", lineInfo.getBusInterval());
         startStation = lineInfo.getStartStation();
         endStation = lineInfo.getEndStation();
 
@@ -148,6 +154,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         detailToolbar.addView(favoriteButtonView);
 
         detailHeadLineName.setText(lineName);
+        detailHeadBusInterval.setText(busInterval);
         detailHeadLineStart.setText(startStation);
         detailHeadLineEnd.setText(endStation);
 
@@ -177,6 +184,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
     @Override
     public void onStationLoaded(StationListEntity stationListEntity) {
+        detailHeadBusCount.setText("正在获取公交信息");
         stationWrapperList.clear();
 
         if (TextUtils.equals(direction, BusTimerApi.FLAG_LINE_GO)) {
@@ -207,16 +215,23 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
     @Override
     public void onBusGpsLoaded(BusGPSEntity busGPSEntity) {
-        for (StationWrapper stationWrapper : stationWrapperList) {
-            List<BusGPSEntity.ResultEntity.ListsEntity> busList = new ArrayList<>();
-            StationListEntity.ResultEntity.StationEntity stationEntity = stationWrapper.getStation();
-            for (BusGPSEntity.ResultEntity.ListsEntity listsEntity : busGPSEntity.getResult().getLists()) {
-                if (TextUtils.equals(stationEntity.getBusStationId(), listsEntity.getBusStationId())) {
-                    busList.add(listsEntity);
+        String busCount;
+        if (busGPSEntity == null) {
+            busCount = "当前没有公交在线";
+        } else {
+            busCount = String.format("当前有 %s 辆公交在线", busGPSEntity.getResult().getLists().size());
+            for (StationWrapper stationWrapper : stationWrapperList) {
+                List<BusGPSEntity.ResultEntity.ListsEntity> busList = new ArrayList<>();
+                StationListEntity.ResultEntity.StationEntity stationEntity = stationWrapper.getStation();
+                for (BusGPSEntity.ResultEntity.ListsEntity listsEntity : busGPSEntity.getResult().getLists()) {
+                    if (TextUtils.equals(stationEntity.getBusStationId(), listsEntity.getBusStationId())) {
+                        busList.add(listsEntity);
+                    }
                 }
+                stationWrapper.setBusList(busList);
             }
-            stationWrapper.setBusList(busList);
         }
+        detailHeadBusCount.setText(busCount);
         detailStationListAdapter.setData(stationWrapperList);
     }
 

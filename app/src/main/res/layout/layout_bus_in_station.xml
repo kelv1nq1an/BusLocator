@@ -33,7 +33,7 @@
         android:gravity="center"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_18"
-        tools:text="xxx" />
+        tools:text="苏EY0090" />
 
     <TextView
         android:id="@+id/bus_in_station_status"
@@ -41,9 +41,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="@dimen/dp_16"
+        android:ellipsize="marquee"
         android:gravity="center"
+        android:lines="1"
+        android:maxEms="8"
         android:textColor="@color/white"
-        tools:text="xxx" />
+        tools:text="前往 阳光e驾塘桥分校" />
 
     <Space
         android:layout_width="0dp"
