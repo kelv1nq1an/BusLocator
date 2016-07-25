@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -57,7 +58,7 @@ class DetailStationListAdapter extends RecyclerView.Adapter<DetailStationListAda
     }
 
     @Override
-    public void onBindViewHolder(DetailStationViewHolder holder, int position) {
+    public void onBindViewHolder(final DetailStationViewHolder holder, int position) {
         if (position == 0) {
             holder.itemStationTop.setVisibility(View.INVISIBLE);
         } else {
@@ -68,11 +69,20 @@ class DetailStationListAdapter extends RecyclerView.Adapter<DetailStationListAda
         } else {
             holder.itemStationBottom.setVisibility(View.VISIBLE);
         }
+        final StationWrapper stationWrapper = stationListWrapper.get(position);
 
-        holder.itemStationName.setText(stationListWrapper.get(position).getStation().getBusStationName());
+        holder.itemStationName.setText(stationWrapper.getStation().getBusStationName());
 
-        if (stationListWrapper.get(position).getBusList() != null && stationListWrapper.get(position).getBusList().size() != 0) {
-            for (BusGPSEntity.ResultEntity.ListsEntity bus : stationListWrapper.get(position).getBusList()) {
+        int alarmRes;
+        if (stationWrapper.isHasAlarm()) {
+            alarmRes = R.drawable.ic_alarm_set_24dp;
+        } else {
+            alarmRes = R.drawable.ic_alarm_normal_24dp;
+        }
+        holder.itemStationAlarm.setImageResource(alarmRes);
+
+        if (stationWrapper.getBusList() != null && stationWrapper.getBusList().size() != 0) {
+            for (BusGPSEntity.ResultEntity.ListsEntity bus : stationWrapper.getBusList()) {
                 View busInStationView = LayoutInflater.from(context).inflate(R.layout.layout_bus_in_station, holder.itemStationBusInStationContainer, false);
                 LinearLayout busInStationContainer = (LinearLayout) busInStationView.findViewById(R.id.bus_in_station_root);
                 TextView busNumber = (TextView) busInStationView.findViewById(R.id.bus_in_station_name);
@@ -103,6 +113,22 @@ class DetailStationListAdapter extends RecyclerView.Adapter<DetailStationListAda
             holder.itemStationCenterDot.setBackgroundResource(R.drawable.bg_dot);
             holder.itemStationBusInStationContainer.removeAllViews();
         }
+        holder.itemStationAlarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                stationWrapper.setHasAlarm(!stationWrapper.isHasAlarm());
+                stationWrapper.arrived = false;
+                stationWrapper.arrivingOneStation = false;
+                stationWrapper.arrivingTwoStation = false;
+                int alarmRes;
+                if (stationWrapper.isHasAlarm()) {
+                    alarmRes = R.drawable.ic_alarm_set_24dp;
+                } else {
+                    alarmRes = R.drawable.ic_alarm_normal_24dp;
+                }
+                holder.itemStationAlarm.setImageResource(alarmRes);
+            }
+        });
     }
 
     private String calculateTime(String originalTime) {
@@ -148,6 +174,8 @@ class DetailStationListAdapter extends RecyclerView.Adapter<DetailStationListAda
         View itemStationBottom;
         @BindView(R.id.item_station_name)
         TextView itemStationName;
+        @BindView(R.id.item_station_alarm)
+        ImageView itemStationAlarm;
         @BindView(R.id.item_station_bus_in_station_container)
         LinearLayout itemStationBusInStationContainer;
 

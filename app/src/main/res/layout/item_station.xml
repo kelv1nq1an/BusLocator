@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -45,16 +44,14 @@
             android:textSize="@dimen/sp_18"
             tools:text="大润发" />
 
-        <com.sackcentury.shinebuttonlib.ShineButton
-            android:layout_width="@dimen/dp_20"
-            android:layout_height="@dimen/dp_20"
+        <ImageView
+            android:id="@+id/item_station_alarm"
+            android:layout_width="@dimen/alarm_size"
+            android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:visibility="gone"
-            app:allow_random_color="true"
-            app:btn_color="@color/grey_400"
-            app:btn_fill_color="@color/red_200"
-            app:siShape="@drawable/ic_alarm_black_24dp" />
+            android:padding="@dimen/dp_8"
+            android:src="@drawable/ic_alarm_normal_24dp" />
     </RelativeLayout>
 
     <LinearLayout

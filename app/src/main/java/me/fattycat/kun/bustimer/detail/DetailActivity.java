@@ -30,6 +30,7 @@ import me.fattycat.kun.bustimer.model.StationListEntity;
 import me.fattycat.kun.bustimer.model.StationWrapper;
 import me.fattycat.kun.bustimer.net.BusTimerApi;
 import me.fattycat.kun.bustimer.util.FavoriteDataUtil;
+import me.fattycat.kun.bustimer.util.NotificationUtil;
 
 /**
  * Author: Kelvinkun
@@ -38,7 +39,7 @@ import me.fattycat.kun.bustimer.util.FavoriteDataUtil;
 
 public class DetailActivity extends AppCompatActivity implements DetailContract.View {
     private static final String EXTRA_DATA = "lineInfo";
-    private static final int REFRESH_TIME = 5 * 1000;
+    private static final int REFRESH_TIME = 15 * 1000;
 
     @BindView(R.id.detail_station_list)
     RecyclerView detailStationList;
@@ -220,12 +221,35 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
             busCount = "当前没有公交在线";
         } else {
             busCount = String.format("当前有 %s 辆公交在线", busGPSEntity.getResult().getLists().size());
-            for (StationWrapper stationWrapper : stationWrapperList) {
+            for (int i = 0; i < stationWrapperList.size(); i++) {
+                StationWrapper stationWrapper = stationWrapperList.get(i);
                 List<BusGPSEntity.ResultEntity.ListsEntity> busList = new ArrayList<>();
                 StationListEntity.ResultEntity.StationEntity stationEntity = stationWrapper.getStation();
                 for (BusGPSEntity.ResultEntity.ListsEntity listsEntity : busGPSEntity.getResult().getLists()) {
                     if (TextUtils.equals(stationEntity.getBusStationId(), listsEntity.getBusStationId())) {
                         busList.add(listsEntity);
+                    }
+                }
+
+                if (stationWrapper.isHasAlarm()) {
+                    if (!stationWrapper.arrived && busList.size() > 0) {
+                        NotificationUtil.createNotification(this,
+                                String.format("%s 已到站", lineName),
+                                String.format("下一辆车已到达 %s", stationWrapper.getStation().getBusStationName()),
+                                Integer.valueOf(stationWrapper.getStation().getBusStationId()));
+                        stationWrapper.arrived = true;
+                    } else if (!stationWrapper.arrivingOneStation && (i - 1) > 0 && stationWrapperList.get(i - 1).getBusList().size() > 0) {
+                        NotificationUtil.createNotification(this,
+                                String.format("%s 正在路上", lineName),
+                                String.format("下一辆车还有 1 站到达 %s", stationWrapper.getStation().getBusStationName()),
+                                Integer.valueOf(stationWrapper.getStation().getBusStationId()));
+                        stationWrapper.arrivingOneStation = true;
+                    } else if (!stationWrapper.arrivingTwoStation && (i - 2) > 0 && stationWrapperList.get(i - 2).getBusList().size() > 0) {
+                        NotificationUtil.createNotification(this,
+                                String.format("%s 正在路上", lineName),
+                                String.format("下一辆车还有 2 站到达 %s", stationWrapper.getStation().getBusStationName()),
+                                Integer.valueOf(stationWrapper.getStation().getBusStationId()));
+                        stationWrapper.arrivingTwoStation = true;
                     }
                 }
                 stationWrapper.setBusList(busList);

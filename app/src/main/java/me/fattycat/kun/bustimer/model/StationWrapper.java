@@ -10,10 +10,15 @@ import java.util.List;
 public class StationWrapper {
     private StationListEntity.ResultEntity.StationEntity station;
     private List<BusGPSEntity.ResultEntity.ListsEntity> busList;
+    private boolean hasAlarm;
+    public boolean arrived = false;
+    public boolean arrivingOneStation = false;
+    public boolean arrivingTwoStation = false;
 
     public StationWrapper(StationListEntity.ResultEntity.StationEntity station, List<BusGPSEntity.ResultEntity.ListsEntity> buses) {
         this.station = station;
         this.busList = buses;
+        hasAlarm = false;
     }
 
     public List<BusGPSEntity.ResultEntity.ListsEntity> getBusList() {
@@ -30,5 +35,13 @@ public class StationWrapper {
 
     public void setStation(StationListEntity.ResultEntity.StationEntity station) {
         this.station = station;
+    }
+
+    public boolean isHasAlarm() {
+        return hasAlarm;
+    }
+
+    public void setHasAlarm(boolean hasAlarm) {
+        this.hasAlarm = hasAlarm;
     }
 }
