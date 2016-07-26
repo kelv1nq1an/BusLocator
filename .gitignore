@@ -8,3 +8,4 @@
 *.apk
 app/src/main/java/me/fattycat/kun/bustimer/net/BusTimerApi.java
 app/src/main/java/me/fattycat/kun/bustimer/AppSecret.java
+

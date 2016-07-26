@@ -1,102 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/itemlineCardView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dp_8"
+    android:layout_marginEnd="@dimen/dp_8"
+    android:layout_marginStart="@dimen/dp_8"
+    android:foreground="?android:attr/selectableItemBackground"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/itemLineStation"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/grey_200">
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/itemStationLogo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dp_24"
-            android:layout_marginStart="@dimen/dp_24"
-            android:src="@drawable/ic_directions_bus_black_24dp" />
-
-        <View
-            android:id="@+id/itemStationLine"
-            android:layout_width="@dimen/dp_4"
-            android:layout_height="@dimen/dp_30"
-            android:layout_below="@id/itemStationLogo"
-            android:layout_marginEnd="@dimen/dp_16"
-            android:layout_marginStart="@dimen/dp_34"
-            android:background="@color/cyan_300" />
-
-        <TextView
-            android:id="@+id/itemStationName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/itemStationLogo"
-            android:gravity="center"
-            android:textColor="@color/color_primary_text"
-            android:textSize="@dimen/text_title"
-            tools:text="福前小区东门" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/itemLineBus"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/grey_200">
-
-        <View
-            android:id="@+id/itemBusBg"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_32"
-            android:layout_centerInParent="true"
-            android:background="@color/green_200" />
-
-        <View
-            android:id="@+id/itemLineLeft"
-            android:layout_width="@dimen/dp_4"
-            android:layout_height="@dimen/dp_54"
-            android:layout_marginEnd="@dimen/dp_24"
-            android:layout_marginStart="@dimen/dp_34"
-            android:background="@color/cyan_300" />
-
-        <TextView
-            android:id="@+id/itemBusState"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/itemLineLeft"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_subtitle"
-            tools:text="途中" />
+            android:background="@color/cyan_A700"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/itemBusGPSTime"
-            android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:background="@color/green_200"
+                android:gravity="center"
+                android:text="始"
+                android:textColor="@color/white" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:paddingBottom="@dimen/dp_8"
+                android:paddingEnd="@dimen/dp_8"
+                android:paddingStart="@dimen/dp_8"
+                android:paddingTop="@dimen/dp_8">
+
+                <TextView
+                    android:id="@+id/itemLineStationStartTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_16"
+                    tools:text="阳光e驾塘桥分校" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_back_forth_black_24dp"
+                    android:tint="@color/white" />
+
+                <TextView
+                    android:id="@+id/itemLineStationEndTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_16"
+                    tools:text="人民西路停车场" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:background="@color/red_200"
+                android:gravity="center"
+                android:text="终"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/dp_16"
-            android:gravity="center"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_subtitle"
-            tools:text="14:37:30" />
+            android:padding="@dimen/dp_16">
 
-        <TextView
-            android:id="@+id/itemBusName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/dp_16"
-            android:layout_toEndOf="@id/itemBusState"
-            android:layout_toStartOf="@id/itemBusGPSTime"
-            android:gravity="center"
-            android:lines="1"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_title"
-            tools:text="福前小区东门" />
+            <TextView
+                android:id="@+id/itemLineNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textSize="@dimen/sp_45"
+                tools:text="227路" />
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/itemLineBackForthTimeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_toEndOf="@+id/itemLineNameTextView"
+                android:text="@string/string_start_end"
+                android:textSize="@dimen/sp_14" />
 
-</LinearLayout>
+            <TextView
+                android:id="@+id/itemLineBackForthTimeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/itemLineBackForthTimeTitle"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_toEndOf="@+id/itemLineTimeIntervalTitle"
+                android:textSize="@dimen/sp_18"
+                tools:text="05:00-17:00" />
+
+            <TextView
+                android:id="@+id/itemLineTimeIntervalTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/itemLineBackForthTimeTextView"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_16"
+                android:layout_toEndOf="@+id/itemLineNameTextView"
+                android:text="@string/string_bus_interval"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:id="@+id/itemLineTimeIntervalTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/itemLineTimeIntervalTitle"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_toEndOf="@+id/itemLineTimeIntervalTitle"
+                android:textSize="@dimen/sp_18"
+                tools:text="05:00-17:00" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

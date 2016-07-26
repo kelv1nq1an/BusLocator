@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48">
+
+        <View
+            android:id="@+id/item_station_top"
+            android:layout_width="@dimen/dp_4"
+            android:layout_height="@dimen/dp_20"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="20dp"
+            android:background="@color/grey_300" />
+
+        <View
+            android:id="@+id/item_station_bottom"
+            android:layout_width="@dimen/dp_4"
+            android:layout_height="@dimen/dp_20"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="@dimen/dp_20"
+            android:background="@color/grey_300" />
+
+        <View
+            android:id="@+id/item_station_center"
+            android:layout_width="@dimen/dp_12"
+            android:layout_height="@dimen/dp_12"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/dp_16"
+            android:background="@drawable/bg_dot" />
+
+        <TextView
+            android:id="@+id/item_station_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:layout_marginStart="@dimen/dp_16"
+            android:layout_toEndOf="@+id/item_station_center"
+            android:textSize="@dimen/sp_18"
+            tools:text="大润发" />
+
+        <ImageView
+            android:id="@+id/item_station_alarm"
+            android:layout_width="@dimen/alarm_size"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/dp_8"
+            android:src="@drawable/ic_alarm_normal_24dp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/item_station_bus_in_station_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+</LinearLayout>
