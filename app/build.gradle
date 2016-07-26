@@ -37,6 +37,7 @@ dependencies {
     compile 'com.sackcentury:shinebutton:0.1.3'
     compile 'com.wang.avi:library:1.0.5'
     compile 'com.nineoldandroids:library:2.4.0'
+    compile 'im.fir:fir-sdk:latest.integration@aar'
 
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
     testCompile 'junit:junit:4.12'
