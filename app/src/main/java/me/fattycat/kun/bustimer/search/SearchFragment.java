@@ -24,6 +24,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import me.fattycat.kun.bustimer.R;
 import me.fattycat.kun.bustimer.common.LineListAdapter;
 import me.fattycat.kun.bustimer.model.LineEntity;
@@ -45,6 +46,7 @@ public class SearchFragment extends Fragment implements SearchContract.View {
     @BindView(R.id.fragment_search_loading)
     AVLoadingIndicatorView fragmentSearchLoadingView;
 
+    private Unbinder unbinder;
     private SearchContract.Presenter searchContractPresenter;
     private List<LineListEntity.ResultEntity.LinesEntity> linesResultList;
     private LineListAdapter lineListAdapter;
@@ -55,7 +57,7 @@ public class SearchFragment extends Fragment implements SearchContract.View {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.layout_fragment_search, container, false);
-        ButterKnife.bind(this, rootView);
+        unbinder = ButterKnife.bind(this, rootView);
 
         fragmentSearchFloatingSearchView.setShowSearchKey(true);
         fragmentSearchFloatingSearchView.setLeftActionMode(FloatingSearchView.LEFT_ACTION_MODE_SHOW_SEARCH);
@@ -93,6 +95,12 @@ public class SearchFragment extends Fragment implements SearchContract.View {
         // TODO: 16/7/7 设定默认键盘为数字键盘
         new SearchPresenter(this);
         return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     private void doOnSearch(String searchString) {

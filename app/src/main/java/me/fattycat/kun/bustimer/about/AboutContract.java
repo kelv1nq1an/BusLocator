@@ -9,11 +9,11 @@ import me.fattycat.kun.bustimer.BaseView;
  */
 
 public interface AboutContract {
-    interface AboutView extends BaseView<AboutPresenter> {
-
+    interface View extends BaseView<Presenter> {
+        void  onGetLatestVersion(String appVersion);
     }
 
-    interface AboutPresenter extends BasePresenter {
-
+    interface Presenter extends BasePresenter {
+        void getLatestVersion();
     }
 }
