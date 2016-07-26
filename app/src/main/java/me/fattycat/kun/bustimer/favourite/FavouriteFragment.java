@@ -8,8 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.avos.avoscloud.AVAnalytics;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,15 +50,10 @@ public class FavouriteFragment extends android.support.v4.app.Fragment implement
         return root;
     }
 
-    public void onPause() {
-        super.onPause();
-        AVAnalytics.onFragmentEnd("FavouriteFragment");
-    }
     @Override
     public void onResume() {
         super.onResume();
         favouriteContractPresenter.loadLocalData();
-        AVAnalytics.onFragmentStart("FavouriteFragment");
     }
 
     @Override

@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
-import com.avos.avoscloud.AVAnalytics;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
@@ -95,17 +94,6 @@ public class SearchFragment extends Fragment implements SearchContract.View {
         new SearchPresenter(this);
         return rootView;
     }
-
-    public void onResume() {
-        super.onResume();
-        AVAnalytics.onFragmentStart("SearchFragment");
-    }
-
-    public void onPause() {
-        super.onPause();
-        AVAnalytics.onFragmentEnd("SearchFragment");
-    }
-
 
     private void doOnSearch(String searchString) {
         if (linesResultList == null || TextUtils.isEmpty(searchString)) {

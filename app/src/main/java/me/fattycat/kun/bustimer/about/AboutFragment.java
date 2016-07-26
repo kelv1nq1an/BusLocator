@@ -7,8 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.avos.avoscloud.AVAnalytics;
-
 import me.fattycat.kun.bustimer.R;
 
 /**
@@ -25,16 +23,6 @@ public class AboutFragment extends Fragment implements AboutContract.AboutView {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.layout_fragment_about, container, false);
         return rootView;
-    }
-
-    public void onResume() {
-        super.onResume();
-        AVAnalytics.onFragmentStart("AboutFragment");
-    }
-
-    public void onPause() {
-        super.onPause();
-        AVAnalytics.onFragmentEnd("AboutFragment");
     }
 
     @Override

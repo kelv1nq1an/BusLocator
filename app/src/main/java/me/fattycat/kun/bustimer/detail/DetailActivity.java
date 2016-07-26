@@ -15,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.avos.avoscloud.AVAnalytics;
 import com.sackcentury.shinebuttonlib.ShineButton;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -94,16 +93,6 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
         stationWrapperList = new ArrayList<>();
         detailContractPresenter.getLineStations(rpid, direction);
-    }
-
-    protected void onResume() {
-        super.onResume();
-        AVAnalytics.onResume(this);
-    }
-
-    protected void onPause() {
-        super.onPause();
-        AVAnalytics.onPause(this);
     }
 
     @Override
