@@ -6,3 +6,6 @@
 /captures
 *.iml
 *.apk
+/Backup
+AppSecret.java
+BusTimerApi.java

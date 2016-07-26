@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bus_in_station_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_bus_in_station_arrive"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/dp_4"
+    android:paddingTop="@dimen/dp_4">
+
+    <View
+        android:layout_width="@dimen/dp_4"
+        android:layout_height="match_parent"
+        android:layout_marginStart="20dp"
+        android:background="@color/grey_300"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/bus_in_station_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_20"
+        android:src="@drawable/ic_directions_bus_black_24dp"
+        android:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/bus_in_station_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/dp_16"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_18"
+        tools:text="苏EY0090" />
+
+    <TextView
+        android:id="@+id/bus_in_station_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/dp_16"
+        android:ellipsize="marquee"
+        android:gravity="center"
+        android:lines="1"
+        android:maxEms="8"
+        android:textColor="@color/white"
+        tools:text="前往 阳光e驾塘桥分校" />
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/bus_in_station_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:textColor="@color/white"
+        tools:text="xxxxx" />
+</LinearLayout>
