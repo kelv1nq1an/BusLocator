@@ -1,4 +1,4 @@
-# BusLocator
+# BusTimer(原BusLocator)
 ## 港城公交
 
 一款能够实时追踪张家港境内公交的应用。
@@ -6,7 +6,7 @@
 ### Develop State
 V1 版本已发布 地址：http://fir.im/buslocator
 
-V2 版本开发中。
+V2 版本开发即将结束。
 
 ### License
 
