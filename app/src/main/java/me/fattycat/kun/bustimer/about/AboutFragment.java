@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.umeng.analytics.MobclickAgent;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -48,6 +50,16 @@ public class AboutFragment extends Fragment implements AboutContract.View {
         new AboutPresenter(this);
         aboutContractPresenter.getLatestVersion();
         return rootView;
+    }
+
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("About");
+    }
+
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("About");
     }
 
     @Override

@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.gigamole.navigationtabbar.ntb.NavigationTabBar;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +51,18 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         initViewPager();
         initNavigationTabBar();
+    }
+
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("MainActivity");
+        MobclickAgent.onResume(this);
+    }
+
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("MainActivity");
+        MobclickAgent.onPause(this);
     }
 
     private void initViewPager() {

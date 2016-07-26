@@ -73,9 +73,9 @@ public class FavoriteDataUtil {
         if (originalLineInfoList == null) {
             return;
         }
-        Iterator iterator = originalLineInfoList.iterator();
+        Iterator<LineInfoSerializable> iterator = originalLineInfoList.iterator();
         while (iterator.hasNext()) {
-            LineInfoSerializable savedLineInfo = (LineInfoSerializable) iterator.next();
+            LineInfoSerializable savedLineInfo = iterator.next();
             if (TextUtils.equals(savedLineInfo.getRunPathId(), lineToDelete.getRunPathId())
                     && TextUtils.equals(savedLineInfo.getFlag(), lineToDelete.getFlag())) {
                 iterator.remove();

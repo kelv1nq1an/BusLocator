@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.sackcentury.shinebuttonlib.ShineButton;
+import com.umeng.analytics.MobclickAgent;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
@@ -93,6 +94,18 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
         stationWrapperList = new ArrayList<>();
         detailContractPresenter.getLineStations(rpid, direction);
+    }
+
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("DetailActivity");
+        MobclickAgent.onResume(this);
+    }
+
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("DetailActivity");
+        MobclickAgent.onPause(this);
     }
 
     @Override

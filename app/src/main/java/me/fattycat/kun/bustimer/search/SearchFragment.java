@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
+import com.umeng.analytics.MobclickAgent;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
@@ -95,6 +96,16 @@ public class SearchFragment extends Fragment implements SearchContract.View {
         // TODO: 16/7/7 设定默认键盘为数字键盘
         new SearchPresenter(this);
         return rootView;
+    }
+
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("Search");
+    }
+
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("Search");
     }
 
     @Override

@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.umeng.analytics.MobclickAgent;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +56,12 @@ public class FavouriteFragment extends android.support.v4.app.Fragment implement
     public void onResume() {
         super.onResume();
         favouriteContractPresenter.loadLocalData();
+        MobclickAgent.onPageStart("Favorite");
+    }
+
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("Favorite");
     }
 
     @Override
