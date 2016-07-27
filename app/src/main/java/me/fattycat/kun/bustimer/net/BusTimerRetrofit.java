@@ -4,6 +4,8 @@ import me.fattycat.kun.bustimer.model.BusGPSEntity;
 import me.fattycat.kun.bustimer.model.LineEntity;
 import me.fattycat.kun.bustimer.model.LineListEntity;
 import me.fattycat.kun.bustimer.model.StationListEntity;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -24,6 +26,7 @@ public class BusTimerRetrofit {
 
     private BusTimerRetrofit() {
         Retrofit busTimerRetrofit = new Retrofit.Builder()
+                .client(getClient())
                 .baseUrl(BusTimerApi.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
@@ -31,6 +34,12 @@ public class BusTimerRetrofit {
 
         busService = busTimerRetrofit.create(BusTimerApi.Bus.class);
         lineService = busTimerRetrofit.create(BusTimerApi.Line.class);
+    }
+
+    private OkHttpClient getClient() {
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        return new OkHttpClient.Builder().addInterceptor(loggingInterceptor).build();
     }
 
     private static class SingletonHolder {
