@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -62,7 +63,11 @@ public class FavoriteDataUtil {
             lineInfoList = (List<LineInfoSerializable>) ois.readObject();
             ois.close();
             fis.close();
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return lineInfoList;
