@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,6 +62,7 @@ public class SearchFragment extends Fragment implements SearchContract.View {
         unbinder = ButterKnife.bind(this, rootView);
 
         fragmentSearchFloatingSearchView.setShowSearchKey(true);
+        fragmentSearchFloatingSearchView.setSearchInputType(InputType.TYPE_CLASS_NUMBER);
         fragmentSearchFloatingSearchView.setLeftActionMode(FloatingSearchView.LEFT_ACTION_MODE_SHOW_SEARCH);
         fragmentSearchFloatingSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
             @Override
