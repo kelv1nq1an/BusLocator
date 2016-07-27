@@ -148,7 +148,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
             }
         });
         List<LineInfoSerializable> savedFavoriteLines = FavoriteDataUtil.loadAllFavoriteLine(DetailActivity.this);
-        if (savedFavoriteLines != null && savedFavoriteLines.size() == 0) {
+        if (savedFavoriteLines != null && savedFavoriteLines.size() != 0) {
             for (LineInfoSerializable savedLineInfoItem : savedFavoriteLines) {
                 if (TextUtils.equals(savedLineInfoItem.getRunPathId(), lineInfo.getRunPathId())
                         && TextUtils.equals(savedLineInfoItem.getFlag(), lineInfo.getFlag())) {
