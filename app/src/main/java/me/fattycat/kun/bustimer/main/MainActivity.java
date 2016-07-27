@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @BindView(R.id.main_line)
     View mainLine;
 
-    private MainContract.Presenter mainContractPresenter;
     private SearchFragment searchFragment;
 
     private int[] tabSelectedColor = new int[]{R.color.pink_200, R.color.tabIndicatorSelectedColor, R.color.teal_200};
@@ -125,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void setPresenter(@NonNull MainContract.Presenter presenter) {
-        this.mainContractPresenter = presenter;
+
     }
 
     @Override

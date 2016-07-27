@@ -42,22 +42,22 @@ public class BusTimerRetrofit {
     }
 
     public Subscription searchBusLine(Subscriber<LineListEntity> subscriber, String lineName) {
-        Observable observable = busService.line(lineName);
+        Observable<LineListEntity> observable = busService.line(lineName);
         return toSubscribe(observable, subscriber);
     }
 
     public Subscription searchLineInfo(Subscriber<LineEntity> subscriber, String rpid, String flag) {
-        Observable observable = lineService.info(rpid, flag);
+        Observable<LineEntity> observable = lineService.info(rpid, flag);
         return toSubscribe(observable, subscriber);
     }
 
     public Subscription getLineStations(Subscriber<StationListEntity> subscriber, String rpid) {
-        Observable observable = lineService.station(rpid);
+        Observable<StationListEntity> observable = lineService.station(rpid);
         return toSubscribe(observable, subscriber);
     }
 
     public Subscription getBusGps(Subscriber<BusGPSEntity> subscriber, String rpid, String flag) {
-        Observable observable = busService.gps(rpid, flag);
+        Observable<BusGPSEntity> observable = busService.gps(rpid, flag);
         return toSubscribe(observable, subscriber);
     }
 

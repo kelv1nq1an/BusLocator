@@ -113,7 +113,7 @@ public class LineListAdapter extends RecyclerView.Adapter<LineListAdapter.LineVi
     }
 
     class LineViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.itemlineCardView)
+        @BindView(R.id.itemLineCardView)
         CardView itemlineCardView;
         @BindView(R.id.itemLineStationStartTextView)
         TextView itemLineStationStartTextView;
