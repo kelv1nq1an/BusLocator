@@ -4,9 +4,15 @@
 一款能够实时追踪张家港境内公交的应用。
 
 ### Develop State
-V1 版本已发布 地址：http://fir.im/buslocator
+V1 版本已发布
 
 V2 版本开发即将结束。
+
+### Open License Library
+* NavigationTabBar - DevLight Mobile Agency - Basil Miller (Apache License 2.0 and MIT)
+* ButterKnife - JakeWharton (Apache License 2.0)
+* FloatingSearchView - Arimorty (Apache License 2.0)
+* ShineButton - ChadCSong (MIT License)
 
 ### License
 
