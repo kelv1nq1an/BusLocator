@@ -241,7 +241,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
                     if (!stationWrapper.arrived && busList.size() > 0) {
                         NotificationUtil.createNotification(this,
                                 String.format("%s 已到站", lineName),
-                                String.format("下一辆车已到达 %s", stationWrapper.getStation().getBusStationName()),
+                                String.format("公交已到达 %s", stationWrapper.getStation().getBusStationName()),
                                 Integer.valueOf(stationWrapper.getStation().getBusStationId()));
                         stationWrapper.arrived = true;
                     } else if (!stationWrapper.arrivingOneStation && (i - 1) > 0 && stationWrapperList.get(i - 1).getBusList().size() > 0) {
