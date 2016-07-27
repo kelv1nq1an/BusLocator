@@ -86,7 +86,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         rpid = lineInfo.getRunPathId();
         direction = lineInfo.getFlag();
         lineName = lineInfo.getRunPathName();
-        busInterval = String.format("间隔时间：%s分钟", lineInfo.getBusInterval());
+        busInterval = String.format("间隔：%s分钟", lineInfo.getBusInterval());
         startStation = lineInfo.getStartStation();
         endStation = lineInfo.getEndStation();
 
@@ -244,17 +244,23 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
                                 String.format("公交已到达 %s", stationWrapper.getStation().getBusStationName()),
                                 Integer.valueOf(stationWrapper.getStation().getBusStationId()));
                         stationWrapper.arrived = true;
+                        stationWrapper.arrivingOneStation = false;
+                        stationWrapper.arrivingTwoStation = false;
                     } else if (!stationWrapper.arrivingOneStation && (i - 1) > 0 && stationWrapperList.get(i - 1).getBusList().size() > 0) {
                         NotificationUtil.createNotification(this,
                                 String.format("%s 正在路上", lineName),
                                 String.format("下一辆车还有 1 站到达 %s", stationWrapper.getStation().getBusStationName()),
                                 Integer.valueOf(stationWrapper.getStation().getBusStationId()));
+                        stationWrapper.arrived = false;
                         stationWrapper.arrivingOneStation = true;
+                        stationWrapper.arrivingTwoStation = false;
                     } else if (!stationWrapper.arrivingTwoStation && (i - 2) > 0 && stationWrapperList.get(i - 2).getBusList().size() > 0) {
                         NotificationUtil.createNotification(this,
                                 String.format("%s 正在路上", lineName),
                                 String.format("下一辆车还有 2 站到达 %s", stationWrapper.getStation().getBusStationName()),
                                 Integer.valueOf(stationWrapper.getStation().getBusStationId()));
+                        stationWrapper.arrived = false;
+                        stationWrapper.arrivingOneStation = false;
                         stationWrapper.arrivingTwoStation = true;
                     }
                 }
