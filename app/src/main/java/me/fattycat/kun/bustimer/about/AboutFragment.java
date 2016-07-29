@@ -1,6 +1,5 @@
 package me.fattycat.kun.bustimer.about;
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -80,17 +79,18 @@ public class AboutFragment extends Fragment implements AboutContract.View {
 
     @OnClick(R.id.about_app_version)
     public void goToMarket() {
-        Intent intent = new Intent();
+        /*Intent intent = new Intent();
         intent.setAction("android.intent.action.VIEW");
         Uri content_url = Uri.parse("market://details?id=" + "me.fattycat.kun.bustimer");
         intent.setData(content_url);
         try {
             startActivity(intent);
         } catch (ActivityNotFoundException anfe) {
-            Uri web_url = Uri.parse("http://fir.im/bustimer");
-            Intent webIntent = new Intent(Intent.ACTION_VIEW, web_url);
-            startActivity(webIntent);
-        }
+
+        }*/
+        Uri web_url = Uri.parse("http://fir.im/bustimer");
+        Intent webIntent = new Intent(Intent.ACTION_VIEW, web_url);
+        startActivity(webIntent);
     }
 
     private PackageInfo getPackageInfo() {
