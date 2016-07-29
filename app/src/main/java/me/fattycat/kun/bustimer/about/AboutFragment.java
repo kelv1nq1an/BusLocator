@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import me.fattycat.kun.bustimer.R;
+import me.fattycat.kun.bustimer.model.AppInfoEntity;
 
 /**
  * Author: Kelvinkun
@@ -34,6 +36,7 @@ public class AboutFragment extends Fragment implements AboutContract.View {
     private AboutContract.Presenter aboutContractPresenter;
     private Unbinder unbinder;
     private String localAppVersion;
+    private int localVersionCode;
 
     @Nullable
     @Override
@@ -41,7 +44,8 @@ public class AboutFragment extends Fragment implements AboutContract.View {
         View rootView = inflater.inflate(R.layout.layout_fragment_about, container, false);
         unbinder = ButterKnife.bind(this, rootView);
 
-        localAppVersion = getVersionName();
+        localAppVersion = getPackageInfo() == null ? null : getPackageInfo().versionName;
+        localVersionCode = getPackageInfo() != null ? getPackageInfo().versionCode : 0;
         if (localAppVersion != null) {
             aboutAppVersion.setText(localAppVersion);
         } else {
@@ -89,7 +93,7 @@ public class AboutFragment extends Fragment implements AboutContract.View {
         }
     }
 
-    private String getVersionName() {
+    private PackageInfo getPackageInfo() {
         PackageManager packageManager = getActivity().getPackageManager();
         PackageInfo packInfo = null;
         try {
@@ -97,20 +101,16 @@ public class AboutFragment extends Fragment implements AboutContract.View {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        if (packInfo != null) {
-            return packInfo.versionName;
-        } else {
-            return "";
-        }
+        return packInfo;
     }
 
     @Override
-    public void onGetLatestVersion(String appVersion) {
-        float localVersion = Float.valueOf(localAppVersion);
-        float latestVersion = Float.valueOf(appVersion);
-        if (latestVersion > localVersion) {
+    public void onGetLatestVersion(AppInfoEntity appVersion) {
+        int latestVersion = Integer.valueOf(appVersion.getVersion());
+        if (latestVersion > localVersionCode) {
             Toast.makeText(getActivity(), "有新版本可以升级", Toast.LENGTH_SHORT).show();
-            aboutAppVersion.setText(String.format("%s (点此升级到版本%s)", localAppVersion, appVersion));
+            aboutAppVersion.setText(String.format("%s\n(点此升级到版本%s)", localAppVersion, appVersion.getVersionShort()));
+            aboutAppVersion.setTextColor(ContextCompat.getColor(getActivity(), R.color.red_200));
         }
     }
 }

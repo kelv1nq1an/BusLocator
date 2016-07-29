@@ -2,8 +2,13 @@ package me.fattycat.kun.bustimer.about;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+
 import im.fir.sdk.FIR;
 import im.fir.sdk.VersionCheckCallback;
+import me.fattycat.kun.bustimer.AppSecret;
+import me.fattycat.kun.bustimer.model.AppInfoEntity;
 
 /**
  * Author: Kelvinkun
@@ -20,29 +25,17 @@ class AboutPresenter implements AboutContract.Presenter {
 
     @Override
     public void getLatestVersion() {
-        FIR.checkForUpdateInAppStore(new VersionCheckCallback() {
-                                         @Override
-                                         public void onSuccess(String versionJson) {
-                                             // TODO: 16/7/26 检查返回值
-                                             Log.i("233333", versionJson);
-                                             aboutView.onGetLatestVersion(versionJson);
-                                         }
-
-                                         @Override
-                                         public void onFail(Exception exception) {
-
-                                         }
-
-                                         @Override
-                                         public void onStart() {
-
-                                         }
-
-                                         @Override
-                                         public void onFinish() {
-
-                                         }
-                                     }
+        FIR.checkForUpdateInFIR(AppSecret.FIR_APP_KEY, new VersionCheckCallback() {
+                    @Override
+                    public void onSuccess(String s) {
+                        try {
+                            AppInfoEntity appInfo = new Gson().fromJson(s, AppInfoEntity.class);
+                            aboutView.onGetLatestVersion(appInfo);
+                        } catch (JsonSyntaxException e) {
+                            Log.i("getVersion", "Gson convert error");
+                        }
+                    }
+                }
         );
     }
 
