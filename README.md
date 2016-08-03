@@ -6,7 +6,7 @@
 ### Develop State
 V1 版本已发布
 
-V2 版本开发即将结束。
+V2 版本已发布。
 
 ### Open License Library
 * NavigationTabBar - DevLight Mobile Agency - Basil Miller (Apache License 2.0 and MIT)
