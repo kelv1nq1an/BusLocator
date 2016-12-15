@@ -1,4 +1,4 @@
-package me.fattycat.kun.bustimer;
+package me.fattycat.kun.bustimer.ui.base;
 
 /**
  * Author: Kelvinkun

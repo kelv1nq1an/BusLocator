@@ -16,7 +16,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.sackcentury.shinebuttonlib.ShineButton;
-import com.umeng.analytics.MobclickAgent;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
@@ -39,23 +38,23 @@ import me.fattycat.kun.bustimer.util.NotificationUtil;
  */
 
 public class DetailActivity extends AppCompatActivity implements DetailContract.View {
-    private static final String EXTRA_DATA = "lineInfo";
-    private static final int REFRESH_TIME = 15 * 1000;
+    private static final String EXTRA_DATA   = "lineInfo";
+    private static final int    REFRESH_TIME = 15 * 1000;
 
     @BindView(R.id.detail_station_list)
-    RecyclerView detailStationList;
+    RecyclerView           detailStationList;
     @BindView(R.id.detail_toolbar)
-    Toolbar detailToolbar;
+    Toolbar                detailToolbar;
     @BindView(R.id.detail_head_line_name)
-    TextView detailHeadLineName;
+    TextView               detailHeadLineName;
     @BindView(R.id.detail_head_line_start)
-    TextView detailHeadLineStart;
+    TextView               detailHeadLineStart;
     @BindView(R.id.detail_head_line_end)
-    TextView detailHeadLineEnd;
+    TextView               detailHeadLineEnd;
     @BindView(R.id.detail_head_bus_count)
-    TextView detailHeadBusCount;
+    TextView               detailHeadBusCount;
     @BindView(R.id.detail_head_bus_interval)
-    TextView detailHeadBusInterval;
+    TextView               detailHeadBusInterval;
     @BindView(R.id.detail_loading_view)
     AVLoadingIndicatorView detailLoadingView;
 
@@ -72,7 +71,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
     private List<StationWrapper> stationWrapperList;
     private Handler mRefreshHandler = new Handler();
-    private Runnable mRefreshRunnable;
+    private Runnable             mRefreshRunnable;
     private LineInfoSerializable lineInfo;
 
     @Override
@@ -94,18 +93,6 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
         stationWrapperList = new ArrayList<>();
         detailContractPresenter.getLineStations(rpid, direction);
-    }
-
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart("DetailActivity");
-        MobclickAgent.onResume(this);
-    }
-
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPageEnd("DetailActivity");
-        MobclickAgent.onPause(this);
     }
 
     @Override
@@ -134,9 +121,9 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
             }
         });
 
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View favoriteButtonView = inflater.inflate(R.layout.layout_favorite, detailToolbar, false);
-        ShineButton favoriteButton = (ShineButton) favoriteButtonView.findViewById(R.id.detail_head_favourite);
+        LayoutInflater inflater           = LayoutInflater.from(this);
+        View           favoriteButtonView = inflater.inflate(R.layout.layout_favorite, detailToolbar, false);
+        ShineButton    favoriteButton     = (ShineButton) favoriteButtonView.findViewById(R.id.detail_head_favourite);
         favoriteButton.setOnCheckStateChangeListener(new ShineButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(View view, boolean checked) {
@@ -151,7 +138,8 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         if (savedFavoriteLines != null && savedFavoriteLines.size() != 0) {
             for (LineInfoSerializable savedLineInfoItem : savedFavoriteLines) {
                 if (TextUtils.equals(savedLineInfoItem.getRunPathId(), lineInfo.getRunPathId())
-                        && TextUtils.equals(savedLineInfoItem.getFlag(), lineInfo.getFlag())) {
+                    && TextUtils.equals(savedLineInfoItem.getFlag(), lineInfo.getFlag()))
+                {
                     favoriteButton.setChecked(true);
                     break;
                 }
@@ -228,9 +216,9 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         } else {
             busCount = String.format("当前有 %s 辆公交在线", busGPSEntity.getResult().getLists().size());
             for (int i = 0; i < stationWrapperList.size(); i++) {
-                StationWrapper stationWrapper = stationWrapperList.get(i);
-                List<BusGPSEntity.ResultEntity.ListsEntity> busList = new ArrayList<>();
-                StationListEntity.ResultEntity.StationEntity stationEntity = stationWrapper.getStation();
+                StationWrapper                               stationWrapper = stationWrapperList.get(i);
+                List<BusGPSEntity.ResultEntity.ListsEntity>  busList        = new ArrayList<>();
+                StationListEntity.ResultEntity.StationEntity stationEntity  = stationWrapper.getStation();
                 for (BusGPSEntity.ResultEntity.ListsEntity listsEntity : busGPSEntity.getResult().getLists()) {
                     if (TextUtils.equals(stationEntity.getBusStationId(), listsEntity.getBusStationId())) {
                         busList.add(listsEntity);

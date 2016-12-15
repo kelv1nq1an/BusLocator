@@ -1,21 +1,20 @@
-package me.fattycat.kun.bustimer.favourite;
+package me.fattycat.kun.bustimer.ui.search;
 
 import me.fattycat.kun.bustimer.ui.base.BasePresenter;
 import me.fattycat.kun.bustimer.ui.base.BaseView;
 
 /**
- * Author: Kelvinkun
- * Date: 16/6/30
+ * Author: qk329
+ * Date: 2016/12/15
  */
 
-public interface FavouriteContract {
+public interface SearchContract {
+
     interface View extends BaseView<Presenter> {
 
-        void onDataLoaded();
     }
 
     interface Presenter extends BasePresenter {
 
-        void loadLocalData();
     }
 }

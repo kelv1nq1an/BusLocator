@@ -2,8 +2,8 @@ package me.fattycat.kun.bustimer.search;
 
 import java.util.List;
 
-import me.fattycat.kun.bustimer.BasePresenter;
-import me.fattycat.kun.bustimer.BaseView;
+import me.fattycat.kun.bustimer.ui.base.BasePresenter;
+import me.fattycat.kun.bustimer.ui.base.BaseView;
 import me.fattycat.kun.bustimer.model.LineEntity;
 import me.fattycat.kun.bustimer.model.LineListEntity;
 

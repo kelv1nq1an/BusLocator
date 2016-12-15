@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
-import com.umeng.analytics.MobclickAgent;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
@@ -42,17 +41,17 @@ import me.fattycat.kun.bustimer.net.BusTimerApi;
 public class SearchFragment extends Fragment implements SearchContract.View {
 
     @BindView(R.id.fragment_search_floating_search_view)
-    FloatingSearchView fragmentSearchFloatingSearchView;
+    FloatingSearchView     fragmentSearchFloatingSearchView;
     @BindView(R.id.fragment_search_floating_line_list)
-    RecyclerView fragmentSearchFloatingLineList;
+    RecyclerView           fragmentSearchFloatingLineList;
     @BindView(R.id.fragment_search_loading)
     AVLoadingIndicatorView fragmentSearchLoadingView;
 
-    private Unbinder unbinder;
-    private SearchContract.Presenter searchContractPresenter;
+    private Unbinder                                      unbinder;
+    private SearchContract.Presenter                      searchContractPresenter;
     private List<LineListEntity.ResultEntity.LinesEntity> linesResultList;
-    private LineListAdapter lineListAdapter;
-    private boolean goSuccess = false;
+    private LineListAdapter                               lineListAdapter;
+    private boolean goSuccess   = false;
     private boolean backSuccess = false;
 
     @Nullable
@@ -98,16 +97,6 @@ public class SearchFragment extends Fragment implements SearchContract.View {
         // TODO: 16/7/7 设定默认键盘为数字键盘
         new SearchPresenter(this);
         return rootView;
-    }
-
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart("Search");
-    }
-
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPageEnd("Search");
     }
 
     @Override

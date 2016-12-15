@@ -6,6 +6,7 @@
 
     <color name="tabIndicatorColor">#423752</color>
     <color name="tabIndicatorSelectedColor">#76afcf</color>
+    <color name="textColor">#313445</color>
 
     <!-- Material Colors-->
     <color name="red_50">#fde0dc</color>
