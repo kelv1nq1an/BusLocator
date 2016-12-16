@@ -16,6 +16,7 @@ import butterknife.OnClick;
 import me.fattycat.kun.bustimer.R;
 import me.fattycat.kun.bustimer.data.entity.FavouriteEntity;
 import me.fattycat.kun.bustimer.ui.favourite.FavouriteActivity;
+import me.fattycat.kun.bustimer.ui.search.SearchActivity;
 
 /**
  * Author: qk329
@@ -46,6 +47,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         new MainPresenter(this).subscribe();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.unSubscribe();
+    }
+
     @OnClick(R.id.top_bar_favourite_image_view)
     public void onFavouriteClick() {
         startActivity(new Intent(this, FavouriteActivity.class));
@@ -58,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @OnClick(R.id.main_search_image_view)
     public void onSearchClick() {
-
+        startActivity(new Intent(this, SearchActivity.class));
     }
 
     @Override

@@ -1,9 +1,10 @@
 package me.fattycat.kun.bustimer.data.source.remote;
 
-import me.fattycat.kun.bustimer.model.BusGPSEntity;
-import me.fattycat.kun.bustimer.model.LineEntity;
-import me.fattycat.kun.bustimer.model.LineListEntity;
-import me.fattycat.kun.bustimer.model.StationListEntity;
+import me.fattycat.kun.bustimer.data.model.BusGPSModel;
+import me.fattycat.kun.bustimer.data.model.LineInfoModel;
+import me.fattycat.kun.bustimer.data.model.ModelWrapper;
+import me.fattycat.kun.bustimer.data.model.SearchModel;
+import me.fattycat.kun.bustimer.data.model.StationModel;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -21,7 +22,7 @@ public interface ApiService {
      * @param name 线路名称
      */
     @GET("bus/allStationOfRPName")
-    Observable<LineListEntity> getLines(@Query("name") String name);
+    Observable<ModelWrapper<SearchModel>> getLines(@Query("name") String name);
 
     /**
      * 搜索指定线路指定方向上在线的公交信息
@@ -30,16 +31,15 @@ public interface ApiService {
      * @param flag 线路上下行
      */
     @GET("bus/gpsForRPF")
-    Observable<BusGPSEntity> getLineGPS(@Query("rpId") String rpid, @Query("flag") String flag);
+    Observable<ModelWrapper<BusGPSModel>> getLineGPS(@Query("rpId") String rpid, @Query("flag") String flag);
 
     /**
      * 搜索指定线路指定方向的运营信息
      *
      * @param runPathId 线路id
-     * @param flag      线路上下行
      */
     @GET("common/busQuery")
-    Observable<LineEntity> getLineInfo(@Query("runPathId") String runPathId, @Query("flag") String flag);
+    Observable<ModelWrapper<LineInfoModel>> getLineInfo(@Query("runPathId") String runPathId);
 
     /**
      * 搜索指定线路上的公交站台
@@ -47,5 +47,5 @@ public interface ApiService {
      * @param rpid 线路id
      */
     @GET("bus/searchSSR")
-    Observable<StationListEntity> getStations(@Query("rpId") String rpid);
+    Observable<ModelWrapper<StationModel>> getStations(@Query("rpId") String rpid);
 }

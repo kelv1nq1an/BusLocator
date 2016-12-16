@@ -21,7 +21,8 @@ public class FavouriteActivity extends AppCompatActivity implements MainContract
     @BindView(R.id.favourite_recycler_view)
     RecyclerView favouriteRecyclerView;
 
-    private FavouriteAdapter favouriteAdapter;
+    private FavouriteAdapter       favouriteAdapter;
+    private MainContract.Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,12 @@ public class FavouriteActivity extends AppCompatActivity implements MainContract
         favouriteRecyclerView.setAdapter(favouriteAdapter);
 
         new MainPresenter(this).subscribe();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.unSubscribe();
     }
 
     @OnClick(R.id.favourite_close_image_view)
@@ -70,6 +77,6 @@ public class FavouriteActivity extends AppCompatActivity implements MainContract
 
     @Override
     public void setPresenter(MainContract.Presenter presenter) {
-
+        this.presenter = presenter;
     }
 }

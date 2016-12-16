@@ -5,6 +5,10 @@ import java.util.List;
 
 import me.fattycat.kun.bustimer.data.Injection;
 import me.fattycat.kun.bustimer.data.entity.FavouriteEntity;
+import me.fattycat.kun.bustimer.data.model.BusGPSModel;
+import me.fattycat.kun.bustimer.data.model.LineInfoModel;
+import me.fattycat.kun.bustimer.data.model.SearchModel;
+import me.fattycat.kun.bustimer.data.model.StationModel;
 import me.fattycat.kun.bustimer.data.source.local.LocalBusDataSource;
 import me.fattycat.kun.bustimer.data.source.remote.RemoteBusDataSource;
 import rx.Observable;
@@ -75,5 +79,25 @@ public class BusRepository implements BusContract {
         }
         favouriteEntities.remove(favouriteEntity);
         localDataSource.saveFavouriteLine(favouriteEntities);
+    }
+
+    @Override
+    public Observable<SearchModel> searchByName(String name) {
+        return remoteDataSource.searchByName(name);
+    }
+
+    @Override
+    public Observable<LineInfoModel> getLineInfo(String runPathID) {
+        return remoteDataSource.getLineInfo(runPathID);
+    }
+
+    @Override
+    public Observable<BusGPSModel> getBusGPS(String runPathID, String flag) {
+        return remoteDataSource.getBusGPS(runPathID, flag);
+    }
+
+    @Override
+    public Observable<StationModel> getStations(String runPathID) {
+        return remoteDataSource.getStations(runPathID);
     }
 }
