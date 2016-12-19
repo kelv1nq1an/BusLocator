@@ -1,6 +1,9 @@
 package me.fattycat.kun.bustimer.data.source;
 
+import android.text.TextUtils;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import me.fattycat.kun.bustimer.data.Injection;
@@ -30,6 +33,7 @@ public class BusRepository implements BusContract {
     private BusRepository() {
         localDataSource = new LocalBusDataSource(Injection.provideContext());
         remoteDataSource = new RemoteBusDataSource(Injection.provideRestfulApi());
+        favouriteEntities = getAllFavouriteLines();
     }
 
     public static BusRepository getInstance() {
@@ -68,16 +72,28 @@ public class BusRepository implements BusContract {
         if (favouriteEntities == null) {
             favouriteEntities = getAllFavouriteLines();
         }
+        for (FavouriteEntity favouriteEntity1 : favouriteEntities) {
+            if (TextUtils.equals(favouriteEntity1.rpid, favouriteEntity.rpid)) {
+                return;
+            }
+        }
         favouriteEntities.add(favouriteEntity);
         localDataSource.saveFavouriteLine(favouriteEntities);
     }
 
     @Override
-    public void deleteFavouriteLine(FavouriteEntity favouriteEntity) {
+    public void deleteFavouriteLine(String rpid) {
         if (favouriteEntities == null) {
             favouriteEntities = getAllFavouriteLines();
         }
-        favouriteEntities.remove(favouriteEntity);
+        for(Iterator iterator=favouriteEntities.iterator();iterator.hasNext();){
+            FavouriteEntity favouriteEntity = (FavouriteEntity) iterator.next();
+            if(TextUtils.equals(favouriteEntity.rpid,rpid)){
+                iterator.remove();
+                break;
+            }
+        }
+
         localDataSource.saveFavouriteLine(favouriteEntities);
     }
 

@@ -1,5 +1,8 @@
 package me.fattycat.kun.bustimer.ui.detail;
 
+import java.util.List;
+
+import me.fattycat.kun.bustimer.data.entity.FavouriteEntity;
 import me.fattycat.kun.bustimer.data.model.BusGPSModel;
 import me.fattycat.kun.bustimer.data.model.LineInfoModel;
 import me.fattycat.kun.bustimer.data.model.StationModel;
@@ -31,6 +34,12 @@ public interface DetailContract {
         void onGetBusGPSSuccess(BusGPSModel busGPSModel);
 
         void onGetBusGPSError();
+
+        void onFavouriteLoadStart();
+
+        void onFavouriteLoadSuccess(List<FavouriteEntity> favouriteEntities);
+
+        void onFavouriteLoadError();
     }
 
     interface Presenter extends BasePresenter {
@@ -39,5 +48,8 @@ public interface DetailContract {
         void getStations(String runPathID);
 
         void getBusGPS(String runPathID, String flag);
+
+        void getFavouriteList();
+
     }
 }

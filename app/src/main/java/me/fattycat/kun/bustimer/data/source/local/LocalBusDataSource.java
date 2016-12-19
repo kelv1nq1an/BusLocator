@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import me.fattycat.kun.bustimer.data.entity.FavouriteEntity;
@@ -28,8 +30,13 @@ public class LocalBusDataSource extends AbstractLocalDataSource implements BusCo
 
     @Override
     public List<FavouriteEntity> getAllFavouriteLines() {
-        String data = sharedPreferencesFavourites.getString(SP_KEY_LOCAL_FAVOURITES, null);
-        return new Gson().fromJson(data, new TypeToken<List<FavouriteEntity>>() {}.getType());
+        String                data                = sharedPreferencesFavourites.getString(SP_KEY_LOCAL_FAVOURITES, null);
+        List<FavouriteEntity> favouriteEntityList = new ArrayList<>();
+        Object                dataObject          = new Gson().fromJson(data, new TypeToken<ArrayList<FavouriteEntity>>() {}.getType());
+        if (dataObject != null) {
+            favouriteEntityList.addAll((Collection<? extends FavouriteEntity>) dataObject);
+        }
+        return favouriteEntityList;
     }
 
     @Override

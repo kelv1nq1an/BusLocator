@@ -1,5 +1,8 @@
 package me.fattycat.kun.bustimer.ui.detail;
 
+import java.util.List;
+
+import me.fattycat.kun.bustimer.data.entity.FavouriteEntity;
 import me.fattycat.kun.bustimer.data.model.BusGPSModel;
 import me.fattycat.kun.bustimer.data.model.LineInfoModel;
 import me.fattycat.kun.bustimer.data.model.StationModel;
@@ -99,8 +102,32 @@ public class DetailPresenter implements DetailContract.Presenter {
     }
 
     @Override
-    public void subscribe() {
+    public void getFavouriteList() {
+        Subscription subscription = BusRepository.getInstance().getFavouriteLines()
+                                            .subscribeOn(Schedulers.io())
+                                            .observeOn(AndroidSchedulers.mainThread())
+                                            .subscribe(new Subscriber<List<FavouriteEntity>>() {
+                                                @Override
+                                                public void onCompleted() {
 
+                                                }
+
+                                                @Override
+                                                public void onError(Throwable e) {
+                                                    view.onFavouriteLoadError();
+                                                }
+
+                                                @Override
+                                                public void onNext(List<FavouriteEntity> favouriteEntities) {
+                                                    view.onFavouriteLoadSuccess(favouriteEntities);
+                                                }
+                                            });
+        compositeSubscription.add(subscription);
+    }
+
+    @Override
+    public void subscribe() {
+        getFavouriteList();
     }
 
     @Override

@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import me.fattycat.kun.bustimer.BuildConfig;
-import me.fattycat.kun.bustimer.net.BusTimerApi;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

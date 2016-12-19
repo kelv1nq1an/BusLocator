@@ -39,7 +39,7 @@ public interface BusContract {
 
     void saveFavouriteLine(FavouriteEntity favouriteEntity);
 
-    void deleteFavouriteLine(FavouriteEntity favouriteEntity);
+    void deleteFavouriteLine(String rpid);
 
     Observable<SearchModel> searchByName(String name);
 

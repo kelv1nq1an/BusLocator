@@ -13,6 +13,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.fattycat.kun.bustimer.R;
 import me.fattycat.kun.bustimer.data.entity.FavouriteEntity;
+import me.fattycat.kun.bustimer.ui.detail.DetailActivity;
 
 /**
  * Author: qk329
@@ -38,8 +39,8 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.Favo
     }
 
     @Override
-    public void onBindViewHolder(FavouriteViewHolder holder, int position) {
-        FavouriteEntity favouriteEntity = favouriteEntityList.get(position);
+    public void onBindViewHolder(final FavouriteViewHolder holder, int position) {
+        final FavouriteEntity favouriteEntity = favouriteEntityList.get(position);
         holder.itemBusInfoTitleTextView.setText(favouriteEntity.lineName);
         holder.itemBusInfoStartStationTextView.setText(favouriteEntity.startStation);
         holder.itemBusInfoEndStationTextView.setText(favouriteEntity.endStation);
@@ -49,7 +50,7 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.Favo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                holder.itemView.getContext().startActivity(DetailActivity.newIntent(holder.itemView.getContext(), favouriteEntity.rpid, favouriteEntity.lineName));
             }
         });
     }

@@ -8,13 +8,13 @@ import java.util.List;
  */
 
 public class BusGPSModel {
-    private List<ListsEntity> lists;
+    private List<BusEntity> lists;
 
-    public List<ListsEntity> getLists() { return lists;}
+    public List<BusEntity> getLists() { return lists;}
 
-    public void setLists(List<ListsEntity> lists) { this.lists = lists;}
+    public void setLists(List<BusEntity> lists) { this.lists = lists;}
 
-    public static class ListsEntity {
+    public static class BusEntity {
         /**
          * simno : 15162326834
          * voiceSn : 37

@@ -48,6 +48,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        presenter.getFavouriteList();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         presenter.unSubscribe();
@@ -80,18 +86,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void onFavouriteLoadSuccess(List<FavouriteEntity> favouriteEntities) {
-        // TODO: 2016/12/15 temp
-        FavouriteEntity favouriteEntity = new FavouriteEntity();
-        favouriteEntity.lineName = "233路";
-        favouriteEntity.startStation = "港城汽车站";
-        favouriteEntity.endStation = "购物公园";
-        favouriteEntity.firstBus = "05:00";
-        favouriteEntity.finalBus = "21:00";
-        favouriteEntity.gapTime = "00:10";
-
-        favouriteEntities.add(favouriteEntity);
-        favouriteEntities.add(favouriteEntity);
-        favouriteEntities.add(favouriteEntity);
         favouriteAdapter.setData(favouriteEntities);
     }
 
