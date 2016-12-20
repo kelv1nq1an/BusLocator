@@ -1,5 +1,6 @@
 package me.fattycat.kun.bustimer.ui.detail;
 
+import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -10,12 +11,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.fattycat.kun.bustimer.R;
+import me.fattycat.kun.bustimer.data.event.StationAlarmEvent;
 import me.fattycat.kun.bustimer.data.model.BusGPSModel;
 import me.fattycat.kun.bustimer.data.model.StationModel;
 
@@ -66,6 +70,7 @@ public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         DetailWrapper               detailWrapper = detailWrappers.get(position);
         StationModel.StationEntity  stationEntity = detailWrapper.getStationEntity();
         List<BusGPSModel.BusEntity> busEntityList = detailWrapper.getBusEntityList();
+        Context                     context       = holder.itemView.getContext();
         String                      stationNameNext;
         if (position + 1 < detailWrappers.size()) {
             stationNameNext = detailWrappers.get(position + 1).getStationEntity().getBusStationName();
@@ -75,31 +80,34 @@ public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         if (holder instanceof StartViewHolder) {
             StartViewHolder startViewHolder = (StartViewHolder) holder;
-            startViewHolder.detailStationLeftTextView.setText(String.format("首:%s", stationEntity.getBusStationName()));
+            startViewHolder.detailStationLeftTextView.setText(stationEntity.getBusStationName());
             processBus(startViewHolder.detailBusContainer, busEntityList, stationNameNext);
         } else if (holder instanceof EndViewHolder) {
             EndViewHolder endViewHolder = (EndViewHolder) holder;
             if (position % 2 == 1) {
-                endViewHolder.detailStationRightTextView.setText(String.format("末:%s", stationEntity.getBusStationName()));
-                endViewHolder.detailStationRightTextView.setVisibility(View.VISIBLE);
-                endViewHolder.detailStationLeftTextView.setVisibility(View.GONE);
+                setStationTitle(endViewHolder.detailStationLeftTextView, endViewHolder.detailStationRightTextView, stationEntity.getBusStationName(), false);
             } else {
-                endViewHolder.detailStationLeftTextView.setText(stationEntity.getBusStationName());
-                endViewHolder.detailStationLeftTextView.setVisibility(View.VISIBLE);
-                endViewHolder.detailStationRightTextView.setVisibility(View.GONE);
+                setStationTitle(endViewHolder.detailStationLeftTextView, endViewHolder.detailStationRightTextView, stationEntity.getBusStationName(), true);
             }
             processBus(endViewHolder.detailBusContainer, busEntityList, stationNameNext);
         } else {
             StationViewHolder stationViewHolder = (StationViewHolder) holder;
+
+            TextView textViewShow;
             if (position % 2 == 1) {
-                stationViewHolder.detailStationRightTextView.setText(stationEntity.getBusStationName());
-                stationViewHolder.detailStationRightTextView.setVisibility(View.VISIBLE);
-                stationViewHolder.detailStationLeftTextView.setVisibility(View.GONE);
+                textViewShow = stationViewHolder.detailStationRightTextView;
+                setStationTitle(stationViewHolder.detailStationLeftTextView, stationViewHolder.detailStationRightTextView, stationEntity.getBusStationName(), false);
             } else {
-                stationViewHolder.detailStationLeftTextView.setText(stationEntity.getBusStationName());
-                stationViewHolder.detailStationLeftTextView.setVisibility(View.VISIBLE);
-                stationViewHolder.detailStationRightTextView.setVisibility(View.GONE);
+                textViewShow = stationViewHolder.detailStationLeftTextView;
+                setStationTitle(stationViewHolder.detailStationLeftTextView, stationViewHolder.detailStationRightTextView, stationEntity.getBusStationName(), true);
             }
+
+            if (stationEntity.isHasAlarm()) {
+                updateStation(textViewShow, context, true);
+            } else {
+                updateStation(textViewShow, context, false);
+            }
+
             processBus(stationViewHolder.detailBusContainer, busEntityList, stationNameNext);
         }
     }
@@ -107,6 +115,44 @@ public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public int getItemCount() {
         return detailWrappers.size();
+    }
+
+    private void setStationTitle(TextView stationTitleLeftView, TextView stationTitleRightView, String stationName, boolean isLeft) {
+        if (isLeft) {
+            stationTitleLeftView.setText(stationName);
+            stationTitleLeftView.setVisibility(View.VISIBLE);
+            stationTitleRightView.setVisibility(View.GONE);
+            addOnStationClickListener(stationName, stationTitleLeftView);
+        } else {
+            stationTitleRightView.setText(stationName);
+            stationTitleRightView.setVisibility(View.VISIBLE);
+            stationTitleLeftView.setVisibility(View.GONE);
+            addOnStationClickListener(stationName, stationTitleRightView);
+        }
+    }
+
+    private void addOnStationClickListener(final String stationName, TextView stationView) {
+        stationView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new StationAlarmEvent(stationName));
+            }
+        });
+    }
+
+    private void updateStation(TextView stationView, Context context, boolean hasAlarm) {
+        int colorAlarm     = R.color.white;
+        int drawableAlarm  = R.drawable.bg_station_alarm;
+        int colorNormal    = R.color.textColor;
+        int drawableNormal = R.drawable.bg_station;
+        int color          = colorNormal;
+        int drawable       = drawableNormal;
+        if (hasAlarm) {
+            color = colorAlarm;
+            drawable = drawableAlarm;
+        }
+        stationView.setTextColor(ContextCompat.getColor(context, color));
+        stationView.setBackground(ContextCompat.getDrawable(context, drawable));
     }
 
     private void processBus(LinearLayout busContainer, List<BusGPSModel.BusEntity> busEntityList, String detailWrapperNext) {

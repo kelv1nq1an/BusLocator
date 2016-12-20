@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void onFavouriteLoadSuccess(List<FavouriteEntity> favouriteEntities) {
+        Collections.reverse(favouriteEntities);
         favouriteAdapter.setData(favouriteEntities);
     }
 

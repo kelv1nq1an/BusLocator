@@ -50,10 +50,11 @@ public class StationModel {
          * busStationId : 1907
          */
 
-        private String sn;
-        private String flag;
-        private String busStationName;
-        private String busStationId;
+        private String  sn;
+        private String  flag;
+        private String  busStationName;
+        private String  busStationId;
+        private boolean hasAlarm;
 
         public String getSn() { return sn;}
 
@@ -70,5 +71,13 @@ public class StationModel {
         public String getBusStationId() { return busStationId;}
 
         public void setBusStationId(String busStationId) { this.busStationId = busStationId;}
+
+        public boolean isHasAlarm() {
+            return hasAlarm;
+        }
+
+        public void setHasAlarm(boolean hasAlarm) {
+            this.hasAlarm = hasAlarm;
+        }
     }
 }

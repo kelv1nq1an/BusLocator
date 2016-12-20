@@ -83,6 +83,7 @@ public class DetailPresenter implements DetailContract.Presenter {
                                                 @Override
                                                 public void onNext(StationModel stationModel) {
                                                     view.onGetStationsSuccess(stationModel);
+                                                    BusRepository.getInstance().saveStations(stationModel);
                                                 }
                                             });
         compositeSubscription.add(subscription);

@@ -29,6 +29,7 @@ public class BusRepository implements BusContract {
     private BusContract.remote remoteDataSource;
 
     private List<FavouriteEntity> favouriteEntities;
+    private StationModel          stationModel;
 
     private BusRepository() {
         localDataSource = new LocalBusDataSource(Injection.provideContext());
@@ -86,9 +87,9 @@ public class BusRepository implements BusContract {
         if (favouriteEntities == null) {
             favouriteEntities = getAllFavouriteLines();
         }
-        for(Iterator iterator=favouriteEntities.iterator();iterator.hasNext();){
+        for (Iterator iterator = favouriteEntities.iterator(); iterator.hasNext(); ) {
             FavouriteEntity favouriteEntity = (FavouriteEntity) iterator.next();
-            if(TextUtils.equals(favouriteEntity.rpid,rpid)){
+            if (TextUtils.equals(favouriteEntity.rpid, rpid)) {
                 iterator.remove();
                 break;
             }
@@ -115,5 +116,13 @@ public class BusRepository implements BusContract {
     @Override
     public Observable<StationModel> getStations(String runPathID) {
         return remoteDataSource.getStations(runPathID);
+    }
+
+    public void saveStations(StationModel data) {
+        this.stationModel = data;
+    }
+
+    public StationModel getStations() {
+        return stationModel;
     }
 }

@@ -13,6 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -20,13 +24,16 @@ import java.util.concurrent.TimeUnit;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import me.fattycat.kun.bustimer.R;
 import me.fattycat.kun.bustimer.data.entity.FavouriteEntity;
+import me.fattycat.kun.bustimer.data.event.StationAlarmEvent;
 import me.fattycat.kun.bustimer.data.model.BusGPSModel;
 import me.fattycat.kun.bustimer.data.model.LineInfoModel;
 import me.fattycat.kun.bustimer.data.model.StationModel;
 import me.fattycat.kun.bustimer.data.source.BusRepository;
 import me.fattycat.kun.bustimer.ui.view.MultiStateView;
+import me.fattycat.kun.bustimer.util.NotificationUtil;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
@@ -38,10 +45,8 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     public static final  String FLAG_BUS_XIA   = "3";
     private static final Long   TIMER_INTERVAL = 15L;
 
-    @BindView(R.id.top_bar_detail_title_text_view)
-    TextView       topBarTitleTextView;
-    @BindView(R.id.detail_favourite_text_view)
-    TextView       detailFavouriteTextView;
+    @BindView(R.id.detail_title_text_view)
+    TextView       detailTitleTextView;
     @BindView(R.id.detail_first_text_view)
     TextView       detailFirstTextView;
     @BindView(R.id.detail_gap_text_view)
@@ -50,10 +55,14 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     TextView       detailEndTextView;
     @BindView(R.id.detail_recycler_view)
     RecyclerView   detailRecyclerView;
-    @BindView(R.id.detail_line_switch_image_view)
-    ImageView      detailLineSwitchImageView;
     @BindView(R.id.detail_state_view)
     MultiStateView detailStateView;
+    @BindView(R.id.detail_line_switch_image_view)
+    ImageView      detailLineSwitchImageView;
+    @BindView(R.id.detail_favourite_text_view)
+    TextView       detailFavouriteTextView;
+    @BindView(R.id.detail_line_alarm_image_view)
+    ImageView      detailLineAlarmImageView;
 
     private String                   rpid;
     private String                   lineName;
@@ -61,12 +70,13 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     private StationModel             stationModel;
     private DetailContract.Presenter presenter;
     private DetailAdapter            detailAdapter;
-    private List<DetailWrapper> detailWrappers = new ArrayList<>();
-    private Subscription timerTask;
+    private List<DetailWrapper>      detailWrappers;
+    private Subscription             timerTask;
 
     private String  flag            = FLAG_BUS_SHANG;
     private boolean isFavourited    = false;
     private boolean isFavouriteLoad = false;
+    private boolean isAlarmSet      = false;
 
     public static Intent newIntent(Context context, String rpid, String lineName) {
         Intent intent = new Intent(context, DetailActivity.class);
@@ -80,15 +90,17 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
 
         rpid = getIntent().getStringExtra(EXTRA_KEY);
         lineName = getIntent().getStringExtra(EXTRA_KEY_NAME);
-        topBarTitleTextView.setText(lineName);
+        detailTitleTextView.setText(lineName);
 
         detailAdapter = new DetailAdapter();
         detailRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         detailRecyclerView.setAdapter(detailAdapter);
         initMultiStateView();
+        detailWrappers = new ArrayList<>();
 
         new DetailPresenter(this).subscribe();
         presenter.getLineInfo(rpid);
@@ -140,6 +152,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         super.onDestroy();
         presenter.unSubscribe();
         timerTask.unsubscribe();
+        EventBus.getDefault().unregister(this);
     }
 
     private void updateFavouriteStatus() {
@@ -150,6 +163,21 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
             detailFavouriteTextView.setText("收藏");
             detailFavouriteTextView.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_favourite));
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onStationAlarmEvent(StationAlarmEvent stationAlarmEvent) {
+        for (int i = 0; i < detailWrappers.size(); i++) {
+            if (TextUtils.equals(stationAlarmEvent.stationName, detailWrappers.get(i).getStationEntity().getBusStationName())) {
+                detailWrappers.get(i).getStationEntity().setHasAlarm(true);
+                detailLineAlarmImageView.setImageResource(R.drawable.ic_alarm_active);
+                isAlarmSet = true;
+            } else {
+                detailWrappers.get(i).getStationEntity().setHasAlarm(false);
+            }
+        }
+
+        detailAdapter.setData(detailWrappers);
     }
 
     @OnClick(R.id.detail_favourite_text_view)
@@ -189,6 +217,24 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         }
         updateStations(stationModel);
         presenter.getBusGPS(rpid, flag);
+    }
+
+    @OnClick(R.id.detail_line_alarm_image_view)
+    public void setAlarm() {
+        if (stationModel == null) {
+            Toast.makeText(this, "请稍等", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (!isAlarmSet) {
+            new SweetAlertDialog(this).setTitleText("提示").setContentText("点击站台名称即可设置到站提醒哦，公交到站前我会提醒您的哦").show();
+        } else {
+            for (DetailWrapper detailWrapper : detailWrappers) {
+                detailWrapper.getStationEntity().setHasAlarm(false);
+            }
+            detailAdapter.setData(detailWrappers);
+            detailLineAlarmImageView.setImageResource(R.drawable.ic_alarm_inactive);
+            isAlarmSet = false;
+        }
     }
 
     @Override
@@ -256,12 +302,34 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         if (detailWrappers.size() == 0) {
             return;
         }
-        for (DetailWrapper detailWrapper : detailWrappers) {
+        for (int i = 0; i < detailWrappers.size(); i++) {
+            DetailWrapper               detailWrapper = detailWrappers.get(i);
             List<BusGPSModel.BusEntity> busEntityList = detailWrapper.getBusEntityList();
             busEntityList.clear();
             for (BusGPSModel.BusEntity busEntity : busGPSModel.getLists()) {
                 if (TextUtils.equals(busEntity.getBusStationId(), detailWrapper.getStationEntity().getBusStationId())) {
                     busEntityList.add(busEntity);
+
+                }
+            }
+            DetailWrapper detailWrapperSecond = null;
+            DetailWrapper detailWrapperThird  = null;
+            if (i + 1 < detailWrappers.size()) {
+                detailWrapperSecond = detailWrappers.get(i + 1);
+            }
+            if (i + 2 < detailWrappers.size()) {
+                detailWrapperThird = detailWrappers.get(i + 2);
+            }
+            if (detailWrapper.getBusEntityList().size() > 0) {
+                if (detailWrapper.getStationEntity().isHasAlarm()) {
+                    NotificationUtil.createNotification(this, "公交已经到站", "请留意公交，及时上车，注意安全", Integer.parseInt(detailWrapper.getStationEntity().getBusStationId()));
+                    new SweetAlertDialog(this).setTitleText("公交到站").setContentText("公交已经到了哦，上下车注意安全").show();
+                }
+                if (detailWrapperSecond != null && detailWrapperSecond.getStationEntity().isHasAlarm()) {
+                    NotificationUtil.createNotification(this, "公交还有一站到哦", "马上到了哟，多看一下路上的公交吧", Integer.parseInt(detailWrapperSecond.getStationEntity().getBusStationId()));
+                }
+                if (detailWrapperThird != null && detailWrapperThird.getStationEntity().isHasAlarm()) {
+                    NotificationUtil.createNotification(this, "公交还有两站到哦", "还有一会到哦，可以做做准备了哦", Integer.parseInt(detailWrapperThird.getStationEntity().getBusStationId()));
                 }
             }
         }

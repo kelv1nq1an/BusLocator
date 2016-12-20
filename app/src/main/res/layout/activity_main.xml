@@ -24,6 +24,13 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/img_bus" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="最近收藏"
+                android:textColor="@color/grey_400" />
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/main_favourite_recycler_view"
                 android:layout_width="match_parent"
