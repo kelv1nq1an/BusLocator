@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ import me.fattycat.kun.bustimer.data.model.BusGPSModel;
 import me.fattycat.kun.bustimer.data.model.LineInfoModel;
 import me.fattycat.kun.bustimer.data.model.StationModel;
 import me.fattycat.kun.bustimer.data.source.BusRepository;
+import me.fattycat.kun.bustimer.ui.view.MultiStateView;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
@@ -37,19 +39,21 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     private static final Long   TIMER_INTERVAL = 15L;
 
     @BindView(R.id.top_bar_detail_title_text_view)
-    TextView     topBarTitleTextView;
+    TextView       topBarTitleTextView;
     @BindView(R.id.detail_favourite_text_view)
-    TextView     detailFavouriteTextView;
+    TextView       detailFavouriteTextView;
     @BindView(R.id.detail_first_text_view)
-    TextView     detailFirstTextView;
+    TextView       detailFirstTextView;
     @BindView(R.id.detail_gap_text_view)
-    TextView     detailGapTextView;
+    TextView       detailGapTextView;
     @BindView(R.id.detail_end_text_view)
-    TextView     detailEndTextView;
+    TextView       detailEndTextView;
     @BindView(R.id.detail_recycler_view)
-    RecyclerView detailRecyclerView;
+    RecyclerView   detailRecyclerView;
     @BindView(R.id.detail_line_switch_image_view)
-    ImageView    detailLineSwitchImageView;
+    ImageView      detailLineSwitchImageView;
+    @BindView(R.id.detail_state_view)
+    MultiStateView detailStateView;
 
     private String                   rpid;
     private String                   lineName;
@@ -58,7 +62,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     private DetailContract.Presenter presenter;
     private DetailAdapter            detailAdapter;
     private List<DetailWrapper> detailWrappers = new ArrayList<>();
-    private Subscription    timerTask;
+    private Subscription timerTask;
 
     private String  flag            = FLAG_BUS_SHANG;
     private boolean isFavourited    = false;
@@ -84,6 +88,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         detailAdapter = new DetailAdapter();
         detailRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         detailRecyclerView.setAdapter(detailAdapter);
+        initMultiStateView();
 
         new DetailPresenter(this).subscribe();
         presenter.getLineInfo(rpid);
@@ -107,7 +112,27 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
                                     presenter.getBusGPS(rpid, flag);
                                 }
                             });
+    }
 
+    private void initMultiStateView() {
+        detailStateView.addViewForStatus(MultiStateView.STATE_EMPTY, R.layout.layout_empty);
+        detailStateView.addViewForStatus(MultiStateView.STATE_LOADING, R.layout.layout_loading);
+        detailStateView.addViewForStatus(MultiStateView.STATE_FAIL, R.layout.layout_error);
+
+        detailStateView.setOnInflateListener(new MultiStateView.OnInflateListener() {
+            @Override
+            public void onInflate(int state, View view) {
+                if (state == MultiStateView.STATE_FAIL) {
+                    view.findViewById(R.id.layout_error_retry_button).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            presenter.getLineInfo(rpid);
+                            presenter.getStations(rpid);
+                        }
+                    });
+                }
+            }
+        });
     }
 
     @Override
@@ -168,11 +193,14 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
     @Override
     public void onGetLineInfoStart() {
-
+        detailStateView.setViewState(MultiStateView.STATE_LOADING);
     }
 
     @Override
     public void onGetLineInfoSuccess(LineInfoModel lineInfoModel) {
+        if (stationModel != null) {
+            detailStateView.setViewState(MultiStateView.STATE_CONTENT);
+        }
         // TODO: 2016/12/16 夜班车
         this.lineInfoModel = lineInfoModel;
         detailFirstTextView.setText(String.format("首班:%s", lineInfoModel.getStartTime()));
@@ -182,12 +210,12 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
     @Override
     public void onGetLineInfoError() {
-
+        detailStateView.setViewState(MultiStateView.STATE_FAIL);
     }
 
     @Override
     public void onGetStationsStart() {
-
+        detailStateView.setViewState(MultiStateView.STATE_LOADING);
     }
 
     @Override
@@ -197,6 +225,9 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     }
 
     private void updateStations(StationModel stationModel) {
+        if (lineInfoModel != null) {
+            detailStateView.setViewState(MultiStateView.STATE_CONTENT);
+        }
         detailWrappers.clear();
         if (TextUtils.equals(flag, FLAG_BUS_SHANG)) {
             for (StationModel.StationEntity stationEntity : stationModel.getShangxing()) {
@@ -212,7 +243,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
     @Override
     public void onGetStationsError() {
-
+        detailStateView.setViewState(MultiStateView.STATE_FAIL);
     }
 
     @Override

@@ -36,6 +36,11 @@ public class DetailPresenter implements DetailContract.Presenter {
                                             .observeOn(AndroidSchedulers.mainThread())
                                             .subscribe(new Subscriber<LineInfoModel>() {
                                                 @Override
+                                                public void onStart() {
+                                                    view.onGetLineInfoStart();
+                                                }
+
+                                                @Override
                                                 public void onCompleted() {
 
                                                 }
@@ -59,6 +64,12 @@ public class DetailPresenter implements DetailContract.Presenter {
                                             .subscribeOn(Schedulers.io())
                                             .observeOn(AndroidSchedulers.mainThread())
                                             .subscribe(new Subscriber<StationModel>() {
+
+                                                @Override
+                                                public void onStart() {
+                                                    view.onGetStationsStart();
+                                                }
+
                                                 @Override
                                                 public void onCompleted() {
 
