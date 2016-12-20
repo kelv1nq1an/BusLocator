@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,10 +18,11 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/dp_4"
+        android:layout_marginBottom="@dimen/dp_16"
         android:layout_marginLeft="@dimen/dp_16"
         android:layout_marginRight="@dimen/dp_16"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        app:cardElevation="@dimen/dp_12">
 
         <me.fattycat.kun.bustimer.ui.view.MultiStateView
             android:id="@+id/detail_state_view"
@@ -77,16 +79,15 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
-        android:background="@color/white"
+        android:layout_height="@dimen/dp_40"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/detail_line_switch_image_view"
             android:layout_width="0dp"
-            android:layout_height="@dimen/dp_48"
-            android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:gravity="center"
             android:padding="@dimen/dp_8"
             android:src="@drawable/ic_indicator_go" />
@@ -94,8 +95,8 @@
         <TextView
             android:id="@+id/detail_favourite_text_view"
             android:layout_width="0dp"
-            android:layout_height="@dimen/dp_48"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
             android:background="@drawable/bg_favourite"
             android:gravity="center"
             android:text="收藏线路"
@@ -105,9 +106,9 @@
         <ImageView
             android:id="@+id/detail_line_alarm_image_view"
             android:layout_width="0dp"
-            android:layout_height="@dimen/dp_48"
-            android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:gravity="center"
             android:padding="@dimen/dp_8"
             android:src="@drawable/ic_alarm_inactive" />

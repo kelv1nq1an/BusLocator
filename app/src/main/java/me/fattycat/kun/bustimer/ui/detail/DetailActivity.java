@@ -208,6 +208,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
     @OnClick(R.id.detail_line_switch_image_view)
     public void switchDirection() {
+        detailRecyclerView.getLayoutManager().scrollToPosition(0);
         if (TextUtils.equals(flag, FLAG_BUS_SHANG)) {
             flag = FLAG_BUS_XIA;
             detailLineSwitchImageView.setImageResource(R.drawable.ic_indicator_back);
