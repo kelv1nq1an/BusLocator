@@ -176,18 +176,22 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onStationAlarmEvent(StationAlarmEvent stationAlarmEvent) {
+        isAlarmSet = !stationAlarmEvent.hasAlarm;
+        if (isAlarmSet) {
+            detailLineAlarmImageView.setImageResource(R.drawable.ic_alarm_active);
+        } else {
+            detailLineAlarmImageView.setImageResource(R.drawable.ic_alarm_inactive);
+        }
+
         for (int i = 0; i < detailWrappers.size(); i++) {
             if (TextUtils.equals(stationAlarmEvent.stationName, detailWrappers.get(i).getStationEntity().getBusStationName())) {
                 detailWrappers.get(i).getStationEntity().setHasAlarm(!stationAlarmEvent.hasAlarm);
                 if (!stationAlarmEvent.hasAlarm) {
-                    detailLineAlarmImageView.setImageResource(R.drawable.ic_alarm_active);
-                    isAlarmSet = true;
                     Toast.makeText(this, "您已设定到站提醒，我会在公交到达两站前开始提醒您，再按一次即可取消。", Toast.LENGTH_LONG).show();
                 } else {
                     detailWrappers.get(i).getStationEntity().setHasAlarm(false);
                 }
             } else {
-                isAlarmSet = false;
                 detailWrappers.get(i).getStationEntity().setHasAlarm(false);
             }
         }
@@ -246,7 +250,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
                 sweetAlertDialog.dismissWithAnimation();
             }
             sweetAlertDialog =
-                    new SweetAlertDialog(this).setTitleText("提示").setContentText("点击站台名称即可设置到站提醒哦，公交到站前我会提醒您的哦。\n设置了到站提醒请不要退出本页面哦");
+                    new SweetAlertDialog(this).setTitleText("提示").setContentText("点击站台名称即可设置到站提醒\t公交到站前我会提醒您\n设置了到站提醒请不要退出本页面");
             sweetAlertDialog.show();
         } else {
             for (DetailWrapper detailWrapper : detailWrappers) {
