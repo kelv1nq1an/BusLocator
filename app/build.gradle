@@ -7,7 +7,7 @@ android {
         applicationId "me.fattycat.kun.bustimer"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 30
+        versionCode 31
         versionName "3.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
@@ -30,7 +30,7 @@ android {
         variant.outputs.each { output ->
             def outputFile = output.outputFile
             if (variant.buildType.name.equals('release')) {
-                def fileName = "BusTimer_${defaultConfig.versionName}_release.apk"
+                def fileName = "BusTimer_${defaultConfig.versionName}_${defaultConfig.versionCode}_release.apk"
                 output.outputFile = new File(outputFile.parent, fileName)
             }
         }
