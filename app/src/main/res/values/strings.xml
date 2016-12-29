@@ -3,5 +3,5 @@
     <string name="string_developer">开发者</string>
     <string name="string_developer_name">Fattycat</string>
     <string name="string_developer_bio">Android developer, half-way designer.</string>
-    <string name="string_app_brief">\t\t\t\t港城公交作为一款出行辅助工具，能够给您提供公交实时查询，收藏常用线路以及到站提醒等实用功能.\n\t\t\t\t当您还在站台不安的等待公交车的时候，港城公交能告诉你公交离你还有多远，甚至还能在到站前以通知的形式通知你哦，让您能更惬意的等公交。</string>
+    <string name="string_app_brief">\t\t\t\t港城公交作为一款出行辅助工具，能够给您提供公交实时查询，收藏常用线路以及到站提醒等实用功能。\n\t\t\t\t当您还在站台不安的等待公交车的时候，港城公交能告诉你公交离你还有多远，甚至还能在到站前以通知的形式通知你哦，让您能更惬意的等公交。</string>
 </resources>
