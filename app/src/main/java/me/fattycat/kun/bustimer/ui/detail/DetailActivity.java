@@ -187,6 +187,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
                     detailWrappers.get(i).getStationEntity().setHasAlarm(false);
                 }
             } else {
+                isAlarmSet = false;
                 detailWrappers.get(i).getStationEntity().setHasAlarm(false);
             }
         }
