@@ -3,6 +3,7 @@ package me.fattycat.kun.bustimer;
 import android.app.Application;
 
 import com.facebook.stetho.Stetho;
+import com.tencent.bugly.Bugly;
 
 /**
  * Author: Kelvinkun
@@ -20,6 +21,7 @@ public class BusTimer extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        Bugly.init(getApplicationContext(), "85582745fd", false);
         if (BuildConfig.DEBUG) {
             Stetho.initializeWithDefaults(this);
         }

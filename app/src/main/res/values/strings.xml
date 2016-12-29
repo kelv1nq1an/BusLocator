@@ -1,16 +1,7 @@
 <resources>
     <string name="app_name">港城公交</string>
-    <string name="string_start_end">首末班:</string>
-    <string name="string_bus_interval">间隔时间:</string>
-    <string name="string_bus_zjg">港城公交</string>
     <string name="string_developer">开发者</string>
     <string name="string_developer_name">Fattycat</string>
     <string name="string_developer_bio">Android developer, half-way designer.</string>
-    <string name="string_search_hint">请输入您要查询的线路</string>
-    <string name="string_favourite">收藏</string>
-    <string name="string_line_search_failed">未找到指定的公交线路</string>
-    <string name="string_app_brief">\t\t\t\t港城公交这个应用算是为了解决我自己的需求才开发出来的吧，1.0版本寒假花了一个礼拜多一点的时间就随随便便发布了，前前后后统计了下也就十几号人用。也很感谢从第一版就支持我的用户。\n\t\t\t\t这次的2.0版本算是设计更新，同时也加入了一些诸如收藏和到站提醒的功能，希望各位能用的顺心吧。\n\t\t\t\t祝好。</string>
-    <string name="string_end">终</string>
-    <string name="string_start">始</string>
-    <string name="string_fetching_line_info">正在获取线路信息</string>
+    <string name="string_app_brief">\t\t\t\t港城公交作为一款出行辅助工具，能够给您提供公交实时查询，收藏常用线路以及到站提醒等实用功能.\n\t\t\t\t当您还在站台不安的等待公交车的时候，港城公交能告诉你公交离你还有多远，甚至还能在到站前以通知的形式通知你哦，让您能更惬意的等公交。</string>
 </resources>

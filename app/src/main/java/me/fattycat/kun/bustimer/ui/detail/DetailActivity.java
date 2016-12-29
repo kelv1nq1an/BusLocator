@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -41,8 +42,8 @@ import rx.Subscription;
 public class DetailActivity extends AppCompatActivity implements DetailContract.View {
     private static final String EXTRA_KEY      = "RPID";
     private static final String EXTRA_KEY_NAME = "NAME";
-    public static final  String FLAG_BUS_SHANG = "1";
-    public static final  String FLAG_BUS_XIA   = "3";
+    private static final String FLAG_BUS_SHANG = "1";
+    private static final String FLAG_BUS_XIA   = "3";
     private static final Long   TIMER_INTERVAL = 15L;
 
     @BindView(R.id.detail_title_text_view)
@@ -77,6 +78,8 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     private boolean isFavourited    = false;
     private boolean isFavouriteLoad = false;
     private boolean isAlarmSet      = false;
+    private SweetAlertDialog sweetAlertDialog;
+    private long mExitTime = 0;
 
     public static Intent newIntent(Context context, String rpid, String lineName) {
         Intent intent = new Intent(context, DetailActivity.class);
@@ -105,25 +108,29 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         new DetailPresenter(this).subscribe();
         presenter.getLineInfo(rpid);
         presenter.getStations(rpid);
-        presenter.getBusGPS(rpid, flag);
+    }
 
-        timerTask = Observable.interval(TIMER_INTERVAL, TimeUnit.SECONDS)
-                            .subscribe(new Observer<Long>() {
-                                @Override
-                                public void onCompleted() {
+    private void startTimer() {
+        if (timerTask == null) {
+            presenter.getBusGPS(rpid, flag);
+            timerTask = Observable.interval(TIMER_INTERVAL, TimeUnit.SECONDS)
+                                .subscribe(new Observer<Long>() {
+                                    @Override
+                                    public void onCompleted() {
 
-                                }
+                                    }
 
-                                @Override
-                                public void onError(Throwable e) {
+                                    @Override
+                                    public void onError(Throwable e) {
 
-                                }
+                                    }
 
-                                @Override
-                                public void onNext(Long aLong) {
-                                    presenter.getBusGPS(rpid, flag);
-                                }
-                            });
+                                    @Override
+                                    public void onNext(Long aLong) {
+                                        presenter.getBusGPS(rpid, flag);
+                                    }
+                                });
+        }
     }
 
     private void initMultiStateView() {
@@ -151,7 +158,9 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     protected void onDestroy() {
         super.onDestroy();
         presenter.unSubscribe();
-        timerTask.unsubscribe();
+        if (timerTask != null) {
+            timerTask.unsubscribe();
+        }
         EventBus.getDefault().unregister(this);
     }
 
@@ -169,9 +178,14 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     public void onStationAlarmEvent(StationAlarmEvent stationAlarmEvent) {
         for (int i = 0; i < detailWrappers.size(); i++) {
             if (TextUtils.equals(stationAlarmEvent.stationName, detailWrappers.get(i).getStationEntity().getBusStationName())) {
-                detailWrappers.get(i).getStationEntity().setHasAlarm(true);
-                detailLineAlarmImageView.setImageResource(R.drawable.ic_alarm_active);
-                isAlarmSet = true;
+                detailWrappers.get(i).getStationEntity().setHasAlarm(!stationAlarmEvent.hasAlarm);
+                if (!stationAlarmEvent.hasAlarm) {
+                    detailLineAlarmImageView.setImageResource(R.drawable.ic_alarm_active);
+                    isAlarmSet = true;
+                    Toast.makeText(this, "您已设定到站提醒，我会在公交到达两站前开始提醒您，再按一次即可取消。", Toast.LENGTH_LONG).show();
+                } else {
+                    detailWrappers.get(i).getStationEntity().setHasAlarm(false);
+                }
             } else {
                 detailWrappers.get(i).getStationEntity().setHasAlarm(false);
             }
@@ -227,7 +241,12 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
             return;
         }
         if (!isAlarmSet) {
-            new SweetAlertDialog(this).setTitleText("提示").setContentText("点击站台名称即可设置到站提醒哦，公交到站前我会提醒您的哦").show();
+            if (sweetAlertDialog != null && sweetAlertDialog.isShowing()) {
+                sweetAlertDialog.dismissWithAnimation();
+            }
+            sweetAlertDialog =
+                    new SweetAlertDialog(this).setTitleText("提示").setContentText("点击站台名称即可设置到站提醒哦，公交到站前我会提醒您的哦。\n设置了到站提醒请不要退出本页面哦");
+            sweetAlertDialog.show();
         } else {
             for (DetailWrapper detailWrapper : detailWrappers) {
                 detailWrapper.getStationEntity().setHasAlarm(false);
@@ -247,6 +266,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     public void onGetLineInfoSuccess(LineInfoModel lineInfoModel) {
         if (stationModel != null) {
             detailStateView.setViewState(MultiStateView.STATE_CONTENT);
+            startTimer();
         }
         // TODO: 2016/12/16 夜班车
         this.lineInfoModel = lineInfoModel;
@@ -274,6 +294,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     private void updateStations(StationModel stationModel) {
         if (lineInfoModel != null) {
             detailStateView.setViewState(MultiStateView.STATE_CONTENT);
+            startTimer();
         }
         detailWrappers.clear();
         if (TextUtils.equals(flag, FLAG_BUS_SHANG)) {
@@ -324,7 +345,11 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
             if (detailWrapper.getBusEntityList().size() > 0) {
                 if (detailWrapper.getStationEntity().isHasAlarm()) {
                     NotificationUtil.createNotification(this, "公交已经到站", "请留意公交，及时上车，注意安全", Integer.parseInt(detailWrapper.getStationEntity().getBusStationId()));
-                    new SweetAlertDialog(this).setTitleText("公交到站").setContentText("公交已经到了哦，上下车注意安全").show();
+                    if (sweetAlertDialog != null && sweetAlertDialog.isShowing()) {
+                        sweetAlertDialog.dismissWithAnimation();
+                    }
+                    sweetAlertDialog = new SweetAlertDialog(this).setTitleText("公交到站").setContentText("公交已经到了哦，上下车注意安全");
+                    sweetAlertDialog.show();
                 }
                 if (detailWrapperSecond != null && detailWrapperSecond.getStationEntity().isHasAlarm()) {
                     NotificationUtil.createNotification(this, "公交还有一站到哦", "马上到了哟，多看一下路上的公交吧", Integer.parseInt(detailWrapperSecond.getStationEntity().getBusStationId()));
@@ -367,5 +392,23 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     @Override
     public void setPresenter(DetailContract.Presenter presenter) {
         this.presenter = presenter;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (isAlarmSet && keyCode == KeyEvent.KEYCODE_BACK) {
+            if ((System.currentTimeMillis() - mExitTime) > 2000) {
+                if (sweetAlertDialog != null && sweetAlertDialog.isShowing()) {
+                    sweetAlertDialog.dismissWithAnimation();
+                }
+                sweetAlertDialog = new SweetAlertDialog(this).setTitleText("提醒").setContentText("您已经设置了到站提醒，退出本页面将无法得到提醒哦。");
+                sweetAlertDialog.show();
+                mExitTime = System.currentTimeMillis();
+            } else {
+                finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

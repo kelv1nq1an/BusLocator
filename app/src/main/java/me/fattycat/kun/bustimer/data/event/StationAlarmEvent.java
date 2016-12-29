@@ -6,9 +6,11 @@ package me.fattycat.kun.bustimer.data.event;
  */
 
 public class StationAlarmEvent {
-    public String stationName;
+    public String  stationName;
+    public boolean hasAlarm;
 
-    public StationAlarmEvent(String stationName) {
+    public StationAlarmEvent(String stationName, boolean hasAlarm) {
         this.stationName = stationName;
+        this.hasAlarm = hasAlarm;
     }
 }

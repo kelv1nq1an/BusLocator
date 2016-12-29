@@ -16,6 +16,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.fattycat.kun.bustimer.R;
 import me.fattycat.kun.bustimer.data.entity.FavouriteEntity;
+import me.fattycat.kun.bustimer.ui.AboutActivity;
 import me.fattycat.kun.bustimer.ui.favourite.FavouriteActivity;
 import me.fattycat.kun.bustimer.ui.search.SearchActivity;
 
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @OnClick(R.id.top_bar_info_image_view)
     public void onInfoClick() {
-
+        startActivity(new Intent(this, AboutActivity.class));
     }
 
     @OnClick(R.id.main_search_image_view)

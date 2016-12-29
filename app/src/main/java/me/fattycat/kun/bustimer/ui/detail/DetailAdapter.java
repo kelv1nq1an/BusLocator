@@ -85,9 +85,9 @@ public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else if (holder instanceof EndViewHolder) {
             EndViewHolder endViewHolder = (EndViewHolder) holder;
             if (position % 2 == 1) {
-                setStationTitle(endViewHolder.detailStationLeftTextView, endViewHolder.detailStationRightTextView, stationEntity.getBusStationName(), false);
+                setStationTitle(endViewHolder.detailStationLeftTextView, endViewHolder.detailStationRightTextView, stationEntity.getBusStationName(), false, stationEntity.isHasAlarm());
             } else {
-                setStationTitle(endViewHolder.detailStationLeftTextView, endViewHolder.detailStationRightTextView, stationEntity.getBusStationName(), true);
+                setStationTitle(endViewHolder.detailStationLeftTextView, endViewHolder.detailStationRightTextView, stationEntity.getBusStationName(), true, stationEntity.isHasAlarm());
             }
             processBus(endViewHolder.detailBusContainer, busEntityList, stationNameNext);
         } else {
@@ -96,10 +96,10 @@ public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             TextView textViewShow;
             if (position % 2 == 1) {
                 textViewShow = stationViewHolder.detailStationRightTextView;
-                setStationTitle(stationViewHolder.detailStationLeftTextView, stationViewHolder.detailStationRightTextView, stationEntity.getBusStationName(), false);
+                setStationTitle(stationViewHolder.detailStationLeftTextView, stationViewHolder.detailStationRightTextView, stationEntity.getBusStationName(), false, stationEntity.isHasAlarm());
             } else {
                 textViewShow = stationViewHolder.detailStationLeftTextView;
-                setStationTitle(stationViewHolder.detailStationLeftTextView, stationViewHolder.detailStationRightTextView, stationEntity.getBusStationName(), true);
+                setStationTitle(stationViewHolder.detailStationLeftTextView, stationViewHolder.detailStationRightTextView, stationEntity.getBusStationName(), true, stationEntity.isHasAlarm());
             }
 
             if (stationEntity.isHasAlarm()) {
@@ -117,25 +117,25 @@ public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return detailWrappers.size();
     }
 
-    private void setStationTitle(TextView stationTitleLeftView, TextView stationTitleRightView, String stationName, boolean isLeft) {
+    private void setStationTitle(TextView stationTitleLeftView, TextView stationTitleRightView, String stationName, boolean isLeft, boolean hasAalarm) {
         if (isLeft) {
             stationTitleLeftView.setText(stationName);
             stationTitleLeftView.setVisibility(View.VISIBLE);
             stationTitleRightView.setVisibility(View.GONE);
-            addOnStationClickListener(stationName, stationTitleLeftView);
+            addOnStationClickListener(stationName, stationTitleLeftView, hasAalarm);
         } else {
             stationTitleRightView.setText(stationName);
             stationTitleRightView.setVisibility(View.VISIBLE);
             stationTitleLeftView.setVisibility(View.GONE);
-            addOnStationClickListener(stationName, stationTitleRightView);
+            addOnStationClickListener(stationName, stationTitleRightView, hasAalarm);
         }
     }
 
-    private void addOnStationClickListener(final String stationName, TextView stationView) {
+    private void addOnStationClickListener(final String stationName, TextView stationView, final boolean hasAlarm) {
         stationView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EventBus.getDefault().post(new StationAlarmEvent(stationName));
+                EventBus.getDefault().post(new StationAlarmEvent(stationName, hasAlarm));
             }
         });
     }
@@ -164,25 +164,17 @@ public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             String busDetail = busEntity.getNumberPlate();
             if (TextUtils.equals(busEntity.getOutstate(), "0")) {
-                busDetail = busDetail.concat(" 到站\n已到达: ").concat(busEntity.getBusStationName());
+                busDetail = busDetail.concat(" 已到达\n").concat(busEntity.getBusStationName());
                 busViewHolder.itemBusLeftTextView.setText(busDetail);
-                busViewHolder.itemBusLineLeft.setVisibility(View.VISIBLE);
                 busViewHolder.itemBusLeftTextView.setVisibility(View.VISIBLE);
-                busViewHolder.itemBusLineRight.setVisibility(View.GONE);
-                busViewHolder.itemBusRightTextView.setVisibility(View.GONE);
+                busViewHolder.itemBusLineLeft.setVisibility(View.VISIBLE);
                 busViewHolder.itemBusDotCenter.setBackground(ContextCompat.getDrawable(busContainer.getContext(), R.drawable.ic_dot_arrived));
-                busViewHolder.itemBusLineLeft.setBackgroundColor(ContextCompat.getColor(busContainer.getContext(), R.color.colorRed));
-                busViewHolder.itemBusLeftTextView.setBackground(ContextCompat.getDrawable(busContainer.getContext(), R.drawable.bg_bus_arrived));
             } else {
-                busDetail = busDetail.concat(" 在途中\n下一站: ").concat(detailWrapperNext);
+                busDetail = busDetail.concat(" 正前往\n").concat(detailWrapperNext);
                 busViewHolder.itemBusRightTextView.setText(busDetail);
-                busViewHolder.itemBusLineLeft.setVisibility(View.GONE);
-                busViewHolder.itemBusLineRight.setVisibility(View.GONE);
-                busViewHolder.itemBusLineRight.setVisibility(View.VISIBLE);
                 busViewHolder.itemBusRightTextView.setVisibility(View.VISIBLE);
+                busViewHolder.itemBusLineRight.setVisibility(View.VISIBLE);
                 busViewHolder.itemBusDotCenter.setBackground(ContextCompat.getDrawable(busContainer.getContext(), R.drawable.ic_dot_going));
-                busViewHolder.itemBusLineRight.setBackgroundColor(ContextCompat.getColor(busContainer.getContext(), R.color.green_200));
-                busViewHolder.itemBusRightTextView.setBackground(ContextCompat.getDrawable(busContainer.getContext(), R.drawable.bg_bus_going));
             }
             busContainer.addView(busViewHolder.itemBusRoot);
         }

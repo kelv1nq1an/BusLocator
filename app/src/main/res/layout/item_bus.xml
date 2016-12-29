@@ -23,9 +23,10 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_centerVertical="true"
+        android:layout_marginLeft="-30dp"
         android:layout_toLeftOf="@+id/item_bus_dot_center"
         android:layout_toRightOf="@+id/item_bus_left_text_view"
-        android:background="@color/colorBlue"
+        android:background="@color/colorRed"
         android:visibility="gone" />
 
     <TextView
@@ -34,10 +35,12 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/dp_16"
-        android:background="@drawable/bg_bus_going"
+        android:layout_marginRight="@dimen/dp_24"
+        android:layout_toLeftOf="@id/item_bus_dot_center"
+        android:background="@drawable/bg_bus_arrived"
         android:lineSpacingMultiplier="1.1"
         android:maxEms="8"
-        android:padding="@dimen/dp_4"
+        android:padding="@dimen/dp_8"
         android:textColor="@color/white"
         android:visibility="gone"
         tools:text="苏E07223" />
@@ -47,22 +50,24 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_centerVertical="true"
+        android:layout_marginRight="-30dp"
         android:layout_toLeftOf="@+id/item_bus_right_text_view"
         android:layout_toRightOf="@+id/item_bus_dot_center"
-        android:background="@color/colorBlue"
+        android:background="@color/green_200"
         android:visibility="gone" />
 
     <TextView
         android:id="@+id/item_bus_right_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/dp_24"
         android:layout_marginRight="@dimen/dp_16"
-        android:background="@drawable/bg_bus_going"
+        android:layout_toRightOf="@id/item_bus_dot_center"
+        android:background="@drawable/bg_bus_ongoing"
         android:lineSpacingMultiplier="1.1"
         android:maxEms="8"
-        android:padding="@dimen/dp_4"
+        android:padding="@dimen/dp_8"
         android:textColor="@color/white"
         android:visibility="gone"
         tools:text="苏E07223" />

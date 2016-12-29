@@ -8,11 +8,11 @@ V1 版本已发布
 
 V2 版本已发布。
 
+V3 版本待发布
+
 ### Open License Library
-* NavigationTabBar - DevLight Mobile Agency - Basil Miller (Apache License 2.0 and MIT)
 * ButterKnife - JakeWharton (Apache License 2.0)
-* FloatingSearchView - Arimorty (Apache License 2.0)
-* ShineButton - ChadCSong (MIT License)
+* SweetAlertDialog - pedant (MIT License)
 
 ### License
 
