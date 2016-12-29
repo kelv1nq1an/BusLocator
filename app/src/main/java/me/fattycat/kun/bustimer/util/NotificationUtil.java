@@ -16,9 +16,9 @@ public class NotificationUtil {
 
     public static void createNotification(Context context, String contentTitle, String content, int notificationId) {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle(contentTitle)
-                .setContentText(content);
+                                                      .setSmallIcon(R.drawable.ic_station)
+                                                      .setContentTitle(contentTitle)
+                                                      .setContentText(content);
         Notification notification = mBuilder.build();
         notification.defaults |= Notification.DEFAULT_VIBRATE;
         notification.defaults |= Notification.DEFAULT_SOUND;

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_bus_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:layout_width="@dimen/dp_8"
+        android:layout_height="@dimen/dp_56"
+        android:layout_centerInParent="true"
+        android:background="#cccccc" />
+
+    <View
+        android:id="@+id/item_bus_dot_center"
+        android:layout_width="@dimen/dp_8"
+        android:layout_height="@dimen/dp_8"
+        android:layout_centerInParent="true"
+        android:background="@drawable/ic_dot_going" />
+
+    <View
+        android:id="@+id/item_bus_line_left"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="-30dp"
+        android:layout_toLeftOf="@+id/item_bus_dot_center"
+        android:layout_toRightOf="@+id/item_bus_left_text_view"
+        android:background="@color/colorRed"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/item_bus_left_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:layout_marginRight="@dimen/dp_24"
+        android:layout_toLeftOf="@id/item_bus_dot_center"
+        android:background="@drawable/bg_bus_arrived"
+        android:lineSpacingMultiplier="1.1"
+        android:maxEms="8"
+        android:padding="@dimen/dp_8"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        tools:text="苏E07223" />
+
+    <View
+        android:id="@+id/item_bus_line_right"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="-30dp"
+        android:layout_toLeftOf="@+id/item_bus_right_text_view"
+        android:layout_toRightOf="@+id/item_bus_dot_center"
+        android:background="@color/green_200"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/item_bus_right_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/dp_24"
+        android:layout_marginRight="@dimen/dp_16"
+        android:layout_toRightOf="@id/item_bus_dot_center"
+        android:background="@drawable/bg_bus_ongoing"
+        android:lineSpacingMultiplier="1.1"
+        android:maxEms="8"
+        android:padding="@dimen/dp_8"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        tools:text="苏E07223" />
+</RelativeLayout>

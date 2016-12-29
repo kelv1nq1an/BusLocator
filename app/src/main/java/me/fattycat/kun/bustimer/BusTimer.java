@@ -1,8 +1,9 @@
 package me.fattycat.kun.bustimer;
 
 import android.app.Application;
-import com.umeng.analytics.MobclickAgent;
-import im.fir.sdk.FIR;
+
+import com.facebook.stetho.Stetho;
+import com.tencent.bugly.Bugly;
 
 /**
  * Author: Kelvinkun
@@ -10,13 +11,19 @@ import im.fir.sdk.FIR;
  */
 
 public class BusTimer extends Application {
+    private static BusTimer instance;
+
+    public static BusTimer getInstance() {
+        return instance;
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        FIR.init(this, AppSecret.BUGHD_APP_KEY);
-        MobclickAgent.startWithConfigure(new MobclickAgent.UMAnalyticsConfig(this, AppSecret.UEMNG_APP_KEY, "fir"));
-        MobclickAgent.openActivityDurationTrack(false);
-        MobclickAgent.setCatchUncaughtExceptions(false);
+        instance = this;
+        Bugly.init(getApplicationContext(), "85582745fd", false);
+        if (BuildConfig.DEBUG) {
+            Stetho.initializeWithDefaults(this);
+        }
     }
 }

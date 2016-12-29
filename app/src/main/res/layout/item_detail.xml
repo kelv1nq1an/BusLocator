@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/detail_center_view"
+            android:layout_width="@dimen/dp_8"
+            android:layout_height="@dimen/dp_56"
+            android:layout_centerInParent="true"
+            android:background="#cccccc" />
+
+        <View
+            android:layout_width="@dimen/dp_8"
+            android:layout_height="@dimen/dp_8"
+            android:layout_centerInParent="true"
+            android:background="@drawable/ic_dot_normal" />
+
+        <TextView
+            android:id="@+id/detail_station_left_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_24"
+            android:layout_toLeftOf="@+id/detail_center_view"
+            android:background="@drawable/bg_station"
+            android:padding="@dimen/dp_4"
+            android:textColor="@color/textColor"
+            android:visibility="gone"
+            tools:text="港城公交首末站" />
+
+        <TextView
+            android:id="@+id/detail_station_right_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_24"
+            android:layout_toRightOf="@+id/detail_center_view"
+            android:background="@drawable/bg_station"
+            android:padding="@dimen/dp_4"
+            android:textColor="@color/textColor"
+            android:visibility="gone"
+            tools:text="港城公交首末站" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/detail_bus_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical" />
+</LinearLayout>
