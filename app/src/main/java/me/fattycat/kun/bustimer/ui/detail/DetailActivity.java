@@ -78,6 +78,9 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     private boolean isFavourited    = false;
     private boolean isFavouriteLoad = false;
     private boolean isAlarmSet      = false;
+    private boolean onStation       = false;
+    private boolean oneStationGap   = false;
+    private boolean twoStationGap   = false;
     private SweetAlertDialog sweetAlertDialog;
     private long mExitTime = 0;
 
@@ -349,18 +352,27 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
             }
             if (detailWrapper.getBusEntityList().size() > 0) {
                 if (detailWrapper.getStationEntity().isHasAlarm()) {
-                    NotificationUtil.createNotification(this, "公交已经到站", "请留意公交，及时上车，注意安全", Integer.parseInt(detailWrapper.getStationEntity().getBusStationId()));
-                    if (sweetAlertDialog != null && sweetAlertDialog.isShowing()) {
-                        sweetAlertDialog.dismissWithAnimation();
+                    if (!onStation) {
+                        onStation = true;
+                        NotificationUtil.createNotification(this, "公交已经到站", "请留意公交，及时上车，注意安全", Integer.parseInt(detailWrapper.getStationEntity().getBusStationId()));
+                        if (sweetAlertDialog != null && sweetAlertDialog.isShowing()) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                        sweetAlertDialog = new SweetAlertDialog(this).setTitleText("公交到站").setContentText("公交已经到了哦，上下车注意安全");
+                        sweetAlertDialog.show();
                     }
-                    sweetAlertDialog = new SweetAlertDialog(this).setTitleText("公交到站").setContentText("公交已经到了哦，上下车注意安全");
-                    sweetAlertDialog.show();
                 }
                 if (detailWrapperSecond != null && detailWrapperSecond.getStationEntity().isHasAlarm()) {
-                    NotificationUtil.createNotification(this, "公交还有一站到哦", "马上到了哟，多看一下路上的公交吧", Integer.parseInt(detailWrapperSecond.getStationEntity().getBusStationId()));
+                    if (!oneStationGap) {
+                        NotificationUtil.createNotification(this, "公交还有一站到哦", "马上到了哟，多看一下路上的公交吧", Integer.parseInt(detailWrapperSecond.getStationEntity().getBusStationId()));
+                        oneStationGap = true;
+                    }
                 }
                 if (detailWrapperThird != null && detailWrapperThird.getStationEntity().isHasAlarm()) {
-                    NotificationUtil.createNotification(this, "公交还有两站到哦", "还有一会到哦，可以做做准备了哦", Integer.parseInt(detailWrapperThird.getStationEntity().getBusStationId()));
+                    if (!twoStationGap) {
+                        NotificationUtil.createNotification(this, "公交还有两站到哦", "还有一会到哦，可以做做准备了哦", Integer.parseInt(detailWrapperThird.getStationEntity().getBusStationId()));
+                        twoStationGap = true;
+                    }
                 }
             }
         }
